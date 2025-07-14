@@ -1,87 +1,115 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import * as AuthSession from 'expo-auth-session';
-import { useState, useEffect } from 'react';
-import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from '@env';
+import { StyleSheet, Text, View, Button, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { AuthProvider, useAuth } from './modules/auth0';
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function AppContent() {
+  const { user, isLoading, isAuthenticated, login, logout } = useAuth();
 
-  // Auth0 configuration from .env file
-  const auth0Domain = REACT_APP_AUTH0_DOMAIN;
-  const auth0ClientId = REACT_APP_AUTH0_CLIENT_ID;
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0066cc" />
+        <Text style={styles.loadingText}>Logging in...</Text>
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 
-    console.log('Auth0 Domain:', auth0Domain);
-  console.log('Auth0 Client ID:', auth0ClientId);
-  
-  // AuthSession request setup
-  const [request, response, promptAsync] = AuthSession.useAuthRequest(
-    {
-      clientId: auth0ClientId,
-      scopes: ['openid', 'profile'],
-      redirectUri: AuthSession.makeRedirectUri({
-        scheme: 'terraxoffroad',
-      }),
-      responseType: AuthSession.ResponseType.Code,
-    },
-    {
-      authorizationEndpoint: `https://${auth0Domain}/authorize`,
-    }
+if (isAuthenticated && user) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome to TerraX Off Road!</Text>
+      <Text style={styles.message}>Hello, {user.name}! 🎉</Text>
+      <Text style={styles.email}>{user.email}</Text>
+      <Text>{user.id}</Text>
+      <Text>{JSON.stringify(user)}</Text>
+      <Image 
+        source={require('./assets/borat.png')}
+        style={{ width: 200, height: 100, borderRadius: 50, margin: 50 }} 
+        alt="User Avatar" 
+      />
+      <TouchableOpacity onPress={logout}>
+        <Text style={styles.button}>Logout</Text>
+      </TouchableOpacity>
+      <StatusBar style="auto" />
+    </View>
   );
-
-  // AuthSession response handling
-  useEffect(() => {
-    if (response?.type === 'success') {
-      setIsLoggedIn(true);
-    }
-  }, [response]);
-
-  const handleLogin = () => {
-    promptAsync();
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+}
 
   return (
     <View style={styles.container}>
-      {isLoggedIn ? (
-        <>
-          <Text style={styles.welcome}>Welcome to TerraX Off Road!</Text>
-          <Text style={styles.message}>You're logged in! 🎉</Text>
-          <Button title="Logout" onPress={handleLogout} />
-        </>
-      ) : (
-        <>
-          <Text>Open up App.tsx to start working on your app!</Text>
-          <Button 
-            title="Login with Auth0" 
-            onPress={handleLogin}
-            disabled={!request}
-          />
-        </>
-      )}
+      <View style={styles.overlay}>
+        <Text style={styles.title}>TerraX Off Road</Text>
+        <Text style={styles.subtitle}>Track your adventures</Text>
+        <TouchableOpacity onPress={login}>
+          <Text style={styles.button}>Login with Auth0</Text>
+        </TouchableOpacity>
+      </View>
       <StatusBar style="auto" />
     </View>
+  );
+}
+
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2c3e50', 
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+  },
+  overlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+    borderRadius: 15,
+    padding: 30,
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 300,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#2c3e50',
+  },
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 30,
+    color: '#7f8c8d',
   },
   welcome: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#27ae60',
   },
   message: {
     fontSize: 16,
+    marginBottom: 10,
+  },
+  email: {
+    fontSize: 14,
+    color: '#7f8c8d',
     marginBottom: 20,
+  },
+  loadingText: {
+    marginTop: 10,
+    color: '#7f8c8d',
+  },
+  button: {
+    backgroundColor: '#0066cc',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    elevation: 2,
   },
 });
