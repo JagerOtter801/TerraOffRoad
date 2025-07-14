@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import * as AuthSession from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from '@env';
 import { User, AuthContextType } from './types';
 
@@ -54,10 +55,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     promptAsync();
   };
 
-  const logout = () => {
-    setUser(null);
-    setIsLoading(false);
-  };
+const logout = async () => {
+  // Clear Auth0 session first
+  const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(AuthSession.makeRedirectUri())}`;
+  // Open Auth0 logout in browser
+  await WebBrowser.openBrowserAsync(logoutUrl);
+  
+  // Then clear app state
+  setUser(null);
+  setIsLoading(false);
+  setIsLoading(false);
+};
+
 
   const value: AuthContextType = {
     user,
