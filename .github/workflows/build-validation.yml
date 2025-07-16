@@ -32,7 +32,7 @@ jobs:
     
  
     - name: Expo build check
-      run: npx expo export --platform android,ios --dev
+      run:  npx expo export --platform all --dev
     
     # Alternative: Check if project loads with no errors
     # - name: Check project integrity
