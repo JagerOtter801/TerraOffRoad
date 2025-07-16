@@ -56,17 +56,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
 const logout = async () => {
+
   // Clear Auth0 session first
   const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(AuthSession.makeRedirectUri())}`;
-  // Open Auth0 logout in browser
   await WebBrowser.openBrowserAsync(logoutUrl);
   
-  // Then clear app state
   setUser(null);
   setIsLoading(false);
   setIsLoading(false);
 };
-
 
   const value: AuthContextType = {
     user,
