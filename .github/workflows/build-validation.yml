@@ -1,44 +1,43 @@
 name: Build Validation
 
-# When should this action run?
+
 on:
   push:
-    branches: [ main, develop ]  # Run on pushes to main and develop
+    branches: [ main, develop ] 
   pull_request:
-    branches: [ main, develop ]  # Run on PRs to main and develop
+    branches: [ main, develop ]  
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # The "computer" that will run your build
+    runs-on: ubuntu-latest  
     
     steps:
-    # Step 1: Get your code
+  
     - name: Checkout code
       uses: actions/checkout@v4
-    
-    # Step 2: Set up Node.js
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'  # This speeds up builds by caching node_modules
     
-    # Step 3: Install your JavaScript dependencies
+  
     - name: Install dependencies
       run: npm ci --legacy-peer-deps  # Handle dependency conflicts
     
-    # Step 4: Run TypeScript compilation check
+  
     - name: TypeScript check
       run: npx tsc --noEmit  # Check types without creating files
     
-    # Step 5: Check if Expo project compiles
+ 
     - name: Expo build check
       run: npx expo export --platform android,ios --dev
     
-    # Alternative: Just check if the project loads without errors
+    # Alternative: Check if project loads with no errors
     # - name: Check project integrity
     #   run: npx expo config
     
-    # Alternative: Just run tests if you have them
+    # Alternative: Run Tests once created
     # - name: Run tests
     #   run: npm test
