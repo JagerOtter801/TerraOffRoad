@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TerraXOffRoad",
-    "slug": "TerraXOffRoad",
+    "name": "TerraOffRoad",
+    "slug": "TerraOffRoad",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
