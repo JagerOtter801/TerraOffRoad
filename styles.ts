@@ -53,5 +53,56 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 2,
   },
+   maps_container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  maps_header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 50, 
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#4a4a4a',
+  },
+  backButton: {
+    padding: 8,
+  },
+  backButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  maps_header_title: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  maps_placeholder: {
+    width: 60, 
+  },
+  map: {
+    flex: 1,
+  },
+  bottomPanel: {
+    position: 'absolute',
+    bottom: 50,
+    left: 16,
+    right: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    padding: 16,
+    borderRadius: 12,
+  },
+  welcomeText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  maps_bottom_info_text: {
+    color: '#ccc',
+    fontSize: 14,
+  },
 });
 
