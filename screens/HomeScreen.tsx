@@ -3,12 +3,12 @@ import {
   Text,
   View,
   ActivityIndicator,
-  Image,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
 import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
+import MapsScreen from "./MapsScreen";
 
 export default function HomeScreen() {
   const { user, isLoading, isAuthenticated, login, logout } = useAuth();
@@ -21,28 +21,17 @@ export default function HomeScreen() {
       >
         <ActivityIndicator size="large" color="#0066cc" />
         <Text style={styles.loadingText}>Logging in...</Text>
-        <StatusBar style="auto" />
+         <StatusBar style="light" />
       </ImageBackground>
     );
   }
 
   if (isAuthenticated && user) {
     return (
-      <ImageBackground
-        style={styles.home_screen_container}
-        source={require("../assets/terraoffroad_background_compatability.png")}
-      >
-        <Text style={styles.authenticated_homescreen_title}>
-           Terra Off Road!
-        </Text>
-        <Text>{user.id}</Text>
-        <Text>{JSON.stringify(user)}</Text>
-
-        <TouchableOpacity onPress={logout}>
-          <Text style={styles.auth0_login_button}>Logout</Text>
-        </TouchableOpacity>
-        <StatusBar style="auto" />
-      </ImageBackground>
+       <MapsScreen 
+        onBackPress={() => logout()}
+        user={user}
+      />
     );
   }
 
@@ -58,7 +47,7 @@ export default function HomeScreen() {
           <Text style={styles.auth0_login_button}>Login with Auth0</Text>
         </TouchableOpacity>
       </View>
-      <StatusBar style="auto" />
+     <StatusBar style="light" />
     </ImageBackground>
   );
 }
