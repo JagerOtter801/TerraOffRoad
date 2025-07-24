@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'  # This speeds up builds by caching node_modules
+        cache: 'npm'  # Speeds up builds by caching node_modules
     
   
     - name: Install dependencies
@@ -31,8 +31,11 @@ jobs:
       run: npx tsc --noEmit  # Check types without creating files
     
  
-    - name: Expo build check
-      run: npx expo export --platform ios,android --dev
+    - name: Expo build check - iOS
+      run: npx expo export --platform ios --dev
+  
+    - name: Expo build check - Android  
+      run: npx expo export --platform android --dev
     
     # Alternative: Check if project loads with no errors
     # - name: Check project integrity
