@@ -1,26 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { Text, View, ActivityIndicator, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { useAuth } from '../modules/auth0'; 
+import {styles} from '../styles';
 
 export default function HomeScreen() {
   const { user, isLoading, isAuthenticated, login, logout } = useAuth();
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <ImageBackground style={styles.home_screen_container} source={require('../assets/terraoffroad_background_compatability.png')}>
         <ActivityIndicator size="large" color="#0066cc" />
         <Text style={styles.loadingText}>Logging in...</Text>
         <StatusBar style="auto" />
-      </View>
+      </ImageBackground>
     );
   }
 
   if (isAuthenticated && user) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to TerraX Off Road!</Text>
-        <Text style={styles.message}>Hello, {user.name}! 🎉</Text>
-        <Text style={styles.email}>{user.email}</Text>
+      <ImageBackground style={styles.home_screen_container} source={require('../assets/terraoffroad_background_compatability.png')}>
+        <Text style={styles.authenticated_homescreen_title}>authenticated_homescreen_title
+           to TerraX Off Road!</Text>
         <Text>{user.id}</Text>
         <Text>{JSON.stringify(user)}</Text>
         <Image 
@@ -32,77 +32,29 @@ export default function HomeScreen() {
           <Text style={styles.button}>Logout</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
-      </View>
+      </ImageBackground>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.overlay}>
-        <Text style={styles.title}>TerraX Off Road</Text>
-        <Text style={styles.subtitle}>Track your adventures</Text>
+    <ImageBackground style={styles.home_screen_container} source={require('../assets/terraoffroad_background_compatability.png')}>
+      <View style={styles.auth0_login_background
+
+
+      }>
+        <Text style={styles.auth0_login_title
+
+        }>TerraX Off Road</Text>
+        <Text style={styles.subauth0_login_title
+
+        }>Track your adventures</Text>
         <TouchableOpacity onPress={login}>
           <Text style={styles.button}>Login with Auth0</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
-    </View>
+    </ImageBackground>
   );
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2c3e50', 
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', 
-    borderRadius: 15,
-    padding: 30,
-    alignItems: 'center',
-    width: '100%',
-    maxWidth: 300,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#2c3e50',
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 30,
-    color: '#7f8c8d',
-  },
-  welcome: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#27ae60',
-  },
-  message: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  email: {
-    fontSize: 14,
-    color: '#7f8c8d',
-    marginBottom: 20,
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#7f8c8d',
-  },
-  button: {
-    backgroundColor: '#0066cc',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    elevation: 2,
-  },
-});
 
