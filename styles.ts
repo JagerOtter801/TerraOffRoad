@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     padding: 20,
   },
   auth0_login_background: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+    backgroundColor: 'rgba(255, 255, 255, 0.75)', 
     borderRadius: 15,
     padding: 30,
     alignItems: 'center',
@@ -27,8 +27,9 @@ export const styles = StyleSheet.create({
   subauth0_login_title
   : {
     fontSize: 16,
+    fontFamily: 'System',
     marginBottom: 30,
-    color: '#7f8c8d',
+    color: '#414546ff',
   },
   authenticated_homescreen_title: {
     fontSize: 2,
@@ -45,8 +46,8 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     color: '#7f8c8d',
   },
-  button: {
-    backgroundColor: '#0066cc',
+  auth0_login_button: {
+    backgroundColor: '#9fa1a3ff',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
