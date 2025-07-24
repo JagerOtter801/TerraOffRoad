@@ -33,7 +33,7 @@ const MapsScreen = ({onBackPress, user}: MapsScreenProps) => {
         initialRegion={initialRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
-        mapType="hybrid" // Shows satellite view - good for off-road!
+        mapType="hybrid"
       >
         {/* Example we can  add more markers for trails, camps, etc. */}
         <Marker
@@ -46,7 +46,7 @@ const MapsScreen = ({onBackPress, user}: MapsScreenProps) => {
         />
       </MapView>
 
-      {/* Bottom info panel */}
+    
       <View style={styles.bottomPanel}>
         <Text style={styles.welcomeText}>
           Welcome {user?.name || user?.email || 'Explorer'}!
