@@ -15,8 +15,8 @@ const MapView =
 
 const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
   const initialRegion = {
-    latitude: 39.7391536,
-    longitude: -111.8947614,
+    latitude: 40.6197536,
+    longitude: -111.8094614,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };

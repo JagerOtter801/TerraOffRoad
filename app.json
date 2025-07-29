@@ -20,7 +20,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "config": {
+        "auth0Domain": "dev-z0l7rn2huh3b7ikh.us.auth0.com",
+        "auth0Scheme": "terraoffroad"
+      },
+      "package": "com.anonymous.TerraOffRoad"
     },
     "web": {
       "favicon": "./assets/favicon.png"
