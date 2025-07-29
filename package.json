@@ -9,8 +9,7 @@
     "web": "expo start --web",
     "test:e2e:build:android": "detox build --configuration android",
     "test:e2e:test:android": "detox test --configuration android",
-    "test:e2e:build:ios": "detox build --configuration ios",
-    "test:e2e:test:ios": "detox test --configuration ios"
+    "test:e2e:build:ios": "detox build --configuration ios"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
@@ -21,7 +20,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native": "0.79.5",
-    "react-native-auth0": "^3.2.1",
     "react-native-dotenv": "^3.4.11",
     "react-native-maps": "^1.20.1",
     "react-native-web": "^0.20.0"
@@ -41,17 +39,19 @@
         "config": "e2e/jest.config.js"
       },
       "jest": {
-        "setupFilesAfterEnv": ["<rootDir>/e2e/init.js"]
+        "setupFilesAfterEnv": [
+          "<rootDir>/e2e/init.js"
+        ]
       }
     },
     "apps": {
       "android": {
         "type": "android.apk",
-        "build": "npx expo run:android --variant release",
-        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk"
+        "build": "npx expo run:android --variant debug --no-build-cache && cd android && ./gradlew assembleDebugAndroidTest",
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk"
       },
       "ios": {
-        "type": "ios.app", 
+        "type": "ios.app",
         "build": "npx expo run:ios --configuration Release --device-family=simulator",
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/TerraOffRoad.app"
       }
@@ -76,7 +76,7 @@
         "app": "android"
       },
       "ios": {
-        "device": "simulator", 
+        "device": "simulator",
         "app": "ios"
       }
     }
