@@ -1,0 +1,18 @@
+appId: com.anonymous.TerraOffRoad
+---
+- waitForAnimationToEnd
+- assertVisible:
+    id: "auth0-login-button"
+- tapOn:
+    id: "auth0-login-button"
+- waitForAnimationToEnd
+- tapOn:
+    id: "username"
+- inputText:
+    text: "jason.e.green@outlook.com"
+- tapOn:
+    id: "password"
+- inputText:
+    text: "Skywarden801"
+- tapOn:
+    text: "Continue"

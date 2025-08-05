@@ -17,15 +17,16 @@
     "expo-auth-session": "~6.2.1",
     "expo-crypto": "~14.1.5",
     "expo-status-bar": "~2.2.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
-    "react-native-maps": "^1.20.1",
+    "react-native-maps": "1.20.1",
     "react-native-web": "^0.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@expo/cli": "^0.24.20",
     "@types/react": "~19.0.10",
     "@types/react-native-dotenv": "^0.2.2",
     "detox": "^20.28.0",
@@ -48,12 +49,14 @@
       "android": {
         "type": "android.apk",
         "build": "npx expo run:android --variant debug --no-build-cache && cd android && ./gradlew assembleDebugAndroidTest",
-        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk"
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "testBinaryPath": "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
       },
       "ios": {
         "type": "ios.app",
         "build": "npx expo run:ios --configuration Release --device-family=simulator",
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/TerraOffRoad.app"
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/TerraOffRoad.app",
+        "testBinaryPath": "ios/build/Build/Products/Release-iphonesimulator/TerraOffRoad.app"
       }
     },
     "devices": {
@@ -61,6 +64,12 @@
         "type": "android.emulator",
         "device": {
           "avdName": "Medium_Phone_API_36.0"
+        }
+      },
+      "physical": {
+        "type": "android.attached",
+        "device": {
+          "adbName": "R5CY10WG6VM"
         }
       },
       "simulator": {
@@ -72,7 +81,7 @@
     },
     "configurations": {
       "android": {
-        "device": "emulator",
+        "device": "physical",
         "app": "android"
       },
       "ios": {
