@@ -43,7 +43,7 @@ export default function HomeScreen() {
       <View style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>Terra Off-Road</Text>
         <Text style={styles.subauth0_login_title}>Track your adventures</Text>
-        <TouchableOpacity onPress={login}>
+        <TouchableOpacity testID="auth0-login-button" onPress={login}>
           <Text style={styles.auth0_login_button}>Login with Auth0</Text>
         </TouchableOpacity>
       </View>
