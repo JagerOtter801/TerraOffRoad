@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Marker } from "react-native-maps";
 import { StatusBar } from "expo-status-bar";
 import { styles } from "../styles";
+import { gpsService, Waypoint, Route, Coordinate } from '../modules/navigation';
+import { useEffect, useState } from "react";
 
 interface MapsScreenProps {
   onBackPress?: () => void;
@@ -14,12 +16,39 @@ const MapView =
   Platform.OS !== "web" ? require("react-native-maps").default : null;
 
 const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
+  const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
   const initialRegion = {
     latitude: 40.6197536,
     longitude: -111.8094614,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        // Check if location services are enabled first
+        const isEnabled = await gpsService.isLocationEnabled();
+        if (!isEnabled) {
+          setLocationError("Location services are disabled");
+          return;
+        }
+
+        // Get current location
+        const location = await gpsService.getCurrentLocation();
+        console.log("Current location:", location);
+        setCurrentLocation(location);
+        setLocationError(null);
+      } catch (error: any) {
+        console.error("Location error:", error);
+        setLocationError(error.message || "Could not get location");
+      }
+    };
+
+    getLocation();
+  }, []);
 
   if (Platform.OS === "web") {
     return <Text>Maps not available on web</Text>;
@@ -37,12 +66,30 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
 
       <MapView
         style={styles.map}
-        initialRegion={initialRegion}
+        initialRegion={currentLocation ? {
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        } : initialRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
         mapType="hybrid"
       >
-        {/* Example we can  add more markers for trails, camps, etc. */}
+        {/* Show current location marker if available */}
+        {currentLocation && (
+          <Marker
+            coordinate={{
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
+            }}
+            title="Your Location"
+            description="Current GPS position"
+            pinColor="blue"
+          />
+        )}
+
+        {/* Example marker */}
         <Marker
           coordinate={{
             latitude: 39.7391536,
@@ -60,6 +107,18 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
         <Text style={styles.maps_bottom_info_text}>
           Ready to track your off-road adventures?
         </Text>
+        
+        {/* Show location status */}
+        {locationError && (
+          <Text style={{ color: 'red', fontSize: 12, marginTop: 5 }}>
+            Location: {locationError}
+          </Text>
+        )}
+        {currentLocation && (
+          <Text style={{ color: 'green', fontSize: 12, marginTop: 5 }}>
+            GPS: {currentLocation.latitude.toFixed(4)}, {currentLocation.longitude.toFixed(4)}
+          </Text>
+        )}
       </View>
 
       <StatusBar style="light" />

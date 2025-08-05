@@ -21,18 +21,13 @@ export default function HomeScreen() {
       >
         <ActivityIndicator size="large" color="#0066cc" />
         <Text style={styles.loadingText}>Logging in...</Text>
-         <StatusBar style="light" />
+        <StatusBar style="light" />
       </ImageBackground>
     );
   }
 
   if (isAuthenticated && user) {
-    return (
-       <MapsScreen 
-        onBackPress={() => logout()}
-        user={user}
-      />
-    );
+    return <MapsScreen onBackPress={() => logout()} user={user} />;
   }
 
   return (
@@ -47,7 +42,7 @@ export default function HomeScreen() {
           <Text style={styles.auth0_login_button}>Login with Auth0</Text>
         </TouchableOpacity>
       </View>
-     <StatusBar style="light" />
+      <StatusBar style="light" />
     </ImageBackground>
   );
 }

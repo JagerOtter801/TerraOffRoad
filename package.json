@@ -16,13 +16,15 @@
     "expo": "^53.0.20",
     "expo-auth-session": "~6.2.1",
     "expo-crypto": "~14.1.5",
+    "expo-location": "~18.1.6",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
     "react-native-maps": "1.20.1",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "@react-native-async-storage/async-storage": "2.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
