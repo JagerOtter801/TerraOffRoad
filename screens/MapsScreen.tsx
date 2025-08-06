@@ -1,128 +1,63 @@
 import { Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Marker } from "react-native-maps";
-import { StatusBar } from "expo-status-bar";
-import { styles } from "../styles";
-import { gpsService, Waypoint, Route, Coordinate } from '../modules/navigation';
-import { useEffect, useState } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import MapTabScreen from "./MapTabScreen";
+import RoutesTabScreen from "./RoutesTabScreen";
+import ProfileTabScreen from "./UserProfileTabScreen";
+import {styles} from "../styles";
 
 interface MapsScreenProps {
   onBackPress?: () => void;
   user?: any;
 }
 
-// Only import maps on mobile
-const MapView =
-  Platform.OS !== "web" ? require("react-native-maps").default : null;
+const Tab = createBottomTabNavigator();
 
 const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
-  const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(null);
-  const [locationError, setLocationError] = useState<string | null>(null);
-
-  const initialRegion = {
-    latitude: 40.6197536,
-    longitude: -111.8094614,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  };
-
-  useEffect(() => {
-    const getLocation = async () => {
-      try {
-        // Check if location services are enabled first
-        const isEnabled = await gpsService.isLocationEnabled();
-        if (!isEnabled) {
-          setLocationError("Location services are disabled");
-          return;
-        }
-
-        // Get current location
-        const location = await gpsService.getCurrentLocation();
-        console.log("Current location:", location);
-        setCurrentLocation(location);
-        setLocationError(null);
-      } catch (error: any) {
-        console.error("Location error:", error);
-        setLocationError(error.message || "Could not get location");
-      }
-    };
-
-    getLocation();
-  }, []);
-
-  if (Platform.OS === "web") {
-    return <Text>Maps not available on web</Text>;
-  }
-
   return (
-    <View style={styles.maps_container}>
-      <View style={styles.maps_header}>
-        <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.maps_header_title}>Terra Off Road Maps</Text>
-        <View style={styles.maps_placeholder} />
-      </View>
-
-      <MapView
-        style={styles.map}
-        initialRegion={currentLocation ? {
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        } : initialRegion}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        mapType="hybrid"
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {...styles.maps_bottom_tab_navigation,
+          },
+          tabBarBackground: () => null,
+        }}
       >
-        {/* Show current location marker if available */}
-        {currentLocation && (
-          <Marker
-            coordinate={{
-              latitude: currentLocation.latitude,
-              longitude: currentLocation.longitude,
-            }}
-            title="Your Location"
-            description="Current GPS position"
-            pinColor="blue"
-          />
-        )}
-
-        {/* Example marker */}
-        <Marker
-          coordinate={{
-            latitude: 39.7391536,
-            longitude: -111.8947614,
+        <Tab.Screen
+          name="Map"
+          children={() => (
+            <MapTabScreen onBackPress={onBackPress} user={user} />
+          )}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Text style={{ color, fontSize: size }}>🗺️</Text>
+            ),
           }}
-          title="Welcome to Terra Off Road!"
-          description="Start your adventure here"
         />
-      </MapView>
-
-      <View style={styles.bottomPanel}>
-        <Text style={styles.welcomeText}>
-          Welcome {user?.name || user?.email || "Explorer"}!
-        </Text>
-        <Text style={styles.maps_bottom_info_text}>
-          Ready to track your off-road adventures?
-        </Text>
-        
-        {/* Show location status */}
-        {locationError && (
-          <Text style={{ color: 'red', fontSize: 12, marginTop: 5 }}>
-            Location: {locationError}
-          </Text>
-        )}
-        {currentLocation && (
-          <Text style={{ color: 'green', fontSize: 12, marginTop: 5 }}>
-            GPS: {currentLocation.latitude.toFixed(4)}, {currentLocation.longitude.toFixed(4)}
-          </Text>
-        )}
-      </View>
-
-      <StatusBar style="light" />
-    </View>
+        <Tab.Screen
+          name="Routes"
+          component={RoutesTabScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Text style={{ color, fontSize: size }}>🛣️</Text>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          children={() => (
+            <ProfileTabScreen onBackPress={onBackPress} user={user} />
+          )}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Text style={{ color, fontSize: size }}>👤</Text>
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
