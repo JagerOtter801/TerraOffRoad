@@ -28,6 +28,10 @@ function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
     longitudeDelta: 0.0421,
   };
 
+  const initialLatitudeDelta = 0.0922;
+  const initialLongitudeDelta = 0.0421;
+  
+
   useEffect(() => {
     const getLocation = async () => {
       try {
@@ -64,15 +68,17 @@ function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
 
       <MapView
         style={styles.map}
-        initialRegion={
+        region={
           currentLocation
             ? {
                 latitude: currentLocation.latitude,
                 longitude: currentLocation.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                longitudeDelta: initialLatitudeDelta,
+                latitudeDelta:initialLongitudeDelta,
               }
-            : initialRegion
+            : {
+                ...initialRegion,
+              }
         }
         showsUserLocation={true}
         showsMyLocationButton={true}
