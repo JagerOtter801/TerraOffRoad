@@ -50,21 +50,6 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 2,
   },
-  maps_container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  maps_header: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  paddingTop: 50, 
-  paddingHorizontal: 16,
-  paddingBottom: 16,
-  backgroundColor: 'rgba(0, 0, 0, 0.85)',
-  shadowOpacity: 0,
-  elevation: 0,
-  },
   backButton: {
     padding: 8,
   },
@@ -98,6 +83,32 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 4,
+  },
+maps_header: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between", 
+  paddingTop: 35,
+  paddingBottom: 16,
+  backgroundColor: "rgba(0, 0, 0, 0.75)",
+  shadowOpacity: 0,
+  elevation: 0,
+},
+mapsHamburgerMenu: {
+  position: 'absolute',
+  left: 15,
+  top: '50%',
+  transform: [{ translateY: 8 }],
+  padding: 10,
+  zIndex: 1,
+},
+mapsHamburgerIcon: {
+  fontSize: 24,
+  color: '#fff', // or whatever color matches your design
+  fontWeight: 'bold',
+},
+  maps_container: {
+    flex: 1,
   },
   maps_bottom_tab_navigation: {
     backgroundColor: "rgba(0, 0, 0, 0.82)",
