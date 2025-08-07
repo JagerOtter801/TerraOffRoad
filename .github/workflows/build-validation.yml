@@ -46,8 +46,11 @@ jobs:
       run: |
         npm install -g @expo/cli
         npx expo install --fix
-        npx expo run:android --variant release
+        cd android
+        chmod +x ./gradlew
+        ./gradlew assembleRelease
     
+    # Step 9: Upload the APK to GitHub (keep only 7 days)
     - name: Upload APK to GitHub
       uses: actions/upload-artifact@v4
       with:
