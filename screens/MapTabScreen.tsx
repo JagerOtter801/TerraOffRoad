@@ -4,7 +4,7 @@ import { Marker } from "react-native-maps";
 import { StatusBar } from "expo-status-bar";
 import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Only import maps on mobile
 const MapView =
@@ -18,6 +18,7 @@ function MapTabScreen() {
   //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
 
+  const mapRef = useRef<any>(null);
   const initialLatitudeDelta = 1.0922;
   const initialLongitudeDelta = 1.0421;
   const currentLatitudeDelta = 0.0922;
@@ -49,6 +50,25 @@ function MapTabScreen() {
 
     getLocation();
   }, []);
+
+    const handleLocationPress = async () => {
+    try {
+      const location = await gpsService.getCurrentLocation();
+      setCurrentLocation(location);
+      
+      // Animate map to current location
+      if (mapRef.current) {
+        mapRef.current.animateToRegion({
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: currentLatitudeDelta,
+          longitudeDelta: currentLongitudeDelta,
+        }, 1000); // 1 second animation
+      }
+    } catch (error: any) {
+      setLocationError(error.message || "Could not get location");
+    }
+  };
 
   if (Platform.OS === "web") {
     return <Text>Maps not available on web</Text>;
@@ -87,7 +107,7 @@ function MapTabScreen() {
               }
         }
         showsUserLocation={true}
-        showsMyLocationButton={true}
+       showsMyLocationButton={Platform.OS === 'android'}
         mapType="hybrid"
       >
         {currentLocation && (
@@ -101,8 +121,17 @@ function MapTabScreen() {
             pinColor="red"
           />
         )}
+
+        
       </MapView>
-      <StatusBar style="light" />
+      {Platform.OS === 'ios' && (
+        <TouchableOpacity
+          style={styles.iosLocationButton}
+          onPress={handleLocationPress}
+        >
+          <Text style={styles.iosLocationButtonText}>📍</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

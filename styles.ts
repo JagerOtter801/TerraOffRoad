@@ -84,40 +84,62 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 4,
   },
-maps_header: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between", 
-  paddingTop: 35,
-  paddingBottom: 16,
-  backgroundColor: "rgba(0, 0, 0, 0.75)",
-  shadowOpacity: 0,
-  elevation: 0,
-},
-mapsHamburgerMenu: {
-  position: 'absolute',
-  left: 15,
-  top: '50%',
-  transform: [{ translateY: 8 }],
-  padding: 10,
-  zIndex: 1,
-},
-mapsHamburgerIcon: {
-  fontSize: 24,
-  color: '#fff', // or whatever color matches your design
-  fontWeight: 'bold',
-},
+  maps_header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 35,
+    paddingBottom: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  mapsHamburgerMenu: {
+    position: "absolute",
+    left: 15,
+    top: "50%",
+    transform: [{ translateY: 8 }],
+    padding: 10,
+    zIndex: 1,
+  },
+  mapsHamburgerIcon: {
+    fontSize: 24,
+    color: "#fff", // or whatever color matches your design
+    fontWeight: "bold",
+  },
   maps_container: {
     flex: 1,
   },
   maps_bottom_tab_navigation: {
     backgroundColor: "rgba(0, 0, 0, 0.82)",
-    borderTopColor: "transparent", // Removes top border
+    borderTopColor: "transparent", 
     borderTopWidth: 0,
-    elevation: 0, // Removes shadow on Android
-    shadowOpacity: 0, // Removes shadow on iOS
+    elevation: 0, 
+    shadowOpacity: 0, 
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 0,
-    position: "absolute", // Remove background layer
+    position: "absolute", 
   },
+iosLocationButton: {
+  position: 'absolute',
+  top: 85,      
+  right: 20,     
+  backgroundColor: 'white',
+  borderRadius: 25,
+  width: 50,
+  height: 50,
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
+  iosLocationButtonText: {
+  fontSize: 20,
+}
 });
