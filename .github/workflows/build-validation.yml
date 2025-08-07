@@ -42,19 +42,18 @@ jobs:
     - name: Expo build check - Android  
       run: npx expo export --platform android --dev
     
-    - name: Build Android APK with EAS
+    - name: Build Android APK with Expo
       run: |
-        npm install -g eas-cli
-        export EAS_NO_PROMPT=1
-        npx eas build --platform android --local --profile preview --non-interactive
+        npm install -g @expo/cli
+        npx expo install --fix
+        npx expo run:android --variant release
     
-    # Step 9: Upload the APK to GitHub (keep only 7 days)
     - name: Upload APK to GitHub
       uses: actions/upload-artifact@v4
       with:
         name: android-apk-${{ github.run_number }}  # Unique name each time
         path: "*.apk"
-        retention-days: 5  # Dev changed this to overide 30 day default
+        retention-days: 7  # Delete after 1 week instead of 30
     
     # Alternative: Check if project loads with no errors
     # - name: Check project integrity
