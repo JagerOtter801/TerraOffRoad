@@ -48,9 +48,7 @@ jobs:
    
     - name: Build Android APK with EAS
       run: |
-        # Install EAS CLI
-        npm install -g @expo/eas-cli
-        # Build APK (this creates a local build)
+        npm install -g eas-cli
         npx eas build --platform android --local --profile preview
     
     - name: Upload APK to GitHub
