@@ -5,8 +5,6 @@ on:
     branches: [ main, develop ] 
   pull_request:
     branches: [ main, develop ]  
-    
-  # Allow manual trigger from GitHub UI
   workflow_dispatch:
 
 jobs:
@@ -14,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest  
     
     steps:
-   
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -22,9 +19,9 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'  # Speeds up builds by caching node_modules
-    
-    - name: Setup JDK 11
+        cache: 'npm'
+        
+    - name: Setup JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
@@ -34,10 +31,10 @@ jobs:
       uses: android-actions/setup-android@v3
     
     - name: Install dependencies
-      run: npm ci --legacy-peer-deps  # Handle dependency conflicts
+      run: npm ci --legacy-peer-deps
     
     - name: TypeScript check
-      run: npx tsc --noEmit  # Check types without creating files
+      run: npx tsc --noEmit
     
     - name: Expo build check - iOS
       run: npx expo export --platform ios --dev
@@ -45,18 +42,19 @@ jobs:
     - name: Expo build check - Android  
       run: npx expo export --platform android --dev
     
-   
     - name: Build Android APK with EAS
       run: |
         npm install -g eas-cli
-        npx eas build --platform android --local --profile preview
+        export EAS_NO_PROMPT=1
+        npx eas build --platform android --local --profile preview --non-interactive
     
+    # Step 9: Upload the APK to GitHub (keep only 7 days)
     - name: Upload APK to GitHub
       uses: actions/upload-artifact@v4
       with:
-        name: android-apk
+        name: android-apk-${{ github.run_number }}  # Unique name each time
         path: "*.apk"
-        retention-days: 30
+        retention-days: 5  # Dev changed this to overide 30 day default
     
     # Alternative: Check if project loads with no errors
     # - name: Check project integrity
