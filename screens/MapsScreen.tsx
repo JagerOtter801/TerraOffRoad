@@ -6,6 +6,7 @@ import MapTabScreen from "./MapTabScreen";
 import RoutesTabScreen from "./RoutesTabScreen";
 import ProfileTabScreen from "./UserProfileTabScreen";
 import {styles} from "../styles";
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface MapsScreenProps {
   onBackPress?: () => void;
@@ -26,13 +27,11 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
       >
         <Tab.Screen
           name="Map"
-          children={() => (
-            <MapTabScreen onBackPress={onBackPress} user={user} />
-          )}
+          component={MapTabScreen}
           options={{
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
-              <Text style={{ color, fontSize: size }}>🗺️</Text>
+              <MaterialIcons name="map" size={size} color={color} />
             ),
           }}
         />
@@ -41,7 +40,7 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
           component={RoutesTabScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Text style={{ color, fontSize: size }}>🛣️</Text>
+              <MaterialIcons name="directions" size={size} color={color} />
             ),
           }}
         />
@@ -52,7 +51,7 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
           )}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Text style={{ color, fontSize: size }}>👤</Text>
+              <MaterialIcons name="account-circle" size={size} color={color} />
             ),
           }}
         />

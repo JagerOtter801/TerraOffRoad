@@ -6,31 +6,29 @@ import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
 import { useEffect, useState } from "react";
 
-interface MapsScreenProps {
-  onBackPress?: () => void;
-  user?: any;
-}
-
 // Only import maps on mobile
 const MapView =
   Platform.OS !== "web" ? require("react-native-maps").default : null;
 
-function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
+function MapTabScreen() {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
     null
   );
+
+  //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
+
+  const initialLatitudeDelta = 1.0922;
+  const initialLongitudeDelta = 1.0421;
+  const currentLatitudeDelta = 0.0922;
+  const currentLongitudeDelta = 0.0421;
 
   const initialRegion = {
     latitude: 40.6197536,
     longitude: -111.8094614,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: initialLatitudeDelta,
+    longitudeDelta: initialLongitudeDelta,
   };
-
-  const initialLatitudeDelta = 0.0922;
-  const initialLongitudeDelta = 0.0421;
-  
 
   useEffect(() => {
     const getLocation = async () => {
@@ -59,11 +57,19 @@ function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
   return (
     <View style={styles.maps_container}>
       <View style={styles.maps_header}>
-        <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
+        <TouchableOpacity
+          style={styles.mapsHamburgerMenu}
+          onPress={() => {
+            /* Handle hamburger menu press */
+          }}
+        >
+          <Text style={styles.mapsHamburgerIcon}>☰</Text>
         </TouchableOpacity>
-        <Text style={styles.maps_header_title}>Terra Off Road Maps</Text>
-        <View style={styles.maps_placeholder} />
+        <View style={{ flex: 1, paddingLeft: 20, alignItems: "center" }}>
+          <Text style={styles.maps_header_title}>Terra Off-Road</Text>
+        </View>
+
+        <View style={{ width: 44 }} />
       </View>
 
       <MapView
@@ -73,8 +79,8 @@ function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
             ? {
                 latitude: currentLocation.latitude,
                 longitude: currentLocation.longitude,
-                longitudeDelta: initialLatitudeDelta,
-                latitudeDelta:initialLongitudeDelta,
+                longitudeDelta: currentLongitudeDelta,
+                latitudeDelta: currentLatitudeDelta,
               }
             : {
                 ...initialRegion,
@@ -95,15 +101,6 @@ function MapTabScreen({ onBackPress, user }: MapsScreenProps) {
             pinColor="blue"
           />
         )}
-
-        <Marker
-          coordinate={{
-            latitude: 39.7391536,
-            longitude: -111.8947614,
-          }}
-          title="Welcome to Terra Off Road!"
-          description="Start your adventure here"
-        />
       </MapView>
       <StatusBar style="light" />
     </View>

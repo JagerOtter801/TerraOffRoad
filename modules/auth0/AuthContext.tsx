@@ -38,24 +38,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   );
 
-  // Handle auth response
-  useEffect(() => {
-    if (response?.type === "success") {
-      // TBD Future: exchange the code for tokens and get real user data
-      setUser({
-        id: "user_" + Date.now(),
-        email: "user@terraoffroad.com",
-        name: "Off-Road Explorer",
-      });
-      setIsLoading(false);
-    } else if (response?.type === "error") {
-      setIsLoading(false);
-      console.error("Auth error:", response.error);
-    }
-  }, [response]);
-
   const login = () => {
     setIsLoading(true);
+
+    // Open Auth0 login page
     promptAsync();
   };
 
@@ -70,6 +56,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(false);
     setIsLoading(false);
   };
+
+  // Handle the response from Auth0(after promptAsync() displays the login page and user logs in)
+  useEffect(() => {
+    if (response?.type === "success") {
+      // TBD Future: exchange the code for tokens and get real user data
+      setUser({
+        id: "user_" + Date.now(),
+        email: "user@terraoffroad.com",
+        name: "Off-Road Explorer",
+      });
+      setIsLoading(false);
+    } else if (response?.type === "error") {
+      setIsLoading(false);
+      console.error("Auth error:", response.error);
+    }
+  }, [response]);
 
   const value: AuthContextType = {
     user,
