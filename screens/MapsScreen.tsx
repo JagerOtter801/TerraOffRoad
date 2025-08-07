@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import MapTabScreen from "./MapTabScreen";
 import RoutesTabScreen from "./RoutesTabScreen";
 import ProfileTabScreen from "./UserProfileTabScreen";
+import OfflineMapsScreen from "./OfflineMapsScreen";
 import {styles} from "../styles";
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -41,6 +42,15 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="directions" size={size} color={color} />
+            ),
+          }}
+        />
+           <Tab.Screen
+          name="Offline Maps"
+          component={OfflineMapsScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="cloud-download" size={size} color={color} />
             ),
           }}
         />
