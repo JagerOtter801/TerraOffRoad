@@ -98,7 +98,7 @@ function MapTabScreen() {
             }}
             title="Your Location"
             description="Current GPS position"
-            pinColor="blue"
+            pinColor="red"
           />
         )}
       </MapView>
