@@ -1,5 +1,4 @@
 import { Platform } from "react-native";
-import { View, Text, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import MapTabScreen from "./MapTabScreen";
