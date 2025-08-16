@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+no import { StatusBar } from "expo-status-bar";
 import {
   Text,
   View,
@@ -47,4 +47,4 @@ function HomeScreen() {
   );
 }
 
-export default HomeScreen
+export default HomeScreen;
