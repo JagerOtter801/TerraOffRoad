@@ -10,7 +10,7 @@ import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
 import MapsScreen from "./MapsScreen";
 
-export default function HomeScreen() {
+function HomeScreen() {
   const { user, isLoading, isAuthenticated, login, logout } = useAuth();
 
   if (isLoading) {
@@ -46,3 +46,5 @@ export default function HomeScreen() {
     </ImageBackground>
   );
 }
+
+export default HomeScreen
