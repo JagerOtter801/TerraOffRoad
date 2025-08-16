@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import MapTabScreen from "./MapTabScreen";
 import RoutesTabScreen from "./RoutesTabScreen";
-import ProfileTabScreen from "./UserProfileTabScreen";
-import OfflineMapsScreen from "./OfflineMapsScreen";
+import UserProfileTabScreen from "./UserProfileTabScreen";
+import OfflineMapsScreen from "./OfflineMapsTabScreen";
 import { styles } from "../styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -55,7 +55,7 @@ const MapsScreen = ({ user }: MapsScreenProps) => {
         />
         <Tab.Screen
           name="Profile"
-          children={() => <ProfileTabScreen user={user} />}
+          component={() => <UserProfileTabScreen />}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={size} color={color} />
