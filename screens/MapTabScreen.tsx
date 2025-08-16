@@ -51,19 +51,22 @@ function MapTabScreen() {
     getLocation();
   }, []);
 
-    const handleLocationPress = async () => {
+  const handleLocationPress = async () => {
     try {
       const location = await gpsService.getCurrentLocation();
       setCurrentLocation(location);
-      
+
       // Animate map to current location
       if (mapRef.current) {
-        mapRef.current.animateToRegion({
-          latitude: location.latitude,
-          longitude: location.longitude,
-          latitudeDelta: currentLatitudeDelta,
-          longitudeDelta: currentLongitudeDelta,
-        }, 1000); // 1 second animation
+        mapRef.current.animateToRegion(
+          {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: currentLatitudeDelta,
+            longitudeDelta: currentLongitudeDelta,
+          },
+          1000
+        ); // 1 second animation
       }
     } catch (error: any) {
       setLocationError(error.message || "Could not get location");
@@ -107,7 +110,7 @@ function MapTabScreen() {
               }
         }
         showsUserLocation={true}
-       showsMyLocationButton={Platform.OS === 'android'}
+        showsMyLocationButton={Platform.OS === "android"}
         mapType="hybrid"
       >
         {currentLocation && (
@@ -121,10 +124,8 @@ function MapTabScreen() {
             pinColor="red"
           />
         )}
-
-        
       </MapView>
-      {Platform.OS === 'ios' && (
+      {Platform.OS === "ios" && (
         <TouchableOpacity
           style={styles.iosLocationButton}
           onPress={handleLocationPress}

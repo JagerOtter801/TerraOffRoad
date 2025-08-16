@@ -5,24 +5,23 @@ import MapTabScreen from "./MapTabScreen";
 import RoutesTabScreen from "./RoutesTabScreen";
 import ProfileTabScreen from "./UserProfileTabScreen";
 import OfflineMapsScreen from "./OfflineMapsScreen";
-import {styles} from "../styles";
-import { MaterialIcons } from '@expo/vector-icons';
+import { styles } from "../styles";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface MapsScreenProps {
-  onBackPress?: () => void;
   user?: any;
 }
 
 const Tab = createBottomTabNavigator();
 
-const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
+const MapsScreen = ({ user }: MapsScreenProps) => {
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
-          tabBarStyle: {...styles.maps_bottom_tab_navigation,
-          }, tabBarActiveTintColor: '#E5E2E1',
-          tabBarInactiveTintColor: '#9E9998',
+          tabBarStyle: { ...styles.maps_bottom_tab_navigation },
+          tabBarActiveTintColor: "#E5E2E1",
+          tabBarInactiveTintColor: "#9E9998",
           tabBarBackground: () => null,
         }}
       >
@@ -45,7 +44,7 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
             ),
           }}
         />
-           <Tab.Screen
+        <Tab.Screen
           name="Offline Maps"
           component={OfflineMapsScreen}
           options={{
@@ -56,9 +55,7 @@ const MapsScreen = ({ onBackPress, user }: MapsScreenProps) => {
         />
         <Tab.Screen
           name="Profile"
-          children={() => (
-            <ProfileTabScreen onBackPress={onBackPress} user={user} />
-          )}
+          children={() => <ProfileTabScreen user={user} />}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={size} color={color} />

@@ -2,6 +2,7 @@
   "expo": {
     "name": "TerraOffRoad",
     "slug": "TerraOffRoad",
+    "scheme": "terraoffroad",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

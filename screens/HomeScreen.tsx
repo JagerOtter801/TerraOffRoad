@@ -27,7 +27,7 @@ export default function HomeScreen() {
   }
 
   if (isAuthenticated && user) {
-    return <MapsScreen onBackPress={() => logout()} user={user} />;
+    return <MapsScreen user={user} />;
   }
 
   return (

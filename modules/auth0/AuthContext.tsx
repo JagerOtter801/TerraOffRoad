@@ -46,21 +46,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    // Clear Auth0 session first
-    const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
-      AuthSession.makeRedirectUri()
-    )}`;
-    await WebBrowser.openBrowserAsync(logoutUrl);
+    setIsLoading(true);
+  
+  const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
+    AuthSession.makeRedirectUri({ scheme: "terraoffroad" })
+  )}`;
+  setUser(null);
+  setIsLoading(false);
+};
 
-    setUser(null);
-    setIsLoading(false);
-    setIsLoading(false);
-  };
 
-  // Handle the response from Auth0(after promptAsync() displays the login page and user logs in)
   useEffect(() => {
+    // Handle the authentication response using mock data for demonstration purposes.
     if (response?.type === "success") {
-      // TBD Future: exchange the code for tokens and get real user data
+      // Create a mock user object for demonstration purposes.
       setUser({
         id: "user_" + Date.now(),
         email: "user@terraoffroad.com",

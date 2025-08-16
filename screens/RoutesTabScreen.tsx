@@ -1,5 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
-
+import { View, Text,} from "react-native";
 
 function RoutesTabScreen() {
   return (
