@@ -55,7 +55,7 @@ const MapsScreen = ({ user }: MapsScreenProps) => {
         />
         <Tab.Screen
           name="Profile"
-          component={() => <UserProfileTabScreen user={user} />}
+          component={() => <UserProfileTabScreen />}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={size} color={color} />
