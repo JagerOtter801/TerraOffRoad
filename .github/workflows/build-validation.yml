@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: android-apk-${{ github.run_number }}  # Unique name each time
-        path: "*.apk"
+        path: android/app/build/outputs/apk/release/*.apk
         retention-days: 7  # Delete after 1 week instead of 30
     
     # Alternative: Check if project loads with no errors
