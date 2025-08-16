@@ -7,8 +7,9 @@ A comprehensive navigation and adventure companion app built for the off-roading
 ### 🧭 Navigation & Location
 - **Real-time GPS tracking** - Always know your current location
 - **Custom route creation** - Plan your off-road adventures on trail maps
-- **Non-vocal turn-by-turn navigation** - Visual guidance without distracting voice prompts
+- **Non-vocal turn-by-turn navigation** - Visual guidance with sound or vibration without distracting voice prompts
 - **Audio waypoint alerts** - Customizable sounds when reaching important points
+- **Custom waypoint markers** - Customizable waypoint markers with icons or photos so users can have visual indicators of memorable visual points as they navigate. 
 - **Haptic feedback** - Vibration alerts for key navigation events
 
 ### 🗺️ Trail Management
@@ -19,8 +20,7 @@ A comprehensive navigation and adventure companion app built for the off-roading
 
 ### 🛠️ Safety & Resources
 - **Resource proximity alerts** - Find nearest fuel, water, food, and medical facilities
-- **Emergency location sharing** - Share your coordinates when needed
-- **Trail conditions reporting** - Community-driven trail status updates
+- **Offline location information** - Share/Save your coordinates for Overlanding base camps, water sources, and point of notability.
 
 ## 🚀 Getting Started
 
