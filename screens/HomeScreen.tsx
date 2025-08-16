@@ -1,4 +1,4 @@
-no import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import {
   Text,
   View,
