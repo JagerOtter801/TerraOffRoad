@@ -1,0 +1,11 @@
+appId: com.anonymous.TerraOffRoad
+---
+
+# Basic smoke test - just verify app launches without crashing
+- launchApp
+- extendedWaitUntil:
+    visible: ".*" 
+    timeout: 15000
+
+# Verify the app did not crash on launch by checking for absence of crash dialog
+- assertNotVisible: "Unfortunately"

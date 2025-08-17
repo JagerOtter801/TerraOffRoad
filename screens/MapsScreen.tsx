@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import MapTabScreen from "./MapTabScreen";
@@ -17,52 +17,62 @@ const Tab = createBottomTabNavigator();
 const MapsScreen = ({ user }: MapsScreenProps) => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: { ...styles.maps_bottom_tab_navigation },
-          tabBarActiveTintColor: "#E5E2E1",
-          tabBarInactiveTintColor: "#9E9998",
-          tabBarBackground: () => null,
-        }}
-      >
-        <Tab.Screen
-          name="Map"
-          component={MapTabScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="map" size={size} color={color} />
-            ),
+      <View testID="map-screen-tabs" style={{ flex: 1 }}>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarStyle: { ...styles.maps_bottom_tab_navigation },
+            tabBarActiveTintColor: "#E5E2E1",
+            tabBarInactiveTintColor: "#9E9998",
+            tabBarBackground: () => null,
           }}
-        />
-        <Tab.Screen
-          name="Routes"
-          component={RoutesTabScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="directions" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Offline Maps"
-          component={OfflineMapsScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="cloud-download" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={() => <UserProfileTabScreen />}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="account-circle" size={size} color={color} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+        >
+          <Tab.Screen
+            name="Map"
+            component={MapTabScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialIcons name="map" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Routes"
+            component={RoutesTabScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialIcons name="directions" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Offline Maps"
+            component={OfflineMapsScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialIcons
+                  name="cloud-download"
+                  size={size}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={() => <UserProfileTabScreen />}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialIcons
+                  name="account-circle"
+                  size={size}
+                  color={color}
+                />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </View>
     </NavigationContainer>
   );
 };

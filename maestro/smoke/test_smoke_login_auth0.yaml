@@ -1,0 +1,46 @@
+appId: com.anonymous.TerraOffRoad
+---
+# App launches - could go to either HomeScreen (not authenticated) or MapScreen (authenticated)
+- launchApp
+- waitForAnimationToEnd
+
+# Check if we're already authenticated (MapScreen appears)
+- runFlow:
+    when:
+      visible:
+        id: "map-screen-tabs"  # Already authenticated - on MapScreen
+    commands:
+      - assertVisible:
+          id: "map-screen-tabs"
+
+# Check if we need to login (HomeScreen with Auth0 button appears)
+- runFlow:
+    when:
+      visible:
+        id: "auth0-login-button"
+    commands:
+      # If not authenticated, perform Auth0 login flow
+      - tapOn:
+          id: "auth0-login-button"
+      - waitForAnimationToEnd
+      - tapOn:
+          id: "username"
+      - inputText:
+          text: "jason.e.green@outlook.com"
+      - tapOn:
+          id: "password"
+      - inputText:
+          text: "Skywarden801"
+      - tapOn:
+          text: "Continue"
+      - waitForAnimationToEnd
+      
+      # Wait for MapScreen after successful login
+      - extendedWaitUntil:
+          visible:
+            id: "map-screen-tabs"
+          timeout: 15000
+      
+      # Verify we reached MapScreen
+      - assertVisible:
+          id: "map-screen-tabs"
