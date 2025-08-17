@@ -109,17 +109,9 @@ jobs:
           ls -la android/app/build/outputs/apk/
           find android/app/build/outputs/apk/ -name "*.apk" -type f
           
-          # Find and install the debug APK
-          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
-          echo "Installing APK: $APK_PATH"
-          
-          if [ -f "$APK_PATH" ]; then
-            adb install "$APK_PATH"
-            echo "APK installed successfully"
-          else
-            echo "ERROR: APK file not found at $APK_PATH"
-            exit 1
-          fi
+          # Install the debug APK directly
+          echo "Installing APK: android/app/build/outputs/apk/debug/app-debug.apk"
+          adb install android/app/build/outputs/apk/debug/app-debug.apk
           
           # Wait for installation to complete
           sleep 15
