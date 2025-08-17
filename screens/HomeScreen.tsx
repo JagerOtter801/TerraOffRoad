@@ -35,7 +35,7 @@ function HomeScreen() {
       style={styles.home_screen_container}
       source={require("../assets/terraoffroad_background_compatability.png")}
     >
-      <View style={styles.auth0_login_background}>
+      <View testID="home-screen" style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>Terra Off-Road</Text>
         <Text style={styles.subauth0_login_title}>Track your adventures</Text>
         <TouchableOpacity testID="auth0-login-button" onPress={login}>
