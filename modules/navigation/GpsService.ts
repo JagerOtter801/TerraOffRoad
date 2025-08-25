@@ -1,4 +1,4 @@
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Coordinate, Waypoint, Route, LocationError } from "./types";
 
@@ -7,13 +7,12 @@ class GpsService {
   private waypoints: Waypoint[] = [];
   private locationSubscription: Location.LocationSubscription | null = null;
 
-
   async requestLocationPermissions(): Promise<boolean> {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
-      return status === 'granted';
+      return status === "granted";
     } catch (error) {
-      console.error('Permission request failed:', error);
+      console.error("Permission request failed:", error);
       return false;
     }
   }
@@ -22,7 +21,7 @@ class GpsService {
     try {
       const hasPermission = await this.requestLocationPermissions();
       if (!hasPermission) {
-        throw new Error('Location permission denied');
+        throw new Error("Location permission denied");
       }
 
       const location = await Location.getCurrentPositionAsync({
@@ -34,25 +33,30 @@ class GpsService {
       const coordinate: Coordinate = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
+        altitude: location.coords.altitude || undefined,
+        accuracy: location.coords.accuracy || undefined,
+        heading: location.coords.heading || undefined,
         timestamp: Date.now(),
       };
-      
+
       this.currentLocation = coordinate;
       return coordinate;
     } catch (error: any) {
       throw {
         code: 1,
-        message: error.message || 'Could not get current location',
+        message: error.message || "Could not get current location",
       };
     }
   }
 
   // Update current location (watch for changes)
-  async startLocationUpdates(callback: (location: Coordinate) => void): Promise<boolean> {
+  async startLocationUpdates(
+    callback: (location: Coordinate) => void
+  ): Promise<boolean> {
     try {
       const hasPermission = await this.requestLocationPermissions();
       if (!hasPermission) {
-        throw new Error('Location permission denied');
+        throw new Error("Location permission denied");
       }
 
       // Stop any existing subscription
@@ -133,21 +137,33 @@ class GpsService {
   }
 
   calculateDistance(point1: Coordinate, point2: Coordinate): number {
-    const earthRadiusInMeters = 6371000; // Earth's radius in meters
+    const earthRadiusInMeters = 6371000; 
     const startLatitudeRad = this.toRadians(point1.latitude);
     const endLatitudeRad = this.toRadians(point2.latitude);
-    const latitudeDifferenceRad = this.toRadians(point2.latitude - point1.latitude);
-    const longitudeDifferenceRad = this.toRadians(point2.longitude - point1.longitude);
+    const latitudeDifferenceRad = this.toRadians(
+      point2.latitude - point1.latitude
+    );
+    const longitudeDifferenceRad = this.toRadians(
+      point2.longitude - point1.longitude
+    );
 
     // Haversine formula calculation
     // https://www.geeksforgeeks.org/dsa/haversine-formula-to-find-distance-between-two-points-on-a-sphere/
-    const halfChordLengthSquared = 
-      Math.sin(latitudeDifferenceRad / 2) * Math.sin(latitudeDifferenceRad / 2) +
-      Math.cos(startLatitudeRad) * Math.cos(endLatitudeRad) *
-      Math.sin(longitudeDifferenceRad / 2) * Math.sin(longitudeDifferenceRad / 2);
-    
-    const angularDistance = 2 * Math.atan2(Math.sqrt(halfChordLengthSquared), Math.sqrt(1 - halfChordLengthSquared));
-    return earthRadiusInMeters * angularDistance; // Distance in meters
+    const halfChordLengthSquared =
+      Math.sin(latitudeDifferenceRad / 2) *
+        Math.sin(latitudeDifferenceRad / 2) +
+      Math.cos(startLatitudeRad) *
+        Math.cos(endLatitudeRad) *
+        Math.sin(longitudeDifferenceRad / 2) *
+        Math.sin(longitudeDifferenceRad / 2);
+
+    const angularDistance =
+      2 *
+      Math.atan2(
+        Math.sqrt(halfChordLengthSquared),
+        Math.sqrt(1 - halfChordLengthSquared)
+      );
+    return earthRadiusInMeters * angularDistance; 
   }
 
   calculateTotalRouteDistance(waypoints: Waypoint[]): number {
@@ -170,6 +186,27 @@ class GpsService {
 
     return totalDistance;
   }
+
+  calculateElevationGain(waypoints: Waypoint[]): { gain: number; loss: number } {
+  let totalGain = 0;
+  let totalLoss = 0;
+
+  for (let i = 1; i < waypoints.length; i++) {
+    const prev = waypoints[i - 1];
+    const current = waypoints[i];
+    
+    if (prev.altitude && current.altitude) {
+      const elevationChange = current.altitude - prev.altitude;
+      if (elevationChange > 0) {
+        totalGain += elevationChange;
+      } else {
+        totalLoss += Math.abs(elevationChange);
+      }
+    }
+  }
+
+  return { gain: totalGain, loss: totalLoss };
+}
 
   clearAllWaypoints(): void {
     this.waypoints = [];
@@ -223,7 +260,9 @@ class GpsService {
 
   removeWaypoint(waypointId: string): boolean {
     const initialLength = this.waypoints.length;
-    this.waypoints = this.waypoints.filter((waypoint) => waypoint.id !== waypointId);
+    this.waypoints = this.waypoints.filter(
+      (waypoint) => waypoint.id !== waypointId
+    );
     return this.waypoints.length < initialLength;
   }
 
@@ -248,19 +287,18 @@ class GpsService {
     try {
       return await Location.hasServicesEnabledAsync();
     } catch (error) {
-      console.error('Error checking location services:', error);
+      console.error("Error checking location services:", error);
       return false;
     }
   }
-
 
   async getLocationPermissionStatus(): Promise<string> {
     try {
       const { status } = await Location.getForegroundPermissionsAsync();
       return status;
     } catch (error) {
-      console.error('Error getting permission status:', error);
-      return 'undetermined';
+      console.error("Error getting permission status:", error);
+      return "undetermined";
     }
   }
 

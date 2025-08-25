@@ -1,14 +1,10 @@
 import { Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Marker } from "react-native-maps";
-import { StatusBar } from "expo-status-bar";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
+import { MapLongPressEvent } from "../modules/navigation/types";
 import { useEffect, useState, useRef } from "react";
-
-// Only import maps on mobile
-const MapView =
-  Platform.OS !== "web" ? require("react-native-maps").default : null;
 
 function MapTabScreen() {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
@@ -17,6 +13,7 @@ function MapTabScreen() {
 
   //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
 
   const mapRef = useRef<any>(null);
   const initialLatitudeDelta = 1.0922;
@@ -66,10 +63,25 @@ function MapTabScreen() {
             longitudeDelta: currentLongitudeDelta,
           },
           1000
-        ); 
+        );
       }
     } catch (error: any) {
       setLocationError(error.message || "Could not get location");
+    }
+  };
+
+  const createWayPoint = async (event: MapLongPressEvent) => {
+    try {
+      const { latitude, longitude } = event.nativeEvent.coordinate;
+      const coordinate: Coordinate = {
+        latitude,
+        longitude,
+        timestamp: Date.now(),
+      };
+      await gpsService.addWaypoint(coordinate);
+      setWaypoints(gpsService.getAllWaypoints()); 
+    } catch (error) {
+      console.error("Error handling long press:", error);
     }
   };
 
@@ -112,6 +124,8 @@ function MapTabScreen() {
         showsUserLocation={true}
         showsMyLocationButton={Platform.OS === "android"}
         mapType="hybrid"
+        onLongPress={createWayPoint}
+        ref={mapRef}
       >
         {currentLocation && (
           <Marker
@@ -124,7 +138,23 @@ function MapTabScreen() {
             pinColor="red"
           />
         )}
+
+        {gpsService.getAllWaypoints().map((waypoint) => (
+          <Marker
+            key={waypoint.id}
+            coordinate={{
+              latitude: waypoint.latitude,
+              longitude: waypoint.longitude,
+            }}
+            title={waypoint.name}
+            description={`Added: ${new Date(
+              waypoint.timestamp || Date.now()
+            ).toLocaleTimeString()}`}
+            pinColor="blue"
+          />
+        ))}
       </MapView>
+
       {Platform.OS === "ios" && (
         <TouchableOpacity
           style={styles.iosLocationButton}
