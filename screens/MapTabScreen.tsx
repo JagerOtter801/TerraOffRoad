@@ -66,7 +66,7 @@ function MapTabScreen() {
             longitudeDelta: currentLongitudeDelta,
           },
           1000
-        ); // 1 second animation
+        ); 
       }
     } catch (error: any) {
       setLocationError(error.message || "Could not get location");

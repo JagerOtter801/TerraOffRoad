@@ -88,7 +88,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 35,
+    paddingTop: 10,
     paddingBottom: 16,
     backgroundColor: "rgba(0, 0, 0, 0.75)",
     shadowOpacity: 0,
@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
     left: 15,
     top: "50%",
     transform: [{ translateY: 8 }],
-    padding: 10,
+    paddingBottom: 20,
     zIndex: 1,
   },
   mapsHamburgerIcon: {
