@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Auth0 configuration
+  const SKIP_AUTH0 = true;
   const auth0Domain = REACT_APP_AUTH0_DOMAIN;
   const auth0ClientId = REACT_APP_AUTH0_CLIENT_ID;
 
@@ -41,11 +42,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = () => {
     setIsLoading(true);
 
+     if (SKIP_AUTH0) {
+      setTimeout(() => {
+        setUser({
+          id: "user_" + Date.now(),
+          email: "user@terraoffroad.com",
+          name: "Off-Road Explorer",
+        });
+        setIsLoading(false);
+      }, 500); 
+      return;
+    }
+
     // Open Auth0 login page
     promptAsync();
   };
 
   const logout = async () => {
+    if (SKIP_AUTH0) {
+      setUser(null);
+      setIsLoading(false);
+      return;
+    }
+    
     setIsLoading(true);
   
   const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
