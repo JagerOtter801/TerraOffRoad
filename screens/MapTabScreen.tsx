@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Modal, Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "../styles";
@@ -14,6 +14,7 @@ function MapTabScreen() {
   //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
+ const [displayWaypointEditor, setDisplayWaypointEditor] = useState<boolean>(false);
 
   const mapRef = useRef<any>(null);
   const initialLatitudeDelta = 1.0922;
@@ -79,7 +80,7 @@ function MapTabScreen() {
         timestamp: Date.now(),
       };
       await gpsService.addWaypoint(coordinate);
-      setWaypoints(gpsService.getAllWaypoints()); 
+      setWaypoints(gpsService.getAllWaypoints());
     } catch (error) {
       console.error("Error handling long press:", error);
     }
@@ -125,8 +126,9 @@ function MapTabScreen() {
         showsMyLocationButton={Platform.OS === "android"}
         mapType="hybrid"
         onLongPress={createWayPoint}
+        onDoublePress={() => setDisplayWaypointEditor(true)}
         ref={mapRef}
-      >
+        >
         {currentLocation && (
           <Marker
             coordinate={{
@@ -154,6 +156,19 @@ function MapTabScreen() {
           />
         ))}
       </MapView>
+
+      <Modal
+          visible={!!displayWaypointEditor}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.userOptionsModal}>
+            <Text>Under Construction</Text>
+            <TouchableOpacity onPress={() => setDisplayWaypointEditor(false)}>
+              <Text>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
 
       {Platform.OS === "ios" && (
         <TouchableOpacity
