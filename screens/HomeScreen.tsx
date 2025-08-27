@@ -10,7 +10,7 @@ import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
 import MapsScreen from "./MapsScreen";
 
-function HomeScreen() {
+const HomeScreen = () => {
   const { user, isLoading, isAuthenticated, login, logout } = useAuth();
 
   if (isLoading) {

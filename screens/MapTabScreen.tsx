@@ -6,7 +6,7 @@ import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
 import { MapLongPressEvent } from "../modules/navigation/types";
 import { useEffect, useState, useRef } from "react";
 
-function MapTabScreen() {
+const MapTabScreen = () => {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
     null
   );
