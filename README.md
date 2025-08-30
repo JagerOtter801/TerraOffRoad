@@ -51,15 +51,19 @@ yarn install
 ```bash
 cd ios && pod install && cd ..
 ```
+
+###IMPORTANT!!!
 Auth0 Setup Guide
 This project uses Auth0 for authentication. To run this app locally, you'll need to set up your own Auth0 account and create the required environment variables.
-Step 1: Create Auth0 Account
+
+
+##Step 1: Create Auth0 Account
 
 Go to https://auth0.com
 Sign up for a free account
 Choose a tenant name (this becomes your domain)
 
-Step 2: Create Application
+##Step 2: Create Application
 
 In your Auth0 Dashboard, go to Applications
 Click Create Application
@@ -67,7 +71,7 @@ Name it something like "Terra Off Road Local"
 Choose Native as the application type
 Click Create
 
-Step 3: Configure Application Settings
+##Step 3: Configure Application Settings
 In your new application's settings:
 
 Allowed Callback URLs: Add terraoffroad://callback
@@ -75,28 +79,30 @@ Allowed Logout URLs: Add terraoffroad://logout
 Allowed Web Origins: Can leave empty for mobile
 Scroll down and click Save Changes
 
-Step 4: Get Your Credentials
+##Step 4: Get Your Credentials
 From your application's Settings tab, copy these values:
 
 Domain (looks like your-tenant.auth0.com)
 Client ID (long string of letters and numbers)
 
-Step 5: Create Environment File
-
+##Step 5: Create Environment File
 Create a file called .env in the project root
 Add these lines (replace with your actual values):
 
 REACT_APP_AUTH0_DOMAIN=your-tenant.auth0.com
 REACT_APP_AUTH0_CLIENT_ID=your_client_id_here
 Important: Never commit your .env file to git. It's already in .gitignore.
-Step 6: Test Users (Optional)
+
+
+
+##Step 6: Test Users (Optional)
 To test login without allowing public signup:
 
 Go to User Management → Users in Auth0 Dashboard
 Click Create User
 Enter email and password for test accounts
 
-Step 7: Run the App
+##Step 7: Run the App
 Now you can run the app with your own Auth0 configuration:
 bashnpm install
 npm start
