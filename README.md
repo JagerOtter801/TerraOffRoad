@@ -2,7 +2,7 @@
 
 A comprehensive navigation and adventure companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers explore trails safely with advanced route planning, real-time navigation, and essential resource tracking.
 
-## ✨ Features
+## ✨ Features(Current and Under development)
 
 ### 🧭 Navigation & Location
 - **Real-time GPS tracking** - Always know your current location
@@ -91,52 +91,8 @@ npm run build:ios
 - **React Native Sound** - Audio waypoint alerts
 - **React Native Haptic Feedback** - Vibration alerts
 
-## 📁 Project Structure
 
-```
-├── src/
-│   ├── components/
-│   │   ├── maps/          # Map-related components
-│   │   ├── navigation/    # Navigation UI components
-│   │   ├── waypoints/     # Waypoint creation/management
-│   │   └── common/        # Shared UI components
-│   ├── screens/
-│   │   ├── MapScreen/     # Main map interface
-│   │   ├── RouteScreen/   # Route planning and management
-│   │   ├── ProfileScreen/ # User stats and settings
-│   │   └── SettingsScreen/
-│   ├── services/
-│   │   ├── locationService.ts    # GPS and location handling
-│   │   ├── routeService.ts       # Route calculation and management
-│   │   ├── resourceService.ts    # Fuel/water/food/medical finder
-│   │   └── storageService.ts     # Local data management
-│   ├── utils/
-│   │   ├── distanceCalculator.ts # Distance and navigation math
-│   │   ├── trailDifficulty.ts    # Trail rating algorithms
-│   │   └── coordinates.ts        # GPS coordinate utilities
-│   └── types/
-│       ├── navigation.ts         # Navigation type definitions
-│       ├── waypoint.ts          # Waypoint and route types
-│       └── resources.ts         # Resource location types
-├── android/               # Android-specific code
-├── ios/                  # iOS-specific code
-└── assets/
-    ├── maps/             # Offline map data
-    ├── sounds/           # Waypoint alert sounds
-    └── icons/            # Trail difficulty and waypoint icons
-```
 
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Test location services (requires device)
-npm run test:location
 ```
 
 ## 🗺️ Key Features Usage
@@ -208,20 +164,6 @@ Download map regions for offline use:
 
 ## 🤝 Contributing
 
-We welcome contributions from the off-roading community!
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/TrailWeather`)
-3. Commit your changes (`git commit -m 'Add weather integration'`)
-4. Push to the branch (`git push origin feature/TrailWeather`)
-5. Open a Pull Request
-
-## 📝 Feature Requests
-
-Have an idea for Terra Off-Road? We'd love to hear it!
-- Open an issue with the "enhancement" label
-- Join our community discussions
-- Share your off-roading experiences that could improve the app
 
 ## 📄 License
 
