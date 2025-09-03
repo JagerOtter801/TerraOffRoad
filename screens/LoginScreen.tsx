@@ -10,13 +10,13 @@ import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
 import MapsScreen from "./MapsScreen";
 
-const HomeScreen = () => {
-  const { user, isLoading, isAuthenticated, login, logout } = useAuth();
+const LoginScreen = () => {
+  const { user, isLoading, isAuthenticated, login } = useAuth();
 
   if (isLoading) {
     return (
       <ImageBackground
-        style={styles.home_screen_container}
+        style={styles.login_screen_container}
         source={require("../assets/terraoffroad_background_compatability.png")}
       >
         <ActivityIndicator size="large" color="#0066cc" />
@@ -32,7 +32,7 @@ const HomeScreen = () => {
 
   return (
     <ImageBackground
-      style={styles.home_screen_container}
+      style={styles.login_screen_container}
       source={require("../assets/terraoffroad_background_compatability.png")}
     >
       <View testID="home-screen" style={styles.auth0_login_background}>
@@ -47,4 +47,4 @@ const HomeScreen = () => {
   );
 }
 
-export default HomeScreen;
+export default LoginScreen;

@@ -5,6 +5,7 @@ import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
 import { MapLongPressEvent } from "../modules/navigation/types";
 import { useEffect, useState, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const MapTabScreen = () => {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
@@ -14,13 +15,14 @@ const MapTabScreen = () => {
   //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
- const [displayWaypointEditor, setDisplayWaypointEditor] = useState<boolean>(false);
+  const [displayWaypointDeleteModal, setDisplayWaypointDeleteModal] =
+    useState<boolean>(false);
 
   const mapRef = useRef<any>(null);
-  const initialLatitudeDelta = 1.0922;
-  const initialLongitudeDelta = 1.0421;
-  const currentLatitudeDelta = 0.0922;
-  const currentLongitudeDelta = 0.0421;
+  const initialLatitudeDelta = 1.5;
+  const initialLongitudeDelta = 1.5;
+  const currentLatitudeDelta = 0.01;
+  const currentLongitudeDelta = 0.01;
 
   const initialRegion = {
     latitude: 40.6197536,
@@ -49,12 +51,18 @@ const MapTabScreen = () => {
     getLocation();
   }, []);
 
+  // Refresh waypoints when modal is closed
+  useEffect(() => {
+    if (!displayWaypointDeleteModal) {
+      setWaypoints(gpsService.getAllWaypoints());
+    }
+  }, [displayWaypointDeleteModal]);
+
   const handleLocationPress = async () => {
     try {
       const location = await gpsService.getCurrentLocation();
       setCurrentLocation(location);
 
-      // Animate map to current location
       if (mapRef.current) {
         mapRef.current.animateToRegion(
           {
@@ -126,9 +134,9 @@ const MapTabScreen = () => {
         showsMyLocationButton={Platform.OS === "android"}
         mapType="hybrid"
         onLongPress={createWayPoint}
-        onDoublePress={() => setDisplayWaypointEditor(true)}
+        onDoublePress={() => setDisplayWaypointDeleteModal(true)}
         ref={mapRef}
-        >
+      >
         {currentLocation && (
           <Marker
             coordinate={{
@@ -158,17 +166,29 @@ const MapTabScreen = () => {
       </MapView>
 
       <Modal
-          visible={!!displayWaypointEditor}
-          transparent={true}
-          animationType="fade"
-        >
-          <View style={styles.userOptionsModal}>
-            <Text>Under Construction</Text>
-            <TouchableOpacity onPress={() => setDisplayWaypointEditor(false)}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        visible={!!displayWaypointDeleteModal}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.userOptionsModal}>
+          <Text>Confirm Delete All Waypoints?</Text>
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#8a8279" }]}
+            onPress={() => {
+              gpsService.deleteAllWaypoints();
+              setDisplayWaypointDeleteModal(false);
+            }}
+          >
+            <Text>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            onPress={() => setDisplayWaypointDeleteModal(false)}
+          >
+            <Text>CANCEL</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
 
       {Platform.OS === "ios" && (
         <TouchableOpacity
@@ -180,6 +200,6 @@ const MapTabScreen = () => {
       )}
     </View>
   );
-}
+};
 
 export default MapTabScreen;

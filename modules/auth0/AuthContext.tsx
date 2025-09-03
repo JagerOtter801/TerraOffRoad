@@ -6,9 +6,10 @@ import React, {
   ReactNode,
 } from "react";
 import * as AuthSession from "expo-auth-session";
-import * as WebBrowser from "expo-web-browser";
 import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from "@env";
 import { User, AuthContextType } from "./types";
+import { gpsService } from "../navigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -20,7 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Auth0 configuration
+  // Auth0 configuration to skip for now until authentication is needed
   const SKIP_AUTH0 = true;
   const auth0Domain = REACT_APP_AUTH0_DOMAIN;
   const auth0ClientId = REACT_APP_AUTH0_CLIENT_ID;
@@ -39,10 +40,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   );
 
+  function clearAllData() {
+    gpsService.deleteAllWaypoints();
+    gpsService.deleteAllRoutes();
+    gpsService.stopLocationUpdates();
+    AsyncStorage.clear();
+  }
+
+
   const login = () => {
     setIsLoading(true);
 
-     if (SKIP_AUTH0) {
+    if (SKIP_AUTH0) {
       setTimeout(() => {
         setUser({
           id: "user_" + Date.now(),
@@ -50,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           name: "Off-Road Explorer",
         });
         setIsLoading(false);
-      }, 500); 
+      }, 500);
       return;
     }
 
@@ -62,18 +71,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (SKIP_AUTH0) {
       setUser(null);
       setIsLoading(false);
+      clearAllData();
       return;
     }
-    
-    setIsLoading(true);
-  
-  const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
-    AuthSession.makeRedirectUri({ scheme: "terraoffroad" })
-  )}`;
-  setUser(null);
-  setIsLoading(false);
-};
 
+    setIsLoading(true);
+
+    const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
+      AuthSession.makeRedirectUri({ scheme: "terraoffroad" })
+    )}`;
+    setUser(null);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     // Handle the authentication response using mock data for demonstration purposes.

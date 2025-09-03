@@ -3,7 +3,7 @@ import UserProfileScreen from "./UserProfileScreen";
 import EditUserProfileScreen from "./EditUserProfileScreen";
 
 
-function UserProfileTabScreen() {
+ const UserProfileTabScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
