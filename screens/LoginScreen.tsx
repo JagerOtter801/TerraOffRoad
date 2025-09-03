@@ -15,10 +15,7 @@ const LoginScreen = () => {
 
   if (isLoading) {
     return (
-      <ImageBackground
-        style={styles.login_screen_container}
-        source={require("../assets/terraoffroad_background_compatability.png")}
-      >
+      <ImageBackground style={styles.login_screen_container}>
         <ActivityIndicator size="large" color="#0066cc" />
         <Text style={styles.loadingText}>Logging in...</Text>
         <StatusBar style="light" />
@@ -35,7 +32,7 @@ const LoginScreen = () => {
       style={styles.login_screen_container}
       source={require("../assets/terraoffroad_background_compatability.png")}
     >
-      <View testID="home-screen" style={styles.auth0_login_background}>
+      <View testID="login-screen" style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>Terra Off-Road</Text>
         <Text style={styles.subauth0_login_title}>Track your adventures</Text>
         <TouchableOpacity testID="auth0-login-button" onPress={login}>
@@ -45,6 +42,6 @@ const LoginScreen = () => {
       <StatusBar style="light" />
     </ImageBackground>
   );
-}
+};
 
 export default LoginScreen;

@@ -5,18 +5,18 @@ import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
 import { MapLongPressEvent } from "../modules/navigation/types";
 import { useEffect, useState, useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 
 const MapTabScreen = () => {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
     null
   );
-
-  //ToDo: handle location errors gracefully
-  const [locationError, setLocationError] = useState<string | null>(null);
+  const [isLocationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
   const [displayWaypointDeleteModal, setDisplayWaypointDeleteModal] =
     useState<boolean>(false);
+
+  const navigation = useNavigation();
 
   const mapRef = useRef<any>(null);
   const initialLatitudeDelta = 1.5;
@@ -104,7 +104,7 @@ const MapTabScreen = () => {
         <TouchableOpacity
           style={styles.mapsHamburgerMenu}
           onPress={() => {
-            /* Handle hamburger menu press */
+            navigation.dispatch(DrawerActions.openDrawer());
           }}
         >
           <Text style={styles.mapsHamburgerIcon}>☰</Text>
@@ -117,6 +117,7 @@ const MapTabScreen = () => {
       </View>
 
       <MapView
+        testID="map-tab-screen"
         style={styles.map}
         region={
           currentLocation

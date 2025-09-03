@@ -8,10 +8,10 @@ appId: com.anonymous.TerraOffRoad
 - runFlow:
     when:
       visible:
-        id: "map-screen-tabs"  # Already authenticated - on MapScreen
+        id: "map-tab-screen"  # Already authenticated - on MapScreen
     commands:
       - assertVisible:
-          id: "map-screen-tabs"
+          id: "map-tab-screen"
 
 # Check if we need to login (HomeScreen with Auth0 button appears)
 - runFlow:
@@ -38,9 +38,9 @@ appId: com.anonymous.TerraOffRoad
       # Wait for MapScreen after successful login
       - extendedWaitUntil:
           visible:
-            id: "map-screen-tabs"
+            id: "map-tab-screen"
           timeout: 15000
       
       # Verify we reached MapScreen
       - assertVisible:
-          id: "map-screen-tabs"
+          id: "map-tab-screen"
