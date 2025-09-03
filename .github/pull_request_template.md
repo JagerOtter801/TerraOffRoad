@@ -24,10 +24,6 @@ Brief description of what this PR does and why.
 ## Screenshots/Videos (if applicable)
 <!-- Add before/after screenshots or screen recordings -->
 
-## Devices Tested
-- **iOS:** 
-- **Android:** 
-- **Expo Go version:** 
 
 ## Related Issues
 Closes #[issue-number]
@@ -39,7 +35,6 @@ Related to #[issue-number]
 
 ## Review Checklist
 - [ ] Code follows project style guidelines
-- [ ] No console.log statements left in production code
 - [ ] TypeScript types are properly defined
 - [ ] Navigation flows work correctly
 - [ ] No memory leaks or performance issues introduced
