@@ -24,6 +24,7 @@
     "expo-status-bar": "~2.2.3",
     "lucide-react-native": "^0.537.0",
     "react": "19.0.0",
+    "react-devtools": "^6.1.5",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",

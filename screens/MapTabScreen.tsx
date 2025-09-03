@@ -1,12 +1,13 @@
-import { Platform } from "react-native";
+import { Modal, Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
 import { MapLongPressEvent } from "../modules/navigation/types";
 import { useEffect, useState, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-function MapTabScreen() {
+const MapTabScreen = () => {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
     null
   );
@@ -14,12 +15,14 @@ function MapTabScreen() {
   //ToDo: handle location errors gracefully
   const [locationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
+  const [displayWaypointDeleteModal, setDisplayWaypointDeleteModal] =
+    useState<boolean>(false);
 
   const mapRef = useRef<any>(null);
-  const initialLatitudeDelta = 1.0922;
-  const initialLongitudeDelta = 1.0421;
-  const currentLatitudeDelta = 0.0922;
-  const currentLongitudeDelta = 0.0421;
+  const initialLatitudeDelta = 1.5;
+  const initialLongitudeDelta = 1.5;
+  const currentLatitudeDelta = 0.01;
+  const currentLongitudeDelta = 0.01;
 
   const initialRegion = {
     latitude: 40.6197536,
@@ -48,12 +51,18 @@ function MapTabScreen() {
     getLocation();
   }, []);
 
+  // Refresh waypoints when modal is closed
+  useEffect(() => {
+    if (!displayWaypointDeleteModal) {
+      setWaypoints(gpsService.getAllWaypoints());
+    }
+  }, [displayWaypointDeleteModal]);
+
   const handleLocationPress = async () => {
     try {
       const location = await gpsService.getCurrentLocation();
       setCurrentLocation(location);
 
-      // Animate map to current location
       if (mapRef.current) {
         mapRef.current.animateToRegion(
           {
@@ -79,7 +88,7 @@ function MapTabScreen() {
         timestamp: Date.now(),
       };
       await gpsService.addWaypoint(coordinate);
-      setWaypoints(gpsService.getAllWaypoints()); 
+      setWaypoints(gpsService.getAllWaypoints());
     } catch (error) {
       console.error("Error handling long press:", error);
     }
@@ -125,6 +134,7 @@ function MapTabScreen() {
         showsMyLocationButton={Platform.OS === "android"}
         mapType="hybrid"
         onLongPress={createWayPoint}
+        onDoublePress={() => setDisplayWaypointDeleteModal(true)}
         ref={mapRef}
       >
         {currentLocation && (
@@ -155,6 +165,31 @@ function MapTabScreen() {
         ))}
       </MapView>
 
+      <Modal
+        visible={!!displayWaypointDeleteModal}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.userOptionsModal}>
+          <Text>Confirm Delete All Waypoints?</Text>
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#8a8279" }]}
+            onPress={() => {
+              gpsService.deleteAllWaypoints();
+              setDisplayWaypointDeleteModal(false);
+            }}
+          >
+            <Text>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            onPress={() => setDisplayWaypointDeleteModal(false)}
+          >
+            <Text>CANCEL</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
       {Platform.OS === "ios" && (
         <TouchableOpacity
           style={styles.iosLocationButton}
@@ -165,6 +200,6 @@ function MapTabScreen() {
       )}
     </View>
   );
-}
+};
 
 export default MapTabScreen;

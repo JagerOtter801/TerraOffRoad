@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-function OfflineMapsTabScreen(){
+const OfflineMapsTabScreen = () => {
     return (
         <View>
             <Text>Offline Maps Screen</Text>

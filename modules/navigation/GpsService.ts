@@ -208,10 +208,6 @@ class GpsService {
   return { gain: totalGain, loss: totalLoss };
 }
 
-  clearAllWaypoints(): void {
-    this.waypoints = [];
-  }
-
   async saveRouteToDeviceStorage(route: Route): Promise<void> {
     try {
       await AsyncStorage.setItem(`route_${route.id}`, JSON.stringify(route));
@@ -258,12 +254,41 @@ class GpsService {
     }
   }
 
-  removeWaypoint(waypointId: string): boolean {
+  async deleteAllRoutes(){
+    try {
+      const routeIdsJson = await AsyncStorage.getItem('routeIds');
+      if(routeIdsJson){
+        const routeIds : string [] = JSON.parse(routeIdsJson);
+        for(const routeId of routeIds){
+          await AsyncStorage.removeItem(`route_${routeId}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error clearing user data:", error);
+    }
+  }
+
+  deleteWaypoint(waypointId: string): boolean {
     const initialLength = this.waypoints.length;
     this.waypoints = this.waypoints.filter(
       (waypoint) => waypoint.id !== waypointId
     );
     return this.waypoints.length < initialLength;
+  }
+
+  async deleteAllWaypoints(): Promise<void> {
+    try {
+      const waypointIdsJson = await AsyncStorage.getItem('waypointIds');
+      if (waypointIdsJson) {
+        const waypointIds: string[] = JSON.parse(waypointIdsJson);
+        for (const waypointId of waypointIds) {
+          await AsyncStorage.removeItem(`waypoint_${waypointId}`);
+        }
+      }
+      this.waypoints = [];
+    } catch (error) {
+      console.error("Error clearing waypoints:", error);
+    }
   }
 
   formatDistance(distanceInMeters: number): string {

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  home_screen_container: {
+  login_screen_container: {
     flex: 1,
     backgroundColor: "#2c3e50",
     alignItems: "center",
@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
   mapsHamburgerMenu: {
     position: "absolute",
     left: 15,
-    top: "50%",
+    top: "40%",
     transform: [{ translateY: 8 }],
     paddingBottom: 20,
     zIndex: 1,
@@ -112,34 +112,67 @@ export const styles = StyleSheet.create({
   },
   maps_bottom_tab_navigation: {
     backgroundColor: "rgba(0, 0, 0, 0.82)",
-    borderTopColor: "transparent", 
+    borderTopColor: "transparent",
     borderTopWidth: 0,
-    elevation: 0, 
-    shadowOpacity: 0, 
+    elevation: 0,
+    shadowOpacity: 0,
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 0,
-    position: "absolute", 
+    position: "absolute",
   },
-iosLocationButton: {
-  position: 'absolute',
-  top: 85,      
-  right: 20,     
-  backgroundColor: 'white',
-  borderRadius: 25,
-  width: 50,
-  height: 50,
-  justifyContent: 'center',
-  alignItems: 'center',
-  shadowColor: '#000',
-  shadowOffset: {
-    width: 0,
-    height: 2,
+  iosLocationButton: {
+    position: "absolute",
+    top: 85,
+    right: 20,
+    backgroundColor: "white",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
   iosLocationButtonText: {
-  fontSize: 20,
-}
+    fontSize: 20,
+  },
+  userOptionsModal: {
+    backgroundColor: "white",
+    height: 200,
+    width: 300,
+    borderRadius: 8,
+    padding: 30,
+    margin: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    top: "40%",
+  },
+  modalButtons: {
+    margin: 5,
+    padding: 15,
+    borderRadius: 8,
+    minHeight: 50,
+    width: "80%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  // Modal styles
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+  },
 });
