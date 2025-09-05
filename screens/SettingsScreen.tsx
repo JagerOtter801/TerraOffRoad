@@ -9,6 +9,7 @@ const SettingsScreen = () => {
     );
 };
 
+// Place holder styles until decision is made on this pages implementation
 const styles = StyleSheet.create({
     container: {
         flex: 1,

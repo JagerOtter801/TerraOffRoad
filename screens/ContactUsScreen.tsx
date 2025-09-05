@@ -8,9 +8,10 @@ const COMPANY_INFO = {
     linkedin: 'https://www.linkedin.com/company/terraoffroad',
 };
 
+
 const ContactUsScreen: React.FC = () => {
     return (
-        <View style={styles.container}>
+        <View testID="contact-us-screen" style={styles.container}>
             <Text style={styles.header}>Contact Us</Text>
             <Text style={styles.label}>Company Name:</Text>
             <Text style={styles.value}>{COMPANY_INFO.name}</Text>
@@ -33,6 +34,7 @@ const ContactUsScreen: React.FC = () => {
     );
 };
 
+// Place holder styles until decision is made on this pages implementation
 const styles = StyleSheet.create({
     container: {
         flex: 1,

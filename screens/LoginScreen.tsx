@@ -24,7 +24,7 @@ const LoginScreen = () => {
   }
 
   if (isAuthenticated && user) {
-    return <MapsScreen user={user} />;
+    return <MapsScreen />;
   }
 
   return (
