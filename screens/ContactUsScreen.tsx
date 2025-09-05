@@ -5,7 +5,7 @@ const COMPANY_INFO = {
     name: 'Terra OffRoad',
     email: 'info@terraoffroad.com',
     phone: '+1 (555) 123-4567',
-    linkedin: 'https://www.linkedin.com/company/terraoffroad',
+    linkedin: 'https://github.com/users/JagerOtter801/projects/1',
 };
 
 
@@ -26,7 +26,7 @@ const ContactUsScreen: React.FC = () => {
                 <Text style={[styles.value, styles.link]}>{COMPANY_INFO.phone}</Text>
             </TouchableOpacity>
 
-            <Text style={styles.label}>LinkedIn:</Text>
+            <Text style={styles.label}>Github:</Text>
             <TouchableOpacity onPress={() => Linking.openURL(COMPANY_INFO.linkedin)}>
                 <Text style={[styles.value, styles.link]}>{COMPANY_INFO.linkedin}</Text>
             </TouchableOpacity>
