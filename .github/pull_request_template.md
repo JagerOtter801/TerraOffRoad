@@ -1,6 +1,11 @@
 ## Summary
 Brief description of what this PR does and why.
 
+## Changes Made
+- 
+- 
+- 
+
 ## Type of Change
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)  
@@ -10,10 +15,6 @@ Brief description of what this PR does and why.
 - [ ] 🚀 Performance improvement
 - [ ] 🎨 UI/UX improvement
 
-## Changes Made
-- 
-- 
-- 
 
 ## Testing
 - [ ] Tested on iOS device

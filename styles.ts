@@ -175,4 +175,26 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#333",
   },
+  settingsDrawerOverlay: {
+  flex: 1,
+  flexDirection: 'row',
+  backgroundColor: 'rgba(0,0,0,0.5)',
+},
+settingsDrawerBackdrop: {
+  flex: 1,
+},
+settingsDrawerContent: {
+  width: 250,
+  backgroundColor: '#fff',
+  paddingTop: 50,
+  paddingHorizontal: 20,
+},
+settingsDrawerMenuItem: {
+  paddingVertical: 15,
+  borderBottomWidth: 1,
+  borderBottomColor: '#eee',
+},
+settingsDrawerMenuText: {
+  fontSize: 16,
+},
 });
