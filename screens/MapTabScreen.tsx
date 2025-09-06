@@ -21,8 +21,8 @@ const MapTabScreen = () => {
   const mapRef = useRef<any>(null);
   const initialLatitudeDelta = 1.5;
   const initialLongitudeDelta = 1.5;
-  const currentLatitudeDelta = 0.01;
-  const currentLongitudeDelta = 0.01;
+  const currentLatitudeDelta = 0.02;
+  const currentLongitudeDelta = 0.02;
 
   const initialRegion = {
     latitude: 40.6197536,
@@ -118,6 +118,7 @@ const MapTabScreen = () => {
 
       <MapView
         testID="map-tab-screen"
+        provider={PROVIDER_GOOGLE}
         style={styles.map}
         region={
           currentLocation
