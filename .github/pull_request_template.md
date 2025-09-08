@@ -37,5 +37,10 @@ Related to #[issue-number]
 ## Review Checklist
 - [ ] Code follows project style guidelines
 - [ ] TypeScript types are properly defined
+- [ ] Navigation param lists use type (following React Navigation docs)
+- [ ] Component props use interface (slightly more common, easier to extend)
+- [ ] API responses/data models use type (more flexible)
+- [ ] Utility/union types use type (only option for unions)
 - [ ] Navigation flows work correctly
 - [ ] No memory leaks or performance issues introduced
+

@@ -10,25 +10,13 @@ import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RootStackParamList } from "../modules/navigation";
 
-
-
-type RootStackParamList = {
-  MapsScreen: undefined,
-  LoginScreen : undefined,
-  MapTabScreen : undefined,
-  OfflineMapScreen : undefined,
-  RoutesTabScreen : undefined,
-  SettingsScreen: undefined,
-  UserProfileScreen: undefined,
-  UserProfileTabScreen : undefined,
-
-}
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  // Navigate when authenticated instead of conditional rendering
+  // Navigate to MapScreen when authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
       navigation.reset({

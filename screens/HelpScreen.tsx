@@ -18,41 +18,15 @@ const faqs = [
 ];
 
 const HelpScreen = () => (
-    <ScrollView contentContainerStyle={styles.container}>
-        <Text testID="help-screen" style={styles.title}>Help & FAQs</Text>
+    <ScrollView contentContainerStyle={{ backgroundColor: '#fff', padding: 20}}>
+        <Text testID="help-screen" style={{fontSize : 28, fontWeight: 'bold', marginBottom: 20, textAlign: 'center'}}>Help & FAQs</Text>
         {faqs.map((faq, idx) => (
-            <View key={idx} style={styles.faqItem}>
-                <Text style={styles.question}>{faq.question}</Text>
-                <Text style={styles.answer}>{faq.answer}</Text>
+            <View key={idx} style={{marginBottom: 18}}>
+                <Text style={{fontSize: 18, fontWeight: '600', marginBottom : 4}}>{faq.question}</Text>
+                <Text style={{fontSize: 16, color: '#555'}}>{faq.answer}</Text>
             </View>
         ))}
     </ScrollView>
 );
-
-// Place holder styles until decision is made on this pages implementation
-const styles = StyleSheet.create({
-    container: {
-        padding: 20,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    faqItem: {
-        marginBottom: 18,
-    },
-    question: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 4,
-    },
-    answer: {
-        fontSize: 16,
-        color: '#555',
-    },
-});
 
 export default HelpScreen;
