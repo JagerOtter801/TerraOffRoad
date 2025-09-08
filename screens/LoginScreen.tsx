@@ -8,10 +8,35 @@ import {
 } from "react-native";
 import { useAuth } from "../modules/auth0";
 import { styles } from "../styles";
-import MapsScreen from "./MapsScreen";
+import { useEffect } from "react";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
+
+
+type RootStackParamList = {
+  MapsScreen: undefined,
+  LoginScreen : undefined,
+  MapTabScreen : undefined,
+  OfflineMapScreen : undefined,
+  RoutesTabScreen : undefined,
+  SettingsScreen: undefined,
+  UserProfileScreen: undefined,
+  UserProfileTabScreen : undefined,
+
+}
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  // Navigate when authenticated instead of conditional rendering
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "MapsScreen" }],
+      });
+    }
+  }, [isAuthenticated, user, navigation]);
 
   if (isLoading) {
     return (
@@ -21,10 +46,6 @@ const LoginScreen = () => {
         <StatusBar style="light" />
       </ImageBackground>
     );
-  }
-
-  if (isAuthenticated && user) {
-    return <MapsScreen />;
   }
 
   return (

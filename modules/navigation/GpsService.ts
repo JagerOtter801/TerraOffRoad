@@ -64,11 +64,12 @@ class GpsService {
         this.locationSubscription.remove();
       }
 
+      // Update location every 5 seconds only if location changes by 10 meters
       this.locationSubscription = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 5000, // Update every 5 seconds
-          distanceInterval: 10, // Only update if moved 10 meters
+          timeInterval: 5000, 
+          distanceInterval: 10, 
         },
         (location) => {
           const coordinate: Coordinate = {
@@ -147,8 +148,6 @@ class GpsService {
       point2.longitude - point1.longitude
     );
 
-    // Haversine formula calculation
-    // https://www.geeksforgeeks.org/dsa/haversine-formula-to-find-distance-between-two-points-on-a-sphere/
     const halfChordLengthSquared =
       Math.sin(latitudeDifferenceRad / 2) *
         Math.sin(latitudeDifferenceRad / 2) +
@@ -341,5 +340,5 @@ class GpsService {
   }
 }
 
-// Export singleton instance
+
 export const gpsService = new GpsService();

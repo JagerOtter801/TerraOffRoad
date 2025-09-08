@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "test:e2e:build:android": "detox build --configuration android",
     "test:e2e:test:android": "detox test --configuration android",
-    "test:e2e:build:ios": "detox build --configuration ios"
+    "test:e2e:build:ios": "detox build --configuration ios",
+    "clean-start": "expo start --clear --reset-cache --no-dev --minify"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
@@ -18,7 +19,7 @@
     "@react-navigation/drawer": "^7.5.8",
     "@react-navigation/native": "^7.1.17",
     "@react-navigation/native-stack": "^7.3.24",
-    "expo": "^53.0.20",
+    "expo": "~54.0.0",
     "expo-auth-session": "~6.2.1",
     "expo-crypto": "~14.1.5",
     "expo-location": "~18.1.6",
@@ -30,10 +31,13 @@
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.24.0",
-    "react-native-maps": "1.20.1",
+    "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "4.11.1",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "react-native-maps": "1.20.1",
+    "expo-dev-client": "~5.2.4",
+    "expo-build-properties": "~0.14.8"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

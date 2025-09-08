@@ -58,6 +58,8 @@ Thumbs.db
 android/app/build/
 android/build/
 android/.gradle/
+android/.gradle.properties
+android/local.properties
 android/app/release/
 android/app/debug/
 *.apk
@@ -76,3 +78,7 @@ coverage/
 # Temporary files
 tmp/
 temp/
+
+# Need for API key Google MAPS
+android/gradle.properties
+eas.json

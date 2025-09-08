@@ -13,12 +13,13 @@ const MapTabScreen = () => {
   );
   const [isLocationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  const [displayWaypointDeleteModal, setDisplayWaypointDeleteModal] =
+  const [isWaypointDeleteDisplayed, setWaypointDeleteModal] =
     useState<boolean>(false);
+  const [shouldRenderMap, setShouldRenderMap] = useState(false);
 
   const navigation = useNavigation();
-
   const mapRef = useRef<any>(null);
+
   const initialLatitudeDelta = 1.5;
   const initialLongitudeDelta = 1.5;
   const currentLatitudeDelta = 0.02;
@@ -31,38 +32,75 @@ const MapTabScreen = () => {
     longitudeDelta: initialLongitudeDelta,
   };
 
+  // Batched initialization - runs once on mount
   useEffect(() => {
-    const getLocation = async () => {
+    const initializeData = async () => {
       try {
         const isEnabled = await gpsService.isLocationEnabled();
+        const allWaypoints = gpsService.getAllWaypoints();
+
         if (!isEnabled) {
+          // Batch these updates
           setLocationError("Location services are disabled");
+          setWaypoints(allWaypoints);
           return;
         }
 
         const location = await gpsService.getCurrentLocation();
         setCurrentLocation(location);
         setLocationError(null);
+        setWaypoints(allWaypoints);
       } catch (error: any) {
+        const allWaypoints = gpsService.getAllWaypoints();
         setLocationError(error.message || "Could not get location");
+        setWaypoints(allWaypoints);
       }
     };
 
-    getLocation();
+    initializeData();
   }, []);
 
-  // Refresh waypoints when modal is closed
   useEffect(() => {
-    if (!displayWaypointDeleteModal) {
-      setWaypoints(gpsService.getAllWaypoints());
+    if (!isWaypointDeleteDisplayed) {
+      const allWaypoints = gpsService.getAllWaypoints();
+      setWaypoints(allWaypoints);
     }
-  }, [displayWaypointDeleteModal]);
+  }, [isWaypointDeleteDisplayed]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldRenderMap(true);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLocationPress = async () => {
     try {
+      // Check if current location is recent and use if it is
+      const now = Date.now();
+      if (
+        currentLocation &&
+        typeof currentLocation.timestamp === "number" &&
+        now - currentLocation.timestamp < 30000
+      ) {
+        if (mapRef.current) {
+          mapRef.current.animateToRegion(
+            {
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
+              latitudeDelta: currentLatitudeDelta,
+              longitudeDelta: currentLongitudeDelta,
+            },
+            1000
+          );
+        }
+        return;
+      }
+
       const location = await gpsService.getCurrentLocation();
       setCurrentLocation(location);
 
+      // Animate to the new location
       if (mapRef.current) {
         mapRef.current.animateToRegion(
           {
@@ -94,10 +132,6 @@ const MapTabScreen = () => {
     }
   };
 
-  if (Platform.OS === "web") {
-    return <Text>Maps not available on web</Text>;
-  }
-
   return (
     <View style={styles.maps_container}>
       <View style={styles.maps_header}>
@@ -112,63 +146,64 @@ const MapTabScreen = () => {
         <View style={{ flex: 1, paddingLeft: 20, alignItems: "center" }}>
           <Text style={styles.maps_header_title}>Terra Off-Road</Text>
         </View>
-
         <View style={{ width: 44 }} />
       </View>
 
-      <MapView
-        testID="map-tab-screen"
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        region={
-          currentLocation
-            ? {
+      {shouldRenderMap && (
+        <MapView
+          key="main-map"
+          testID="map-tab-screen"
+          style={styles.map}
+          region={
+            currentLocation
+              ? {
+                  latitude: currentLocation.latitude,
+                  longitude: currentLocation.longitude,
+                  longitudeDelta: currentLatitudeDelta,
+                  latitudeDelta: currentLatitudeDelta,
+                }
+              : {
+                  ...initialRegion,
+                }
+          }
+          showsUserLocation={true}
+          showsMyLocationButton={Platform.OS === "android"}
+          mapType="hybrid"
+          onLongPress={createWayPoint}
+          onDoublePress={() => setWaypointDeleteModal(true)}
+          ref={mapRef}
+        >
+          {currentLocation && (
+            <Marker
+              coordinate={{
                 latitude: currentLocation.latitude,
                 longitude: currentLocation.longitude,
-                longitudeDelta: currentLongitudeDelta,
-                latitudeDelta: currentLatitudeDelta,
-              }
-            : {
-                ...initialRegion,
-              }
-        }
-        showsUserLocation={true}
-        showsMyLocationButton={Platform.OS === "android"}
-        mapType="hybrid"
-        onLongPress={createWayPoint}
-        onDoublePress={() => setDisplayWaypointDeleteModal(true)}
-        ref={mapRef}
-      >
-        {currentLocation && (
-          <Marker
-            coordinate={{
-              latitude: currentLocation.latitude,
-              longitude: currentLocation.longitude,
-            }}
-            title="Your Location"
-            description="Current GPS position"
-            pinColor="red"
-          />
-        )}
+              }}
+              title="Your Location"
+              description="Current GPS position"
+              pinColor="red"
+            />
+          )}
 
-        {gpsService.getAllWaypoints().map((waypoint) => (
-          <Marker
-            key={waypoint.id}
-            coordinate={{
-              latitude: waypoint.latitude,
-              longitude: waypoint.longitude,
-            }}
-            title={waypoint.name}
-            description={`Added: ${new Date(
-              waypoint.timestamp || Date.now()
-            ).toLocaleTimeString()}`}
-            pinColor="blue"
-          />
-        ))}
-      </MapView>
+          {waypoints.map((waypoint) => (
+            <Marker
+              key={waypoint.id}
+              coordinate={{
+                latitude: waypoint.latitude,
+                longitude: waypoint.longitude,
+              }}
+              title={waypoint.name}
+              description={`Added: ${new Date(
+                waypoint.timestamp || Date.now()
+              ).toLocaleTimeString()}`}
+              pinColor="blue"
+            />
+          ))}
+        </MapView>
+      )}
 
       <Modal
-        visible={!!displayWaypointDeleteModal}
+        visible={!!isWaypointDeleteDisplayed}
         transparent={true}
         animationType="fade"
       >
@@ -178,14 +213,14 @@ const MapTabScreen = () => {
             style={[styles.modalButtons, { backgroundColor: "#8a8279" }]}
             onPress={() => {
               gpsService.deleteAllWaypoints();
-              setDisplayWaypointDeleteModal(false);
+              setWaypointDeleteModal(false);
             }}
           >
             <Text>Delete</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
-            onPress={() => setDisplayWaypointDeleteModal(false)}
+            onPress={() => setWaypointDeleteModal(false)}
           >
             <Text>CANCEL</Text>
           </TouchableOpacity>

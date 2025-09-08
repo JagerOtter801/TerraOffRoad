@@ -1,12 +1,22 @@
 import { AuthProvider } from "./modules/auth0";
 import LoginScreen from "./screens/LoginScreen";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import MapsScreen from "./screens/MapsScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <AuthProvider>
       <SafeAreaProvider>
-        <LoginScreen />
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="MapsScreen" component={MapsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaProvider>
     </AuthProvider>
   );

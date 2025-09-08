@@ -48,24 +48,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
 
-  const login = () => {
-    setIsLoading(true);
+const login = () => {
+  setIsLoading(true);
 
-    if (SKIP_AUTH0) {
-      setTimeout(() => {
-        setUser({
-          id: "user_" + Date.now(),
-          email: "user@terraoffroad.com",
-          name: "Off-Road Explorer",
-        });
-        setIsLoading(false);
-      }, 500);
-      return;
-    }
+  if (SKIP_AUTH0) {
+    setTimeout(() => {
+      
+      const newUser = {
+        id: "user_" + Date.now(),
+        email: "user@terraoffroad.com",
+        name: "Off-Road Explorer",
+      };
+      
+      setUser(newUser);
+      setIsLoading(false);
+    }, 500);
+    return;
+  }
 
-    // Open Auth0 login page
-    promptAsync();
-  };
+  promptAsync();
+};
 
   const logout = async () => {
     if (SKIP_AUTH0) {
