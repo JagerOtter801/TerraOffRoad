@@ -1,20 +1,19 @@
 name: Build Validation
-
 on:
   push:
-    branches: [ main, develop ] 
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]  
+    branches: [ main, develop ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
+      
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
@@ -29,39 +28,34 @@ jobs:
         
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-    
+      
+    - name: Configure npm for legacy peer deps
+      run: npm config set legacy-peer-deps true
+      
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
-    
+      
+    - name: Install Expo CLI
+      run: npm install -g @expo/cli
+      
     - name: TypeScript check
       run: npx tsc --noEmit
-    
+      
     - name: Expo build check - iOS
       run: npx expo export --platform ios --dev
-  
-    - name: Expo build check - Android  
+      
+    - name: Expo build check - Android
       run: npx expo export --platform android --dev
-    
+      
     - name: Build Android APK with Expo
       run: |
-        npm install -g @expo/cli
-        npx expo install --fix
         cd android
         chmod +x ./gradlew
         ./gradlew assembleRelease
-    
-    # Step 9: Upload the APK to GitHub (keep only 7 days)
+        
     - name: Upload APK to GitHub
       uses: actions/upload-artifact@v4
       with:
-        name: android-apk-${{ github.run_number }}  # Unique name each time
+        name: android-apk-${{ github.run_number }}
         path: android/app/build/outputs/apk/release/*.apk
-        retention-days: 7  # Delete after 1 week instead of 30
-    
-    # Alternative: Check if project loads with no errors
-    # - name: Check project integrity
-    #   run: npx expo config
-    
-    # Alternative: Run Tests once created
-    # - name: Run tests
-    #   run: npm test
+        retention-days: 7
