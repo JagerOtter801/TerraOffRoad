@@ -119,73 +119,6 @@ class GpsService {
     return [...this.waypoints];
   }
 
-  createRouteFromWaypoints(routeName?: string): Route | null {
-    if (this.waypoints.length < 2) {
-      return null;
-    }
-
-    const totalDistance = this.calculateTotalRouteDistance(this.waypoints);
-
-    const route: Route = {
-      id: this.generateId(),
-      name: routeName || `Route ${new Date().toLocaleDateString()}`,
-      waypoints: [...this.waypoints],
-      totalDistance,
-      createdAt: Date.now(),
-    };
-
-    return route;
-  }
-
-  calculateDistance(point1: Coordinate, point2: Coordinate): number {
-    const earthRadiusInMeters = 6371000; 
-    const startLatitudeRad = this.toRadians(point1.latitude);
-    const endLatitudeRad = this.toRadians(point2.latitude);
-    const latitudeDifferenceRad = this.toRadians(
-      point2.latitude - point1.latitude
-    );
-    const longitudeDifferenceRad = this.toRadians(
-      point2.longitude - point1.longitude
-    );
-
-    const halfChordLengthSquared =
-      Math.sin(latitudeDifferenceRad / 2) *
-        Math.sin(latitudeDifferenceRad / 2) +
-      Math.cos(startLatitudeRad) *
-        Math.cos(endLatitudeRad) *
-        Math.sin(longitudeDifferenceRad / 2) *
-        Math.sin(longitudeDifferenceRad / 2);
-
-    const angularDistance =
-      2 *
-      Math.atan2(
-        Math.sqrt(halfChordLengthSquared),
-        Math.sqrt(1 - halfChordLengthSquared)
-      );
-    return earthRadiusInMeters * angularDistance; 
-  }
-
-  calculateTotalRouteDistance(waypoints: Waypoint[]): number {
-    if (waypoints.length < 2) return 0;
-
-    let totalDistance = 0;
-
-    // Distance between each consecutive waypoint
-    for (let i = 0; i < waypoints.length - 1; i++) {
-      totalDistance += this.calculateDistance(waypoints[i], waypoints[i + 1]);
-    }
-
-    // Distance from final waypoint back to first waypoint
-    if (waypoints.length > 2) {
-      totalDistance += this.calculateDistance(
-        waypoints[waypoints.length - 1],
-        waypoints[0]
-      );
-    }
-
-    return totalDistance;
-  }
-
   calculateElevationGain(waypoints: Waypoint[]): { gain: number; loss: number } {
   let totalGain = 0;
   let totalLoss = 0;
@@ -288,22 +221,6 @@ class GpsService {
     } catch (error) {
       console.error("Error clearing waypoints:", error);
     }
-  }
-
-  formatDistance(distanceInMeters: number): string {
-    if (distanceInMeters < 1000) {
-      return `${Math.round(distanceInMeters)}m`;
-    } else {
-      return `${(distanceInMeters / 1000).toFixed(2)}km`;
-    }
-  }
-
-  getDistanceInKilometers(point1: Coordinate, point2: Coordinate): number {
-    return this.calculateDistance(point1, point2) / 1000;
-  }
-
-  getDistanceInMiles(point1: Coordinate, point2: Coordinate): number {
-    return this.calculateDistance(point1, point2) / 1609.344;
   }
 
   // Check if location services are enabled
