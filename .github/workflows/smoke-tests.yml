@@ -31,6 +31,9 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Configure npm for legacy peer deps
+      run: npm config set legacy-peer-deps true
+
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
 
@@ -78,10 +81,11 @@ jobs:
         curl -Ls "https://get.maestro.mobile.dev" | bash
         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
+    - name: Install Expo CLI
+      run: npm install -g @expo/cli
+
     - name: Build Android Debug APK
       run: |
-        npm install -g @expo/cli
-        npx expo install --fix
         cd android
         chmod +x ./gradlew
         ./gradlew assembleDebug
