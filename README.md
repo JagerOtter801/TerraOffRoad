@@ -52,11 +52,9 @@ yarn install
 cd ios && pod install && cd ..
 ```
 
-###IMPORTANT!!!
-This application requires you have your own Google Maps API key. You can get it for Free(But note: you have to set your limits so you dont pay api charges)
-# Google Maps API Setup
 
-This app requires a Google Maps API key to function properly. Follow these steps to set it up:
+# Google Maps API Setup
+This application requires you have your own Google Maps API key. You can get it for Free(But note: you have to set your limits so you dont pay api charges). Follow this Setup:
 
 ## Getting Your Google Maps API Key
 
@@ -83,8 +81,9 @@ For security, restrict your API key in the Google Cloud Console:
 
 
 
-!!!! PLEASE PLEASE PLEASE READ THIS IMPORTANT INFORMATION. YES ITS THAT IMPORTANT. !!!
-## COST INFORMATION AND PROTECTING YOURSELF FROM API CHARGES
+
+
+## **🚨 PLEASE PLEASE PLEASE READ THIS IMPORTANT INFORMATION. YES ITS THAT IMPORTANT. 🚨**
 
 Google Maps has a free tier, but it's important to protect yourself from unexpected charges:
 
@@ -97,9 +96,10 @@ Google provides free monthly credits, but amounts and pricing can change. Always
 3. **Monitor usage** in Google Cloud Console under **APIs & Services** → **Enabled APIs**
 4. **Consider disabling APIs** you're not using
 
-**Important**: Start with low quotas and low budget alerts. You can always increase them later, but you can't undo unexpected charges.
-## For Local Development
 
+
+
+## For Local Development
 1. Clone this repository
 2. Create a `.env` file in the root directory of the project
 3. Add your API key to the `.env` file:
@@ -109,8 +109,10 @@ Google provides free monthly credits, but amounts and pricing can change. Always
 4. Make sure `.env` is in your `.gitignore` (it already should be)
 5. Run `npm install` and start the app with `expo start` or `npm start`
 
-## Troubleshooting
 
+
+
+## Troubleshooting
 - **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
 - **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
 - **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
@@ -121,21 +123,14 @@ Google provides free monthly credits, but amounts and pricing can change. Always
 ### Development Mode
 ```bash
 # Start Metro bundler
-npm start
+npx expo start
 
-# iOS (in a new terminal)
-npm run ios
+# Android (in terminal hit 'a' on your keyboard)
+# iOS (in terminal hit 'i' on your keyboard)
 
-# Android (in a new terminal)
-npm run android
 ```
 
-### Testing on Device
-```bash
-# Build for device testing
-npm run build:android
-npm run build:ios
-```
+
 
 ## 🛠️ Built With
 
@@ -152,7 +147,7 @@ npm run build:ios
 
 ```
 
-## 🗺️ Key Features Usage
+## 🗺️ Key Features Usage Current and under development
 
 ### Creating Custom Routes
 1. Open the map screen
