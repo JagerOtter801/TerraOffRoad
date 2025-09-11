@@ -69,8 +69,7 @@ This app requires a Google Maps API key to function properly. Follow these steps
 4. Go to **Credentials** → **Create Credentials** → **API Key**
 5. Copy your API key (it will look like: `AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
 
-
-## API Key Restrictions (Recommended)!!!!!!
+ ## API Key Restrictions (Recommended)!!!!!!
 
 For security, restrict your API key in the Google Cloud Console:
 
@@ -81,7 +80,11 @@ For security, restrict your API key in the Google Cloud Console:
    - For iOS: Add your app's bundle identifier
 4. Under **API restrictions**: Select only the APIs you need
 
-## Cost Information & Protection
+
+
+
+!!!! PLEASE PLEASE PLEASE READ THIS IMPORTANT INFORMATION. YES ITS THAT IMPORTANT. !!!
+## COST INFORMATION AND PROTECTING YOURSELF FROM API CHARGES
 
 Google Maps has a free tier, but it's important to protect yourself from unexpected charges:
 
