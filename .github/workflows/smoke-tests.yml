@@ -45,12 +45,6 @@ jobs:
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-    - name: Enable KVM (for Android emulator)
-      run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
-
     - name: AVD cache
       uses: actions/cache@v3
       id: avd-cache
@@ -58,22 +52,22 @@ jobs:
         path: |
           ~/.android/avd/*
           ~/.android/adb*
-        key: avd-api-27-smoke-tests
+        key: avd-api-29-smoke-tests
 
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 27
-        target: google_apis
+        api-level: 29
+        target: default
         arch: x86_64
-        profile: pixel_6
+        profile: Nexus 6
         cores: 2
-        ram-size: 4096M
-        heap-size: 2048M
+        ram-size: 2048M
+        heap-size: 1024M
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-        disable-animations: false
+        disable-animations: true
         script: echo "Generated AVD snapshot for caching."
 
     - name: Install Maestro
@@ -94,14 +88,14 @@ jobs:
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 29 
-        target: default 
+        api-level: 29
+        target: default
         arch: x86_64
-        profile: Nexus 6 
+        profile: Nexus 6
         cores: 2
-        ram-size: 2048M  
-        heap-size: 1024M  
-        emulator-boot-timeout: 600  
+        ram-size: 2048M
+        heap-size: 1024M
+        emulator-boot-timeout: 600
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
@@ -134,17 +128,17 @@ jobs:
           
           # Run smoke tests
           echo "Running smoke tests..."
-          maestro test maestro/smoke/  
-          
+          maestro test maestro/smoke/
+
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
       if: always()
       with:
-         name: smoke-test-results-${{ github.run_number }}
-         path: |
+        name: smoke-test-results-${{ github.run_number }}
+        path: |
           maestro/smoke/
           ~/.maestro/tests/
-          retention-days: 7
+        retention-days: 7
 
     - name: Upload debug APK if tests fail
       uses: actions/upload-artifact@v4
