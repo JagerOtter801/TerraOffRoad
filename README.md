@@ -69,27 +69,8 @@ This app requires a Google Maps API key to function properly. Follow these steps
 4. Go to **Credentials** → **Create Credentials** → **API Key**
 5. Copy your API key (it will look like: `AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
 
-## For Local Development
 
-1. Clone this repository
-2. Create a `.env` file in the root directory of the project
-3. Add your API key to the `.env` file:
-   ```
-   GOOGLE_MAPS_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   ```
-4. Make sure `.env` is in your `.gitignore` (it already should be)
-5. Run `npm install` and start the app with `expo start` or `npm start`
-
-## For Testing Built APK/IPA
-
-If you're testing a pre-built version of the app:
-
-1. Get your Google Maps API key (steps above)
-2. Open the app
-3. When prompted, enter your API key in the setup screen
-4. The key will be saved securely on your device for future use
-
-## API Key Restrictions (Recommended)
+## API Key Restrictions (Recommended)!!!!!!
 
 For security, restrict your API key in the Google Cloud Console:
 
@@ -99,12 +80,6 @@ For security, restrict your API key in the Google Cloud Console:
    - For Android: Add your app's package name and SHA-1 fingerprint
    - For iOS: Add your app's bundle identifier
 4. Under **API restrictions**: Select only the APIs you need
-
-## Troubleshooting
-
-- **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
-- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
-- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
 
 ## Cost Information & Protection
 
@@ -120,6 +95,22 @@ Google provides free monthly credits, but amounts and pricing can change. Always
 4. **Consider disabling APIs** you're not using
 
 **Important**: Start with low quotas and low budget alerts. You can always increase them later, but you can't undo unexpected charges.
+## For Local Development
+
+1. Clone this repository
+2. Create a `.env` file in the root directory of the project
+3. Add your API key to the `.env` file:
+   ```
+   GOOGLE_MAPS_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+4. Make sure `.env` is in your `.gitignore` (it already should be)
+5. Run `npm install` and start the app with `expo start` or `npm start`
+
+## Troubleshooting
+
+- **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
+- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
+- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
 
 
 ## 📱 Running the App
