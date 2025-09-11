@@ -53,74 +53,73 @@ cd ios && pod install && cd ..
 ```
 
 ###IMPORTANT!!!
-Auth0 Setup Guide
-This project uses Auth0 for authentication. To run this app locally, you'll need to set up your own Auth0 account and create the required environment variables.
+This application requires you have your own Google Maps API key. You can get it for Free(But note: you have to set your limits so you dont pay api charges)
+# Google Maps API Setup
 
+This app requires a Google Maps API key to function properly. Follow these steps to set it up:
 
-##Step 1: Create Auth0 Account
+## Getting Your Google Maps API Key
 
-Go to https://auth0.com
-Sign up for a free account
-Choose a tenant name (this becomes your domain)
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable the following APIs:
+   - Maps SDK for Android
+   - Maps SDK for iOS
+   - Places API (if using places features)
+4. Go to **Credentials** → **Create Credentials** → **API Key**
+5. Copy your API key (it will look like: `AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`)
 
-##Step 2: Create Application
+## For Local Development
 
-In your Auth0 Dashboard, go to Applications
-Click Create Application
-Name it something like "Terra Off Road Local"
-Choose Native as the application type
-Click Create
+1. Clone this repository
+2. Create a `.env` file in the root directory of the project
+3. Add your API key to the `.env` file:
+   ```
+   GOOGLE_MAPS_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+4. Make sure `.env` is in your `.gitignore` (it already should be)
+5. Run `npm install` and start the app with `expo start` or `npm start`
 
-##Step 3: Configure Application Settings
-In your new application's settings:
+## For Testing Built APK/IPA
 
-Allowed Callback URLs: Add terraoffroad://callback
-Allowed Logout URLs: Add terraoffroad://logout
-Allowed Web Origins: Can leave empty for mobile
-Scroll down and click Save Changes
+If you're testing a pre-built version of the app:
 
-##Step 4: Get Your Credentials
-From your application's Settings tab, copy these values:
+1. Get your Google Maps API key (steps above)
+2. Open the app
+3. When prompted, enter your API key in the setup screen
+4. The key will be saved securely on your device for future use
 
-Domain (looks like your-tenant.auth0.com)
-Client ID (long string of letters and numbers)
+## API Key Restrictions (Recommended)
 
-##Step 5: Create Environment File
-Create a file called .env in the project root
-Add these lines (replace with your actual values):
+For security, restrict your API key in the Google Cloud Console:
 
-REACT_APP_AUTH0_DOMAIN=your-tenant.auth0.com
-REACT_APP_AUTH0_CLIENT_ID=your_client_id_here
-Important: Never commit your .env file to git. It's already in .gitignore.
+1. Go to your API key in **Credentials**
+2. Click **Edit** 
+3. Under **Application restrictions**:
+   - For Android: Add your app's package name and SHA-1 fingerprint
+   - For iOS: Add your app's bundle identifier
+4. Under **API restrictions**: Select only the APIs you need
 
+## Troubleshooting
 
+- **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
+- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
+- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
 
-##Step 6: Test Users (Optional)
-To test login without allowing public signup:
+## Cost Information & Protection
 
-Go to User Management → Users in Auth0 Dashboard
-Click Create User
-Enter email and password for test accounts
+Google Maps has a free tier, but it's important to protect yourself from unexpected charges:
 
-##Step 7: Run the App
-Now you can run the app with your own Auth0 configuration:
-bashnpm install
-npm start
-Troubleshooting
-"Invalid redirect URI" error:
+### Free Tier Details
+Google provides free monthly credits, but amounts and pricing can change. Always check the current details at [Google Maps Pricing](https://cloud.google.com/maps-platform/pricing) before setting up your API key.
 
-Make sure you added terraoffroad://callback to Allowed Callback URLs
-Check that your application type is set to "Native"
+### Protecting Yourself from Charges
+1. **Enable billing alerts** (see Quotas section above)
+2. **Set conservative daily quotas** to limit usage (start low, increase if needed)
+3. **Monitor usage** in Google Cloud Console under **APIs & Services** → **Enabled APIs**
+4. **Consider disabling APIs** you're not using
 
-Build errors with missing env variables:
-
-Make sure your .env file is in the project root
-Restart your development server after creating .env
-
-Authentication not working:
-
-Double-check your Domain and Client ID values
-Make sure you're using the values from the correct Auth0 application
+**Important**: Start with low quotas and low budget alerts. You can always increase them later, but you can't undo unexpected charges.
 
 
 ## 📱 Running the App
