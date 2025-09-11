@@ -94,19 +94,28 @@ jobs:
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 30
-        target: google_apis
+        api-level: 29 
+        target: default 
         arch: x86_64
-        profile: pixel_6
+        profile: Nexus 6 
         cores: 2
-        ram-size: 4096M
-        heap-size: 2048M
+        ram-size: 2048M  
+        heap-size: 1024M  
+        emulator-boot-timeout: 600  
         force-avd-creation: false
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
         script: |
-          # Wait for emulator to be ready
-          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+          # Enhanced wait with timeout and debugging
+          echo "Waiting for emulator to boot..."
+          timeout 300 bash -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do 
+            echo "Still booting..."
+            sleep 10
+          done'
+          
+          # Unlock screen
+          adb shell input keyevent 82
+          sleep 5
           
           # Debug: List what was actually built
           echo "Checking build outputs..."
@@ -125,17 +134,17 @@ jobs:
           
           # Run smoke tests
           echo "Running smoke tests..."
-          maestro test maestro/smoke/
-
+          maestro test maestro/smoke/  
+          
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: smoke-test-results-${{ github.run_number }}
-        path: |
+         name: smoke-test-results-${{ github.run_number }}
+         path: |
           maestro/smoke/
           ~/.maestro/tests/
-        retention-days: 7
+          retention-days: 7
 
     - name: Upload debug APK if tests fail
       uses: actions/upload-artifact@v4
@@ -143,4 +152,4 @@ jobs:
       with:
         name: smoke-test-debug-apk-${{ github.run_number }}
         path: android/app/build/outputs/apk/debug/*.apk
-        retention-days: 3
+        retention-days: 7
