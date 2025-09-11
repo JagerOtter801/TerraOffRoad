@@ -99,6 +99,8 @@ Google provides free monthly credits, but amounts and pricing can change. Always
 
 
 
+## 📱 Running the App
+
 ## For Local Development
 1. Clone this repository
 2. Create a `.env` file in the root directory of the project
@@ -107,22 +109,11 @@ Google provides free monthly credits, but amounts and pricing can change. Always
    GOOGLE_MAPS_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    ```
 4. Make sure `.env` is in your `.gitignore` (it already should be)
-5. Run `npm install` and start the app with `expo start` or `npm start`
+5. Connect your Android or IOS(if using mac) device.
 
-
-
-
-## Troubleshooting
-- **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
-- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
-- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
-
-
-## 📱 Running the App
-
-### Development Mode
-```bash
-# Start Metro bundler
+6. Open a terminal and navigate to the repo.
+7.# Start Metro bundler:
+```
 npx expo start
 
 # Android (in terminal hit 'a' on your keyboard)
@@ -130,104 +121,35 @@ npx expo start
 
 ```
 
-
-
-## 🛠️ Built With
-
-- **React Native** - Cross-platform mobile framework
-- **TypeScript** - Type safety and better development experience
-- **React Navigation** - Navigation and routing
-- **React Native Maps** - Interactive mapping functionality
-- **React Native Geolocation** - GPS and location services
-- **React Native AsyncStorage** - Local data persistence
-- **React Native Sound** - Audio waypoint alerts
-- **React Native Haptic Feedback** - Vibration alerts
-
-
-
-```
-
-## 🗺️ Key Features Usage Current and under development
-
-### Creating Custom Routes
-1. Open the map screen
-2. Tap "Plan Route" button
-3. Add waypoints by tapping on the map
-4. Set difficulty rating for each segment
-5. Save route with custom name and description
-
-### Setting Up Waypoints
-1. Navigate to desired location
-2. Tap "Add Waypoint" 
-3. Take a photo or select from gallery
-4. Add description and set alert preferences
-5. Choose audio sound or vibration pattern
-
-### Finding Resources
-- The app automatically scans for fuel, water, food, and medical facilities
-- View estimated distances from your current location
-- Get turn-by-turn directions to selected resources
-
-## ⚙️ Configuration
+## ⚙️ Configurations
 
 ### Location Permissions
 Make sure to grant location permissions for the app to work properly:
 - **iOS**: Location services must be enabled in Settings
 - **Android**: Grant "Precise Location" permission when prompted
 
-### Offline Maps
-Download map regions for offline use:
-1. Go to Settings → Offline Maps
-2. Select your adventure area
-3. Download map data (requires WiFi)
+
+
+
 
 ## 🐛 Troubleshooting
+- **Maps not loading**: Double-check your API key is correct and the required APIs are enabled
+     # Make sure location permissions are granted
+     # For iOS: Settings → Privacy → Location Services → Terra Off-Road → "While Using App"
+     # For Android: App Settings → Permissions → Location → "Precise Location"
+  
+- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
+  
+- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
 
-### GPS Not Working
-```bash
-# Make sure location permissions are granted
-# For iOS: Settings → Privacy → Location Services → Terra Off-Road → "While Using App"
-# For Android: App Settings → Permissions → Location → "Precise Location"
-```
 
-### Maps Not Loading
-```bash
-# Check internet connection for online maps
-# Verify offline maps are downloaded for remote areas
-# Restart the app if maps appear blank
-```
 
-### Audio Alerts Not Playing
-```bash
-# Check device volume settings
-# Verify notification permissions are enabled
-# Test different alert sounds in Settings
-```
-
-## 📋 Upcoming Features
-
-- [ ] Weather integration for trail conditions
-- [ ] Community trail sharing and reviews
-- [ ] Vehicle-specific route recommendations
-- [ ] Emergency SOS functionality
-- [ ] Trail photo sharing and memories
-- [ ] Integration with popular overlanding forums
-- [ ] Apple Watch and Android Wear support
-
-## 🤝 Contributing
 
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Contact & Community
-
-- **Project Link**: [https://github.com/yourusername/terra-offroad](https://github.com/yourusername/terra-offroad)
-- **Issues**: [Report bugs or request features](https://github.com/yourusername/terra-offroad/issues)
-- **Discussions**: Join our community forum for tips and trail recommendations
-
----
 
 **Happy Trails! 🚙💨**
 
