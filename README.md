@@ -137,10 +137,8 @@ Make sure to grant location permissions for the app to work properly:
      # Make sure location permissions are granted
      # For iOS: Settings → Privacy → Location Services → Terra Off-Road → "While Using App"
      # For Android: App Settings → Permissions → Location → "Precise Location"
-  
-- **"This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
-  
-- **Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
+     # This page can't load Google Maps correctly"**: Your API key may be restricted or invalid
+     # Quota exceeded**: Check your usage in Google Cloud Console and ensure billing is enabled for higher quotas
 
 
 
