@@ -100,31 +100,36 @@ jobs:
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
         script: |
-          # Enhanced wait with timeout and debugging
+          # Add maestro to PATH in this script context
+          export PATH="$HOME/.maestro/bin:$PATH"
+          
           echo "Waiting for emulator to boot..."
-          timeout 300 bash -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do 
+          timeout 600 bash -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do 
             echo "Still booting..."
             sleep 10
           done'
           
-          # Unlock screen
+          # Unlock sequence
           adb shell input keyevent 82
+          adb shell input keyevent 4
           sleep 5
           
-          # Debug: List what was actually built
+         
           echo "Checking build outputs..."
           ls -la android/app/build/outputs/apk/
           find android/app/build/outputs/apk/ -name "*.apk" -type f
           
-          # Install the debug APK directly
-          echo "Installing APK: android/app/build/outputs/apk/debug/app-debug.apk"
-          adb install android/app/build/outputs/apk/debug/app-debug.apk
+          # Get package name from gradle
+          PACKAGE_NAME=$(grep applicationId android/app/build.gradle | cut -d'"' -f2)
+          echo "Looking for package: $PACKAGE_NAME"
           
-          # Wait for installation to complete
+          # Install the debug APK
+          echo "Installing APK: android/app/build/outputs/apk/debug/app-debug.apk"
+          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
           sleep 15
           
-          # List installed packages to verify
-          adb shell pm list packages | grep anonymous || echo "App not found in package list"
+          # Verify installation
+          adb shell pm list packages | grep "$PACKAGE_NAME" || echo "App not found in package list"
           
           # Run smoke tests
           echo "Running smoke tests..."
