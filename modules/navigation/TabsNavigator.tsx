@@ -1,10 +1,10 @@
-
-
-import { styles } from "../../styles"
-import { MaterialIcons } from "@expo/vector-icons";
+import { styles } from "../../styles";
+import { FontAwesome5 } from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import MapTabScreen from "../../screens/MapTabScreen";
 import RoutesTabScreen from "../../screens/RoutesTabScreen";
-import UserProfileTabScreen from "../../screens/UserProfileTabScreen";
 import OfflineMapsScreen from "./../../screens/OfflineMapsTabScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -26,7 +26,7 @@ const TabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="map" size={size} color={color} />
+            <FontAwesome name="map-o" size={size} color={color} />
           ),
         }}
       />
@@ -35,7 +35,7 @@ const TabsNavigator = () => {
         component={RoutesTabScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="directions" size={size} color={color} />
+            <FontAwesome5 name="map-marked-alt" size={size} color={color} />
           ),
         }}
       />
@@ -44,16 +44,16 @@ const TabsNavigator = () => {
         component={OfflineMapsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="cloud-download" size={size} color={color} />
+            <AntDesign name="cloud-download" size={size} color={color}/>
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={UserProfileTabScreen}
+        name="Weather"
+        component={OfflineMapsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="account-circle" size={size} color={color} />
+            <Ionicons name="partly-sunny-outline" size={size} color={color} />
           ),
         }}
       />
