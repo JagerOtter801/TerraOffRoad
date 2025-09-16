@@ -3,10 +3,10 @@ name: Smoke Tests
 
 on:
   push:
-    #branches: [ main, develop ]
+    branches: [ main, develop ]
   pull_request:
-  #  branches: [ main, develop ]
-  #workflow_dispatch:
+    branches: [ main, develop ]
+  workflow_dispatch:
 
 jobs:
   android-smoke-tests:
@@ -100,38 +100,23 @@ jobs:
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
         script: |
-          # Add maestro to PATH in this script context
           export PATH="$HOME/.maestro/bin:$PATH"
-          
           echo "Waiting for emulator to boot..."
-          timeout 600 bash -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do 
-            echo "Still booting..."
-            sleep 10
-          done'
-          
-          # Unlock sequence
+          adb wait-for-device
+          timeout 600 bash -c 'until adb shell getprop sys.boot_completed | grep -q "1"; do echo "Still booting..."; sleep 10; done'
+          echo "Emulator booted successfully"
           adb shell input keyevent 82
           adb shell input keyevent 4
           sleep 5
-          
-         
           echo "Checking build outputs..."
           ls -la android/app/build/outputs/apk/
           find android/app/build/outputs/apk/ -name "*.apk" -type f
-          
-          # Get package name from gradle
           PACKAGE_NAME=$(grep applicationId android/app/build.gradle | cut -d'"' -f2)
           echo "Looking for package: $PACKAGE_NAME"
-          
-          # Install the debug APK
           echo "Installing APK: android/app/build/outputs/apk/debug/app-debug.apk"
           adb install -r android/app/build/outputs/apk/debug/app-debug.apk
           sleep 15
-          
-          # Verify installation
           adb shell pm list packages | grep "$PACKAGE_NAME" || echo "App not found in package list"
-          
-          # Run smoke tests
           echo "Running smoke tests..."
           maestro test maestro/smoke/
 
