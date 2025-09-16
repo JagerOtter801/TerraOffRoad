@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native'
 
 const COMPANY_INFO = {
     name: 'Terra OffRoad',
-    email: 'info@terraoffroad.com',
-    phone: '+1 (555) 123-4567',
+    email: 'jason.e.green@outlook.com',
     linkedin: 'https://github.com/users/JagerOtter801/projects/1',
 };
 
@@ -19,11 +18,6 @@ const ContactUsScreen: React.FC = () => {
             <Text style={styles.label}>Email:</Text>
             <TouchableOpacity onPress={() => Linking.openURL(`mailto:${COMPANY_INFO.email}`)}>
                 <Text style={[styles.value, styles.link]}>{COMPANY_INFO.email}</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.label}>Phone:</Text>
-            <TouchableOpacity onPress={() => Linking.openURL(`tel:${COMPANY_INFO.phone}`)}>
-                <Text style={[styles.value, styles.link]}>{COMPANY_INFO.phone}</Text>
             </TouchableOpacity>
 
             <Text style={styles.label}>Github:</Text>

@@ -20,6 +20,7 @@ const EditUserProfileScreen: React.FC = () => {
     );
 };
 
+// Todo: Move styles to styles.ts once decision is made on this functionality
 const styles = StyleSheet.create({
     container: {
         flex: 1,
