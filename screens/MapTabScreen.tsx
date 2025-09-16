@@ -32,6 +32,13 @@ const MapTabScreen = () => {
     longitudeDelta: initialLongitudeDelta,
   };
 
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldRenderMap(true);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Batched initialization - runs once on mount
   useEffect(() => {
     const initializeData = async () => {
@@ -67,12 +74,6 @@ const MapTabScreen = () => {
     }
   }, [isWaypointDeleteDisplayed]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShouldRenderMap(true);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleLocationPress = async () => {
     try {

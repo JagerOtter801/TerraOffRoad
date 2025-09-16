@@ -19,7 +19,8 @@ export default {
           locationAlwaysAndWhenInUsePermission: "This app needs access to your location to show maps and navigation.",
           isAndroidBackgroundLocationEnabled: false,
           isAndroidForegroundServiceEnabled: false
-        }
+        },
+        "expo-secure-store"
       ]
     ],
     ios: {
