@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { useAuth } from "../modules/auth0";
-import { styles } from "../styles";
+import { useAuth } from "../auth0";
+import { styles } from "../../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../modules/navigation";
+import { RootStackParamList } from "../navigation";
 
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
