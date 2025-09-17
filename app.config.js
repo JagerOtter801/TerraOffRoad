@@ -20,8 +20,8 @@ export default {
           isAndroidBackgroundLocationEnabled: false,
           isAndroidForegroundServiceEnabled: false
         },
-        "expo-secure-store"
-      ]
+      ],
+      "expo-secure-store"
     ],
     ios: {
       supportsTablet: true,
