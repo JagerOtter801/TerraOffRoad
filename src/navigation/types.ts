@@ -44,5 +44,4 @@ export type RootStackParamList = {
   SettingsScreen: undefined,
   UserProfileScreen: undefined,
   UserProfileTabScreen : undefined,
-
 }
