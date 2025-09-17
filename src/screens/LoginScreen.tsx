@@ -39,7 +39,7 @@ const LoginScreen = () => {
   return (
     <ImageBackground
       style={styles.login_screen_container}
-      source={require("../assets/terraoffroad_background_compatability.png")}
+      source={require("../../assets/terraoffroad_background_compatability.png")}
     >
       <View testID="login-screen" style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>Terra Off-Road</Text>
