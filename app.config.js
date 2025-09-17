@@ -12,6 +12,11 @@ export default {
       resizeMode: "contain",
       backgroundColor: "#ffffff"
     },
+    extra: {
+      eas: {
+        projectId: "6259f25b-0f46-49c2-a26e-0e32f9bb9c65"
+      }
+    },
     plugins: [
       [
         "expo-location",
