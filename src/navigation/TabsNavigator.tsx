@@ -2,9 +2,9 @@ import { styles } from "../../styles";
 import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MapTabScreen from "../../screens/MapTabScreen";
-import RoutesTabScreen from "../../screens/RoutesTabScreen";
-import OfflineMapsScreen from "./../../screens/OfflineMapsTabScreen";
+import MapTabScreen from "../screens/MapTabScreen";
+import RoutesTabScreen from "../screens/RoutesTabScreen";
+import OfflineMapsScreen from "../screens/OfflineMapsTabScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();

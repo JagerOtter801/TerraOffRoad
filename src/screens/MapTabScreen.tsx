@@ -1,9 +1,9 @@
 import { Modal, Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { styles } from "../styles";
-import { gpsService, Waypoint, Route, Coordinate } from "../modules/navigation";
-import { MapLongPressEvent } from "../modules/navigation/types";
+import { styles } from "../../styles";
+import { gpsService, Waypoint, Route, Coordinate } from "../navigation";
+import { MapLongPressEvent } from "../navigation/types";
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 

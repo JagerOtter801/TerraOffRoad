@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { useAuth } from "../modules/auth0";
-import { styles } from "../styles";
+import { useAuth } from "../auth0";
+import { styles } from "../../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../modules/navigation";
+import { RootStackParamList } from "../navigation";
 
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
@@ -39,7 +39,7 @@ const LoginScreen = () => {
   return (
     <ImageBackground
       style={styles.login_screen_container}
-      source={require("../assets/terraoffroad_background_compatability.png")}
+      source={require("../../assets/terraoffroad_background_compatability.png")}
     >
       <View testID="login-screen" style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>Terra Off-Road</Text>

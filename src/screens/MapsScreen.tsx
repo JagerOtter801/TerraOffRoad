@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TabsNavigator from "../modules/navigation/TabsNavigator";
+import TabsNavigator from "../navigation/TabsNavigator";
 import UserProfileScreen from "./UserProfileScreen";
 import HelpScreen from "./HelpScreen";
 import ContactUsScreen from "./ContactUsScreen";

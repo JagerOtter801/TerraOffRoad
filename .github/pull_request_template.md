@@ -17,7 +17,6 @@ Brief description of what this PR does and why.
 
 
 ## Testing
-- [ ] Tested on iOS device
 - [ ] Tested on Android device
 - [ ] Verified existing functionality still works
 - [ ] Added/updated tests if applicable
@@ -26,21 +25,12 @@ Brief description of what this PR does and why.
 <!-- Add before/after screenshots or screen recordings -->
 
 
-## Related Issues
-Closes #[issue-number]
-<!-- or -->
-Related to #[issue-number]
-
 ## Additional Notes
 <!-- Any additional context, concerns, or things reviewers should know -->
 
 ## Review Checklist
 - [ ] Code follows project style guidelines
-- [ ] TypeScript types are properly defined
 - [ ] Navigation param lists use type (following React Navigation docs)
 - [ ] Component props use interface (slightly more common, easier to extend)
-- [ ] API responses/data models use type (more flexible)
-- [ ] Utility/union types use type (only option for unions)
-- [ ] Navigation flows work correctly
 - [ ] No memory leaks or performance issues introduced
 

@@ -8,7 +8,7 @@ const COMPANY_INFO = {
 };
 
 
-const ContactUsScreen: React.FC = () => {
+const ContactUsScreen = () => {
     return (
         <View testID="contact-us-screen" style={styles.container}>
             <Text style={styles.header}>Contact Us</Text>

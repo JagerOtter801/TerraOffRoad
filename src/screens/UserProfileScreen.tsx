@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { useAuth } from "../modules/auth0";
+import { useAuth } from "../auth0";
 
 
 interface UserProfileScreenProps {
