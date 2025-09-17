@@ -2,7 +2,6 @@ import { styles } from "../../styles";
 import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import MapTabScreen from "../../screens/MapTabScreen";
 import RoutesTabScreen from "../../screens/RoutesTabScreen";
 import OfflineMapsScreen from "./../../screens/OfflineMapsTabScreen";
@@ -44,7 +43,7 @@ const TabsNavigator = () => {
         component={OfflineMapsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="cloud-download" size={size} color={color}/>
+            <Ionicons name="cloud-download-outline" size={size} color={color}/>
           ),
         }}
       />
