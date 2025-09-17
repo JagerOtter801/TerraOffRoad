@@ -45,29 +45,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     gpsService.deleteAllRoutes();
     gpsService.stopLocationUpdates();
     AsyncStorage.clear();
+
+    //  TODO: Use this as a guide for when I want to store JWT securely aka encrypted
+    //     import * as Keychain from 'react-native-keychain';
+
+    // // Store token
+    // await Keychain.setInternetCredentials('myapp', 'token', jwtToken);
+
+    // // Retrieve token
+    // const credentials = await Keychain.getInternetCredentials('myapp');
+    // if (credentials) {
+    //   const token = credentials.password;
+    // }
   }
 
+  const login = () => {
+    setIsLoading(true);
 
-const login = () => {
-  setIsLoading(true);
+    if (SKIP_AUTH0) {
+      setTimeout(() => {
+        const newUser = {
+          id: "user_" + Date.now(),
+          email: "user@terraoffroad.com",
+          name: "Off-Road Explorer",
+        };
 
-  if (SKIP_AUTH0) {
-    setTimeout(() => {
-      
-      const newUser = {
-        id: "user_" + Date.now(),
-        email: "user@terraoffroad.com",
-        name: "Off-Road Explorer",
-      };
-      
-      setUser(newUser);
-      setIsLoading(false);
-    }, 500);
-    return;
-  }
+        setUser(newUser);
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
 
-  promptAsync();
-};
+    promptAsync();
+  };
 
   const logout = async () => {
     if (SKIP_AUTH0) {
