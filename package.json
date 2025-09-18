@@ -27,6 +27,7 @@
     "expo-location": "~18.1.6",
     "expo-status-bar": "~2.2.3",
     "lucide-react-native": "^0.537.0",
+    "openmeteo": "^1.2.0",
     "react": "19.0.0",
     "react-devtools": "^1.0.5",
     "react-dom": "19.0.0",
