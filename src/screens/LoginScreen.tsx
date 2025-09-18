@@ -10,7 +10,7 @@ import { useAuth } from "../auth0";
 import { styles } from "../../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigation";
+import { RootStackParamList } from "../TabsNavigation";
 
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
@@ -21,7 +21,7 @@ const LoginScreen = () => {
     if (isAuthenticated && user) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "MapsScreen" }],
+        routes: [{ name: "MapScreen" }],
       });
     }
   }, [isAuthenticated, user, navigation]);

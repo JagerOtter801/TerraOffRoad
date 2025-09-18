@@ -2,9 +2,9 @@ import { styles } from "../../styles";
 import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MapTabScreen from "../screens/MapTabScreen";
-import RoutesTabScreen from "../screens/RoutesTabScreen";
-import OfflineMapsScreen from "../screens/OfflineMapsTabScreen";
+import MapScreen from "../screens/MapScreen";
+import RoutesTabScreen from "./RoutesTabScreen";
+import OfflineMapsScreen from "./OfflineMapsTabScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ const TabsNavigator = () => {
     >
       <Tab.Screen
         name="Map"
-        component={MapTabScreen}
+        component={MapScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (

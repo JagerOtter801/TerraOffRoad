@@ -1,15 +1,15 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TabsNavigator from "../navigation/TabsNavigator";
-import UserProfileScreen from "./UserProfileScreen";
-import HelpScreen from "./HelpScreen";
-import ContactUsScreen from "./ContactUsScreen";
-import SettingsScreen from "./SettingsScreen";
+import TabsNavigator from "./TabsNavigator";
+import UserProfileScreen from "../screens/UserProfileScreen";
+import HelpScreen from "../screens/HelpScreen";
+import ContactUsScreen from "../screens/ContactUsScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 
 const Drawer = createDrawerNavigator();
 
-const MapsScreen = () => {
+const MapTabDrawerScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <Drawer.Navigator>
@@ -28,4 +28,4 @@ const MapsScreen = () => {
   );
 };
 
-export default MapsScreen;
+export default MapTabDrawerScreen;
