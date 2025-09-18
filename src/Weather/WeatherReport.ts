@@ -1,5 +1,6 @@
 import { fetchWeatherApi } from "openmeteo";
 
+// TODO: THIS IS A PLACE HOLDER OF A FREE API I MAY CHOOSE TO USE FOR WEATHER REPORTS
 export async function testWeatherApi() {
   const params = {
     latitude: 52.52,

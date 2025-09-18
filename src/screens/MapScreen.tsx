@@ -7,7 +7,7 @@ import { MapLongPressEvent } from "../navigation/types";
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 
-const MapTabScreen = () => {
+const MapScreen = () => {
   const [currentLocation, setCurrentLocation] = useState<Coordinate | null>(
     null
   );
@@ -239,4 +239,4 @@ const MapTabScreen = () => {
   );
 };
 
-export default MapTabScreen;
+export default MapScreen;

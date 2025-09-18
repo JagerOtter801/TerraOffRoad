@@ -34,14 +34,3 @@ export interface MapLongPressEvent {
     };
   };
 }
-
-export type RootStackParamList = {
-  MapsScreen: undefined,
-  LoginScreen : undefined,
-  MapTabScreen : undefined,
-  OfflineMapScreen : undefined,
-  RoutesTabScreen : undefined,
-  SettingsScreen: undefined,
-  UserProfileScreen: undefined,
-  UserProfileTabScreen : undefined,
-}
