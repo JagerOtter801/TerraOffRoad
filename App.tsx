@@ -17,7 +17,7 @@ export default function App() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="MapScreen" component={MapTabDrawerScreen} />
           </Stack.Navigator>
-        </NavigationContainer>
+        </NavigationContainer>      
       </SafeAreaProvider>
     </AuthProvider>
   );
