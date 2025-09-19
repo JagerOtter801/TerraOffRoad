@@ -6,10 +6,12 @@ import MapScreen from "../screens/MapScreen";
 import RoutesTabScreen from "./RoutesTabScreen";
 import OfflineMapsScreen from "./OfflineMapsTabScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
 const TabsNavigator = () => {
+  const {t} = useTranslation();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -20,7 +22,7 @@ const TabsNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Map"
+        name={t('map')}
         component={MapScreen}
         options={{
           headerShown: false,
@@ -30,7 +32,7 @@ const TabsNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Routes"
+        name={t('routes')}
         component={RoutesTabScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -39,7 +41,7 @@ const TabsNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Offline Maps"
+        name={t('offline maps')}
         component={OfflineMapsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -48,7 +50,7 @@ const TabsNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Weather"
+        name={t('weather')}
         component={OfflineMapsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (

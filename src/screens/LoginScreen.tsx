@@ -10,13 +10,14 @@ import { useAuth } from "../auth0";
 import { styles } from "../../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../TabsNavigation";
+import { RootStackParamList } from "../tabsNavigation";
+import { useTranslation } from 'react-i18next';
 
 const LoginScreen = () => {
   const { user, isLoading, isAuthenticated, login } = useAuth();
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  // Navigate to MapScreen when authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
       navigation.reset({
@@ -42,10 +43,10 @@ const LoginScreen = () => {
       source={require("../../assets/terraoffroad_background_compatability.png")}
     >
       <View testID="login-screen" style={styles.auth0_login_background}>
-        <Text style={styles.auth0_login_title}>Terra Off-Road</Text>
-        <Text style={styles.subauth0_login_title}>Track your adventures</Text>
+        <Text style={styles.auth0_login_title}>{t('Terra Off-Road')}</Text>
+        <Text style={styles.subauth0_login_title}>{t('track your adventures')}</Text>
         <TouchableOpacity testID="auth0-login-button" onPress={login}>
-          <Text style={styles.auth0_login_button}>Login with Auth0</Text>
+          <Text style={styles.auth0_login_button}>{t('login')}</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="light" />

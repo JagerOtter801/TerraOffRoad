@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     color: "#2c3e50",
   },
   subauth0_login_title: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "System",
     marginBottom: 30,
     color: "#414546ff",
@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
     color: "#7f8c8d",
   },
   auth0_login_button: {
+    fontSize: 20,
     backgroundColor: "#9fa1a3ff",
     paddingVertical: 12,
     paddingHorizontal: 24,
