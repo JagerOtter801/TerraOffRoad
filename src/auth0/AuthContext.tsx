@@ -73,7 +73,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(newUser);
         setIsLoading(false);
       }, 500);
-      return;
     }
 
     promptAsync();
@@ -84,7 +83,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(null);
       setIsLoading(false);
       clearAllData();
-      return;
     }
 
     setIsLoading(true);

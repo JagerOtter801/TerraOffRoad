@@ -62,13 +62,6 @@ const MapScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (!isWaypointDeleteDisplayed) {
-      const allWaypoints = gpsService.getAllWaypoints();
-      setWaypoints(allWaypoints);
-    }
-  }, [isWaypointDeleteDisplayed]);
-
-  useEffect(() => {
     const timer = setTimeout(() => {
       setShouldRenderMap(true);
     }, 800);
@@ -212,13 +205,15 @@ const MapScreen = () => {
           <Text>Confirm Delete All Waypoints?</Text>
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "#8a8279" }]}
-            onPress={() => {
+            onPress={async () => {
               gpsService.deleteAllWaypoints();
+              setWaypoints([]);
               setWaypointDeleteModal(false);
             }}
           >
             <Text>Delete</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => setWaypointDeleteModal(false)}
