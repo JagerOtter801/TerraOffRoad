@@ -18,3 +18,5 @@ i18n.use(initReactI18next).init({resources, lng: deviceLanguage?.languageTag || 
         escapeValue: false,
     },
 });
+
+export default i18n;

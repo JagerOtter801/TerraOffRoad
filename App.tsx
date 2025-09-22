@@ -5,7 +5,7 @@ import MapTabDrawerScreen from "./src/tabsNavigation/MapTabDrawerScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import  i18n from './src/localization/i18n/index';
+import  i18n  from './src/localization/i18n/index';
 import * as RNLocalize from 'react-native-localize';
 import { AppState, AppStateStatus } from 'react-native';
 
