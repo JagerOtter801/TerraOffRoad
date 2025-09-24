@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
-import { AuthProvider } from "./src/auth0";
+import { AuthProvider, useAuth } from "./src/auth0";
 import LoginScreen from "./src/screens/LoginScreen";
-import MapTabDrawerScreen from "./src/tabsNavigation/MapTabDrawerScreen";
+import MapTabDrawerScreen from "./src/appNavigation/MapTabDrawerScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,11 +9,27 @@ import  i18n  from './src/localization/i18n/index';
 import * as RNLocalize from 'react-native-localize';
 import { AppState, AppStateStatus } from 'react-native';
 
-const Stack = createNativeStackNavigator();
+
+function AppNavigator() {
+  const { isAuthenticated } = useAuth();
+  const Stack = createNativeStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isAuthenticated ? (
+          <Stack.Screen name="MapScreen" component={MapTabDrawerScreen} />
+        ) : (
+          <Stack.Screen name="Login" component={LoginScreen} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
 
-  // Localization automatic handle language change dynamically
+  // Localization automatic handle language changes
   useEffect (()=>{
     const handleLanguageChangeListener = (appStatus : AppStateStatus) => {
       if(appStatus === 'active'){
@@ -25,7 +41,7 @@ export default function App() {
       }
     };
 
-    // Call function when app state changes
+    // Call function when app state changes and passes app state arguments to handleLanguageChangeListener
     const subscription = AppState.addEventListener('change', handleLanguageChangeListener);
     return ()=>{
       subscription?.remove();
@@ -36,12 +52,7 @@ export default function App() {
   return (
     <AuthProvider>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="MapScreen" component={MapTabDrawerScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>      
+       <AppNavigator/>      
       </SafeAreaProvider>
     </AuthProvider>
   );

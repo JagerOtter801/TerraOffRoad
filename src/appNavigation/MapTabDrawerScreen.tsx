@@ -1,11 +1,10 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TabsNavigator from "./TabsNavigator";
-import UserProfileScreen from "../screens/UserProfileScreen";
+import TabsNavigator from "./BottomTabNavigator";
+import ProfileStack from "./ProfileStack"
 import HelpScreen from "../screens/HelpScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-
 
 const Drawer = createDrawerNavigator();
 
@@ -19,7 +18,7 @@ const MapTabDrawerScreen = () => {
           options={{ headerShown: false }}
           key="main-tabs"
         />
-        <Drawer.Screen name="Profile" component={UserProfileScreen}/>
+        <Drawer.Screen name="Profile" component={ProfileStack} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
         <Drawer.Screen name="Help / FAQs" component={HelpScreen} />
         <Drawer.Screen name="Contact Us" component={ContactUsScreen} />

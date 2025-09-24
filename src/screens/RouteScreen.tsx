@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, FlatList } from "react-native";
 
-const RoutesTabScreen = () => {
+const RoutesScreen = () => {
   const [routesDisplayed, setRoutesDisplayed] = useState(false);
   const [routes, setRoutes] = useState([
     { id: "1", name: "Mountain Trail", distance: "5.2 miles" },
@@ -11,7 +11,7 @@ const RoutesTabScreen = () => {
 
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View testID="routes-screen" style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {routesDisplayed ? (
         <>
           <Text style={{ fontSize: 24 }}>Saved Routes</Text>
@@ -33,4 +33,4 @@ const RoutesTabScreen = () => {
   );
 };
 
-export default RoutesTabScreen;
+export default RoutesScreen;

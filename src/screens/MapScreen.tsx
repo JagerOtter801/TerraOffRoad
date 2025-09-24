@@ -2,8 +2,8 @@ import { Modal, Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { styles } from "../../styles";
-import { gpsService, Waypoint, Route, Coordinate } from "../navigation";
-import { MapLongPressEvent } from "../navigation/types";
+import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
+import { MapLongPressEvent } from "../gpsNavigation/types";
 import { testWeatherApi } from "../weather/WeatherReport";
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
@@ -147,6 +147,7 @@ const MapScreen = () => {
         <MapView
           key="main-map"
           testID="map-tab-screen"
+          provider={PROVIDER_GOOGLE}
           style={styles.map}
           region={
             currentLocation

@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useAuth } from "../auth0";
+import {NavigationProp} from '@react-navigation/native';
 
 
 interface UserProfileScreenProps {
-  navigation: any;
+  navigation: NavigationProp<any>;
 }
 
 function UserProfileScreen({ navigation }: UserProfileScreenProps) {
@@ -11,6 +12,7 @@ function UserProfileScreen({ navigation }: UserProfileScreenProps) {
 
   return (
     <View
+    testID="user-profile-screen"
       style={{
         flex: 1,
         justifyContent: "center",
@@ -22,7 +24,7 @@ function UserProfileScreen({ navigation }: UserProfileScreenProps) {
       <Text>Name: {user?.name}</Text>
       <Text>Email: {user?.email}</Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate('EditUserProfileScreen')}
+        onPress={() => navigation.navigate('EditUserProfile')}
         style={{
           marginTop: 30,
           padding: 15,
