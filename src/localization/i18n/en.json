@@ -5,5 +5,10 @@
   "map" : "Map",
   "routes" : "Routes", 
   "offline maps" : "Offline Maps",
-  "weather" : "Weather"
+  "weather" : "Weather",
+  "main menu": "Main Menu",
+  "profile": "Profile", 
+  "settings": "Settings",
+  "help / faqs": "Help / FAQs",
+  "contact us": "Contact Us"
 }

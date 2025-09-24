@@ -5,5 +5,10 @@
   "map" : "Mapa",
   "routes" : "Rutas", 
   "offline maps" : "Mapas Sin Conexión",
-  "weather" : "Clima"
+  "weather" : "Clima",
+  "main menu": "Menú Principal",
+  "profile": "Perfil", 
+  "settings": "Configuración",
+  "help / faqs": "Ayuda / Preguntas Frecuentes",
+  "contact us": "Contáctanos"
 }
