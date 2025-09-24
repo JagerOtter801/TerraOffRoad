@@ -36,6 +36,7 @@
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.24.0",
+    "react-native-keychain": "^10.0.0",
     "react-native-localize": "^3.5.2",
     "react-native-maps": "1.20.1",
     "react-native-reanimated": "~3.17.4",

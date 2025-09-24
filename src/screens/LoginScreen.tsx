@@ -10,7 +10,7 @@ import { useAuth } from "../auth0";
 import { styles } from "../../styles";
 import { useEffect } from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../tabsNavigation";
+import { RootStackParamList } from "../appNavigation";
 import { useTranslation } from 'react-i18next';
 
 const LoginScreen = () => {

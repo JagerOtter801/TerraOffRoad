@@ -3,14 +3,14 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MapScreen from "../screens/MapScreen";
-import RoutesTabScreen from "./RoutesTabScreen";
-import OfflineMapsScreen from "./OfflineMapsTabScreen";
+import RoutesTabScreen from "../screens/RouteScreen";
+import OfflineMapsScreen from "../screens/OfflineMapsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
-const TabsNavigator = () => {
+const BottomTabNavigator = () => {
   const {t} = useTranslation();
   return (
     <Tab.Navigator
@@ -62,4 +62,4 @@ const TabsNavigator = () => {
   );
 };
 
-export default TabsNavigator;
+export default BottomTabNavigator;

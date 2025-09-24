@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-const OfflineMapsTabScreen = () => {
+const OfflineMapsScreen = () => {
     return (
         <View>
             <Text>Offline Maps Screen</Text>
@@ -8,4 +8,4 @@ const OfflineMapsTabScreen = () => {
     );
 }
 
-export default OfflineMapsTabScreen;
+export default OfflineMapsScreen;

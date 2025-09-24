@@ -8,7 +8,8 @@ import React, {
 import * as AuthSession from "expo-auth-session";
 import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from "@env";
 import { User, AuthContextType } from "./types";
-import { gpsService } from "../navigation";
+import { gpsService } from "../gpsNavigation";
+import * as Keychain from "react-native-keychain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,9 +21,10 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Auth0 configuration to skip for now until authentication is needed
   const SKIP_AUTH0 = true;
+  const SKIP_USER_ID = "user_";
+  const SKIP_EMAIL = "user@terraoffroad.com";
+  const SKIP_NAME = "Off-Road Explorer";
   const auth0Domain = REACT_APP_AUTH0_DOMAIN;
   const auth0ClientId = REACT_APP_AUTH0_CLIENT_ID;
 
@@ -40,11 +42,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   );
 
-  function clearAllData() {
-    gpsService.deleteAllWaypoints();
-    gpsService.deleteAllRoutes();
-    gpsService.stopLocationUpdates();
-    AsyncStorage.clear();
+  const login = () => {
+    setIsLoading(true);
+
+    if (SKIP_AUTH0) {
+      setTimeout(() => {
+        const newUser = {
+          id: SKIP_USER_ID + Date.now(),
+          email: SKIP_EMAIL,
+          name: SKIP_NAME,
+        };
+
+        setUser(newUser);
+        setIsLoading(false);
+      }, 500);
+    }
+
+    //promptAsync();
 
     //  TODO: Use this as a guide for when I want to store JWT securely aka encrypted
     //     import * as Keychain from 'react-native-keychain';
@@ -57,51 +71,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // if (credentials) {
     //   const token = credentials.password;
     // }
-  }
-
-  const login = () => {
-    setIsLoading(true);
-
-    if (SKIP_AUTH0) {
-      setTimeout(() => {
-        const newUser = {
-          id: "user_" + Date.now(),
-          email: "user@terraoffroad.com",
-          name: "Off-Road Explorer",
-        };
-
-        setUser(newUser);
-        setIsLoading(false);
-      }, 500);
-    }
-
-    promptAsync();
   };
 
   const logout = async () => {
-    if (SKIP_AUTH0) {
-      setUser(null);
-      setIsLoading(false);
-      clearAllData();
-    }
-
-    setIsLoading(true);
-
     const logoutUrl = `https://${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
       AuthSession.makeRedirectUri({ scheme: "terraoffroad" })
     )}`;
+
+    setIsLoading(false);
     setUser(null);
     setIsLoading(false);
   };
 
+  function clearAllData() {
+    gpsService.deleteAllWaypoints();
+    gpsService.deleteAllRoutes();
+    gpsService.stopLocationUpdates();
+    AsyncStorage.clear();
+  }
+
   useEffect(() => {
-    // Handle the authentication response using mock data for demonstration purposes.
     if (response?.type === "success") {
       // Create a mock user object for demonstration purposes.
       setUser({
-        id: "user_" + Date.now(),
-        email: "user@terraoffroad.com",
-        name: "Off-Road Explorer",
+        id: SKIP_USER_ID + Date.now(),
+        email: SKIP_EMAIL,
+        name: SKIP_NAME,
       });
       setIsLoading(false);
     } else if (response?.type === "error") {
