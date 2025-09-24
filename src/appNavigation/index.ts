@@ -1,1 +1,1 @@
-export * from "./types";
+export {RootStackParamList} from "./types";
