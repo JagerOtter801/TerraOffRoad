@@ -1,4 +1,3 @@
-// modules/navigation/types.ts
 export interface Coordinate {
   latitude: number;
   longitude: number;
