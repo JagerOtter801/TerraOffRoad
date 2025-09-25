@@ -1,4 +1,3 @@
-# .github/workflows/smoke-tests.yml
 name: Smoke Tests
 
 on:
@@ -31,6 +30,16 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Free disk space
+      run: |
+        echo "Before cleanup:"
+        df -h
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android/sdk/ndk
+        sudo rm -rf /usr/local/lib/android/sdk/cmake
+        sudo apt-get clean
+        echo "After cleanup:"
+        df -h
     - name: Configure npm for legacy peer deps
       run: npm config set legacy-peer-deps true
 
@@ -49,23 +58,21 @@ jobs:
       uses: actions/cache@v3
       id: avd-cache
       with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-api-29-smoke-tests
+        path: ~/.android/avd/*
+        key: avd-api-29-google-apis-smoke-tests
 
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
         profile: Nexus 6
         cores: 2
         ram-size: 2048M
         heap-size: 1024M
-        force-avd-creation: false
+        force-avd-creation: true
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
         script: echo "Generated AVD snapshot for caching."
@@ -74,7 +81,6 @@ jobs:
       run: |
         curl -Ls "https://get.maestro.mobile.dev" | bash
         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-
     - name: Install Expo CLI
       run: npm install -g @expo/cli
 
@@ -84,12 +90,11 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleDebug
         cd ..
-
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
         profile: Nexus 6
         cores: 2
@@ -101,13 +106,23 @@ jobs:
         disable-animations: true
         script: |
           export PATH="$HOME/.maestro/bin:$PATH"
-          echo "Waiting for emulator to boot..."
-          adb wait-for-device
-          timeout 600 bash -c 'until adb shell getprop sys.boot_completed | grep -q "1"; do echo "Still booting..."; sleep 10; done'
-          echo "Emulator booted successfully"
-          adb shell input keyevent 82
+          echo "Emulator should be ready, waiting for input service..."
+          
+          # Wait for input service to be fully ready
+          timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
+          
+          # Additional safety delay
+          sleep 10
+          
+          # Try unlock with error handling
+          echo "Attempting to unlock screen..."
+          if ! adb shell input keyevent 82 2>/dev/null; then
+            echo "Screen unlock failed, but continuing..."
+          fi
+          
           adb shell input keyevent 4
           sleep 5
+          
           echo "Checking build outputs..."
           ls -la android/app/build/outputs/apk/
           find android/app/build/outputs/apk/ -name "*.apk" -type f
@@ -119,7 +134,6 @@ jobs:
           adb shell pm list packages | grep "$PACKAGE_NAME" || echo "App not found in package list"
           echo "Running smoke tests..."
           maestro test maestro/smoke/
-
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
       if: always()
