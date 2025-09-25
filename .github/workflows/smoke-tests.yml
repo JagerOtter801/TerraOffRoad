@@ -1,4 +1,3 @@
-# .github/workflows/smoke-tests.yml
 name: Smoke Tests
 
 on:
@@ -31,6 +30,17 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Free disk space
+      run: |
+        echo "Before cleanup:"
+        df -h
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android/sdk/ndk
+        sudo rm -rf /usr/local/lib/android/sdk/cmake
+        sudo apt-get clean
+        echo "After cleanup:"
+        df -h
+
     - name: Configure npm for legacy peer deps
       run: npm config set legacy-peer-deps true
 
@@ -49,23 +59,21 @@ jobs:
       uses: actions/cache@v3
       id: avd-cache
       with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-api-29-smoke-tests
+        path: ~/.android/avd/*
+        key: avd-api-29-google-apis-smoke-tests
 
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
         profile: Nexus 6
         cores: 2
         ram-size: 2048M
         heap-size: 1024M
-        force-avd-creation: false
+        force-avd-creation: true
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
         script: echo "Generated AVD snapshot for caching."
@@ -89,7 +97,7 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
         profile: Nexus 6
         cores: 2
