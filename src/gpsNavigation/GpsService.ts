@@ -205,7 +205,11 @@ class GpsService {
     const rateLimitCheck = await this.canMakeApiCallAndIncrement();
     if (!rateLimitCheck.allowed) {
       // Return cached location if available and recent (within 5 minutes)
-      if (this.currentLocation && (Date.now() - this.currentLocation.timestamp) < 300000) {
+      if (
+        this.currentLocation &&
+        typeof this.currentLocation.timestamp === "number" &&
+        (Date.now() - this.currentLocation.timestamp) < 300000
+      ) {
         console.log(`Rate limited - returning cached location. ${rateLimitCheck.reason}`);
         return this.currentLocation;
       }
