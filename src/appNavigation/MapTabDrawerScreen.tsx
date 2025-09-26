@@ -21,7 +21,6 @@ const MapTabDrawerScreen = () => {
           options={{ headerShown: false }}
           key="main-tabs"
         />
-        <Drawer.Screen name={t("profile")} component={ProfileStack} />
         <Drawer.Screen name={t("settings")} component={SettingsScreen} />
         <Drawer.Screen name={t("help / faqs")} component={HelpScreen} />
         <Drawer.Screen name={t("contact us")} component={ContactUsScreen} />
