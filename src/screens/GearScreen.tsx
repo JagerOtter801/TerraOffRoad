@@ -1,5 +1,16 @@
 import { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, TextInput, Alert } from "react-native";
+
+/**
+ * Types for packing items and section names
+ */
+type SectionName = 'Vehicle' | 'Clothing' | 'Food';
+type PackingItem = {
+  id: string;
+  name: string;
+  checked: boolean;
+};
+
 /*
 *NOTE THIS IS SIMPLY A PLACE HOLDER FOR WHAT WILL GO HERE. GOING OVER ACTUAL IMPLEMENTATION ON APP REDESIGN
 */
