@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, FlatList } from "react-native";
 
-const RoutesScreen = () => {
+const PointsOfInterest = () => {
   const [routesDisplayed, setRoutesDisplayed] = useState(false);
   const [routes, setRoutes] = useState([
     { id: "1", name: "Mountain Trail", distance: "5.2 miles" },
@@ -33,4 +33,4 @@ const RoutesScreen = () => {
   );
 };
 
-export default RoutesScreen;
+export default PointsOfInterest;

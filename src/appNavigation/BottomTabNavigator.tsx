@@ -2,11 +2,13 @@ import { styles } from "../../styles";
 import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import MapScreen from "../screens/MapScreen";
-import RoutesTabScreen from "../screens/RouteScreen";
-import OfflineMapsScreen from "../screens/OfflineMapsScreen";
+import GearScreen from "../screens/GearScreen";
+import OfflineMapsScreen from "../screens/GearScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from 'react-i18next';
+import PointsOfInterest from "../screens/PointsOfInterest";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,8 +34,8 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={t('routes')}
-        component={RoutesTabScreen}
+        name={t('poi')}
+        component={PointsOfInterest}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="map-marked-alt" size={size} color={color} />
@@ -41,11 +43,11 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={t('offline maps')}
-        component={OfflineMapsScreen}
+        name={t('gear')}
+        component={GearScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cloud-download-outline" size={size} color={color}/>
+            <AntDesign name="profile" size={size} color={color}/>
           ),
         }}
       />

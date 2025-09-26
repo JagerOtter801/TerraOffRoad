@@ -1,6 +1,6 @@
 import { Modal, Platform } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker} from "react-native-maps";
 import { styles } from "../../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
 import { MapLongPressEvent } from "../gpsNavigation/types";
@@ -147,7 +147,6 @@ const MapScreen = () => {
         <MapView
           key="main-map"
           testID="map-tab-screen"
-          provider={PROVIDER_GOOGLE}
           style={styles.map}
           region={
             currentLocation
