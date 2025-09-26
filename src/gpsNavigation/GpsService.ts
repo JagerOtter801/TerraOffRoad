@@ -197,9 +197,7 @@ class GpsService {
     }
   }
 
-  /**
-   * Get current location with comprehensive rate limiting
-   */
+
   async getCurrentLocation(): Promise<Coordinate> {
     // Atomic rate limit check and counter increment
     const rateLimitCheck = await this.canMakeApiCallAndIncrement();
@@ -213,15 +211,12 @@ class GpsService {
         console.log(`Rate limited - returning cached location. ${rateLimitCheck.reason}`);
         return this.currentLocation;
       }
-      
-      // No valid cached location available
       throw new Error(rateLimitCheck.reason || "Rate limited - no cached location available");
     }
 
     try {
       const hasPermission = await this.requestLocationPermissions();
       if (!hasPermission) {
-        // Decrement counter since we didn't actually make a location call
         await this.decrementApiCallCounter();
         throw new Error("Location permission denied");
       }
@@ -263,12 +258,8 @@ class GpsService {
     }
   }
 
-  // Location update throttling state
+  // Location update with throttling to prevent spamming
   private locationUpdateThrottleTimer: NodeJS.Timeout | null = null;
-
-  /**
-   * Start location updates with throttling to prevent spam
-   */
   async startLocationUpdates(
     callback: (location: Coordinate) => void
   ): Promise<boolean> {
@@ -278,18 +269,17 @@ class GpsService {
         throw new Error("Location permission denied");
       }
 
-      // Stop any existing subscription and clear throttle timer
       this.stopLocationUpdates();
 
       let lastCallbackTime = 0;
-      const CALLBACK_THROTTLE = 10000; // Throttle callbacks to max once per 10 seconds
+      const CALLBACK_THROTTLE = 10000; 
 
       // Update location with conservative intervals to prevent API spam
       this.locationSubscription = await Location.watchPositionAsync(
         {
-          accuracy: Location.Accuracy.Balanced, // Use balanced instead of high to reduce battery drain
-          timeInterval: 15000, // Increased from 5 to 15 seconds
-          distanceInterval: 25, // Increased from 10 to 25 meters
+          accuracy: Location.Accuracy.Balanced, // Balanced to reduce battery drain
+          timeInterval: 15000, 
+          distanceInterval: 25, 
         },
         (location) => {
           const now = Date.now();
@@ -319,7 +309,7 @@ class GpsService {
           this.locationUpdateThrottleTimer = setTimeout(() => {
             callback(coordinate);
             this.locationUpdateThrottleTimer = null;
-          }, 100); // Small delay to batch rapid updates
+          }, 100); 
         }
       );
 
@@ -336,7 +326,6 @@ class GpsService {
       this.locationSubscription = null;
     }
     
-    // Clean up throttle timer
     if (this.locationUpdateThrottleTimer) {
       clearTimeout(this.locationUpdateThrottleTimer);
       this.locationUpdateThrottleTimer = null;
@@ -512,7 +501,6 @@ class GpsService {
       const state = await this.loadRateLimitState();
       const now = Date.now();
       
-      // Check if we can make a call (without incrementing counter)
       const canMakeCall = state.dailyCount < this.DAILY_API_CALL_LIMIT && 
                          (now - state.lastApiCall) >= this.MIN_API_INTERVAL_BETWEEN_CALLS;
       
@@ -535,7 +523,6 @@ class GpsService {
       };
     } catch (error) {
       console.error("Failed to get rate limit status:", error);
-      // Return conservative status on error
       return {
         dailyUsage: this.DAILY_API_CALL_LIMIT,
         dailyLimit: this.DAILY_API_CALL_LIMIT,
@@ -545,9 +532,7 @@ class GpsService {
     }
   }
 
-  /**
-   * Decrement API call counter (for error recovery)
-   */
+
   private async decrementApiCallCounter(): Promise<void> {
     try {
       const state = await this.loadRateLimitState();
@@ -561,9 +546,7 @@ class GpsService {
     }
   }
 
-  /**
-   * Reset rate limiting state (for debugging/admin purposes)
-   */
+
   async resetRateLimit(): Promise<void> {
     const resetState: RateLimitState = {
       dailyCount: 0,

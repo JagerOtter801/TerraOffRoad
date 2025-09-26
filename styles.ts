@@ -185,17 +185,7 @@ settingsDrawerBackdrop: {
   flex: 1,
 },
 settingsDrawerContent: {
-  width: 250,
-  backgroundColor: '#fff',
-  paddingTop: 50,
-  paddingHorizontal: 20,
-},
-settingsDrawerMenuItem: {
-  paddingVertical: 15,
-  borderBottomWidth: 1,
-  borderBottomColor: '#eee',
-},
-settingsDrawerMenuText: {
-  fontSize: 16,
+  flexDirection: 'row',
+  backgroundColor: '#efe5e5f2',
 },
 });
