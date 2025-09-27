@@ -44,7 +44,7 @@ const LoginScreen = () => {
     >
       <View testID="login-screen" style={styles.auth0_login_background}>
         <Text style={styles.auth0_login_title}>{t('Terra Off-Road')}</Text>
-        <Text style={styles.subauth0_login_title}>{t('track your adventures')}</Text>
+        <Text style={styles.subauth0_login_title}>{t('slogan')}</Text>
         <TouchableOpacity testID="auth0-login-button" onPress={login}>
           <Text style={styles.auth0_login_button}>{t('login')}</Text>
         </TouchableOpacity>

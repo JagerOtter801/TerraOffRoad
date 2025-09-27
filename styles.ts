@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
   },
   mapsHamburgerIcon: {
     fontSize: 24,
-    color: "#fff", // or whatever color matches your design
+    color: "#fff", 
     fontWeight: "bold",
   },
   maps_container: {
@@ -145,7 +145,7 @@ export const styles = StyleSheet.create({
   },
   userOptionsModal: {
     backgroundColor: "white",
-    height: 200,
+    height: 300,
     width: 300,
     borderRadius: 8,
     padding: 30,
@@ -153,7 +153,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    top: "40%",
+    top: "30%",
   },
   modalButtons: {
     margin: 5,
@@ -164,28 +164,53 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // Modal styles
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-  },
-  settingsDrawerOverlay: {
-  flex: 1,
-  flexDirection: 'row',
-  backgroundColor: 'rgba(0,0,0,0.5)',
+waypointMenuModalTitle: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 15,
+  textAlign: 'center',
 },
-settingsDrawerBackdrop: {
-  flex: 1,
+waypointMenuButtonText: {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
 },
-settingsDrawerContent: {
-  flexDirection: 'row',
-  backgroundColor: '#efe5e5f2',
+
+editWaypointModalTitle: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 15,
+  textAlign: 'center',
+},
+editWaypointTextInput: {
+  borderWidth: 1,
+  borderColor: '#ccc',
+  borderRadius: 5,
+  padding: 10,
+  marginBottom: 15,
+  minWidth: 200,
+  backgroundColor: 'white',
+},
+editWaypointButtonText: {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
+},
+deleteAllWaypointsModalTitle: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 15,
+  textAlign: 'center',
+},
+deleteAllWaypointsSubtext: {
+  fontSize: 14,
+  color: '#666',
+  marginBottom: 15,
+  textAlign: 'center',
+},
+deleteAllWaypointsButtonText: {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
 },
 });
