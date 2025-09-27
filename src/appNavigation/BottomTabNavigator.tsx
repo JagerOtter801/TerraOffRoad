@@ -34,7 +34,7 @@ const BottomTabNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="map-o" size={size} color={color} />
+            <FontAwesome testID="map-screen-tab" name="map-o" size={size} color={color} />
           ),
         }}
       />
@@ -43,7 +43,7 @@ const BottomTabNavigator = () => {
         component={PointsOfInterest}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="map-marked-alt" size={size} color={color} />
+            <FontAwesome5  testID="points-of-interest-tab" name="map-marked-alt" size={size} color={color} />
           ),
         }}
       />
@@ -52,7 +52,7 @@ const BottomTabNavigator = () => {
         component={GearScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="profile" size={size} color={color}/>
+            <AntDesign testID="gear-tab" name="profile" size={size} color={color}/>
           ),
         }}
       />
@@ -65,7 +65,7 @@ const BottomTabNavigator = () => {
         }}}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="partly-sunny-outline" size={size} color={color} />
+            <Ionicons testID="weather-tab" name="partly-sunny-outline" size={size} color={color} />
           ),
         }}
       />
