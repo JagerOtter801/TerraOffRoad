@@ -3,12 +3,15 @@ import { styles } from "../../styles";
 import { FontAwesome5 } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import MapScreen from "../screens/MapScreen";
-import RoutesTabScreen from "../screens/RouteScreen";
-import OfflineMapsScreen from "../screens/OfflineMapsScreen";
+import GearScreen from "../screens/GearScreen";
+import OfflineMapsScreen from "../screens/GearScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from 'react-i18next';
+import PointsOfInterest from "../screens/PointsOfInterest";
 import React, { useState } from 'react';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -31,25 +34,25 @@ const BottomTabNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="map-o" size={size} color={color} />
+            <FontAwesome testID="map-screen-tab" name="map-o" size={size} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name={t('routes')}
-        component={RoutesTabScreen}
+        name={t('poi')}
+        component={PointsOfInterest}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="map-marked-alt" size={size} color={color} />
+            <FontAwesome5  testID="points-of-interest-tab" name="map-marked-alt" size={size} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name={t('offline maps')}
-        component={OfflineMapsScreen}
+        name={t('gear')}
+        component={GearScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cloud-download-outline" size={size} color={color}/>
+            <AntDesign testID="gear-tab" name="profile" size={size} color={color}/>
           ),
         }}
       />
@@ -62,7 +65,7 @@ const BottomTabNavigator = () => {
         }}}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="partly-sunny-outline" size={size} color={color} />
+            <Ionicons testID="weather-tab" name="partly-sunny-outline" size={size} color={color} />
           ),
         }}
       />

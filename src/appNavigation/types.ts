@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   MapScreen : undefined,
-  RoutesScreen : undefined,
+  PointsOfInterest : undefined,
   SettingsScreen: undefined,
   UserProfileScreen: undefined,
   EditUserProfileScreen : undefined,

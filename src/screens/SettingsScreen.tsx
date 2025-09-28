@@ -1,10 +1,22 @@
-import { View, Text} from 'react-native';
-import { styles } from '../../styles';
+import { View, Text, StyleSheet , TouchableOpacity} from 'react-native';
+import { useAuth } from "../auth0";
+
 
 const SettingsScreen = () => {
+      const { user, logout } = useAuth();
     return (
-        <View testID="settings-screen" style={styles.settingsDrawerContent}>
-            <Text style={{flex: 1, justifyContent: 'center', alignItems: 'center', }}>TODO: Settings Screen</Text>
+        <View testID="settings-screen">
+            <TouchableOpacity
+                    onPress={logout}
+                    style={{
+                      marginTop: 30,
+                      padding: 15,
+                      backgroundColor: "#ff4444",
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Text style={{ color: "white", fontSize: 16 }}>Logout</Text>
+                  </TouchableOpacity>
         </View>
     );
 };

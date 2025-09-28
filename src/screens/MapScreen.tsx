@@ -1,6 +1,6 @@
-import { Modal, Platform } from "react-native";
+import { Modal, Platform, TextInput, Alert } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { styles } from "../../styles";
 import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
 import { MapLongPressEvent } from "../gpsNavigation/types";
@@ -14,8 +14,14 @@ const MapScreen = () => {
   );
   const [isLocationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  const [isWaypointDeleteDisplayed, setWaypointDeleteModal] =
-    useState<boolean>(false);
+  
+  // Modal states
+  const [selectedWaypoint, setSelectedWaypoint] = useState<Waypoint | null>(null);
+  const [isWaypointMenuVisible, setWaypointMenuVisible] = useState<boolean>(false);
+  const [isEditingWaypoint, setEditingWaypoint] = useState<boolean>(false);
+  const [editedWaypointName, setEditedWaypointName] = useState<string>("");
+  const [isWaypointDeleteDisplayed, setWaypointDeleteModal] = useState<boolean>(false);
+  
   const [shouldRenderMap, setShouldRenderMap] = useState(false);
 
   const navigation = useNavigation();
@@ -41,7 +47,6 @@ const MapScreen = () => {
         const allWaypoints = gpsService.getAllWaypoints();
 
         if (!isEnabled) {
-          // Batch these updates
           setLocationError("Location services are disabled");
           setWaypoints(allWaypoints);
           return;
@@ -126,6 +131,59 @@ const MapScreen = () => {
     }
   };
 
+  const handleMarkerLongPress = (waypoint: Waypoint) => {
+    setSelectedWaypoint(waypoint);
+    setWaypointMenuVisible(true);
+  };
+
+  const handleEditWaypoint = () => {
+    if (selectedWaypoint) {
+      setEditedWaypointName(selectedWaypoint.name || "");
+      setEditingWaypoint(true);
+      setWaypointMenuVisible(false);
+    }
+  };
+
+  const saveWaypointEdit = async () => {
+    if (selectedWaypoint && editedWaypointName.trim()) {
+      const success = await gpsService.updateWaypointName(selectedWaypoint.id, editedWaypointName.trim());
+      if (success) {
+        setWaypoints(gpsService.getAllWaypoints());
+      }
+    }
+    setEditingWaypoint(false);
+    setSelectedWaypoint(null);
+    setEditedWaypointName("");
+  };
+
+  const handleDeleteWaypoint = () => {
+    if (selectedWaypoint) {
+      Alert.alert(
+        "Delete Waypoint",
+        `Are you sure you want to delete "${selectedWaypoint.name}"?`,
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Delete",
+            style: "destructive",
+            onPress: () => {
+              gpsService.deleteWaypoint(selectedWaypoint.id);
+              setWaypoints(gpsService.getAllWaypoints());
+              setWaypointMenuVisible(false);
+              setSelectedWaypoint(null);
+            }
+          }
+        ]
+      );
+    }
+  };
+
+  const handleDeleteAllWaypoints = () => {
+    setWaypointMenuVisible(false);
+    setSelectedWaypoint(null);
+    setWaypointDeleteModal(true);
+  };
+
   return (
     <View style={styles.maps_container}>
       <View style={styles.maps_header}>
@@ -147,7 +205,6 @@ const MapScreen = () => {
         <MapView
           key="main-map"
           testID="map-tab-screen"
-          provider={PROVIDER_GOOGLE}
           style={styles.map}
           region={
             currentLocation
@@ -165,7 +222,6 @@ const MapScreen = () => {
           showsMyLocationButton={Platform.OS === "android"}
           mapType="hybrid"
           onLongPress={createWayPoint}
-          onDoublePress={() => setWaypointDeleteModal(true)}
           ref={mapRef}
         >
           {currentLocation && (
@@ -192,34 +248,123 @@ const MapScreen = () => {
                 waypoint.timestamp || Date.now()
               ).toLocaleTimeString()}`}
               pinColor="blue"
+              onPress={() => handleMarkerLongPress(waypoint)}
             />
           ))}
         </MapView>
       )}
 
+    
+      <Modal
+        visible={isWaypointMenuVisible}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.userOptionsModal}>
+          <Text style={styles.waypointMenuModalTitle}>
+            {selectedWaypoint?.name || "Waypoint"}
+          </Text>
+          
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
+            onPress={handleEditWaypoint}
+          >
+            <Text style={styles.waypointMenuButtonText}>Edit Name</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#FF9800" }]}
+            onPress={handleDeleteWaypoint}
+          >
+            <Text style={styles.waypointMenuButtonText}>Delete This Waypoint</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
+            onPress={handleDeleteAllWaypoints}
+          >
+            <Text style={styles.waypointMenuButtonText}>Delete All Waypoints</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            onPress={() => {
+              setWaypointMenuVisible(false);
+              setSelectedWaypoint(null);
+            }}
+          >
+            <Text style={styles.waypointMenuButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={isEditingWaypoint}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.userOptionsModal}>
+          <Text style={styles.editWaypointModalTitle}>Edit Waypoint Name</Text>
+          
+          <TextInput
+            style={styles.editWaypointTextInput}
+            value={editedWaypointName}
+            onChangeText={setEditedWaypointName}
+            placeholder="Enter waypoint name"
+            autoFocus={true}
+            selectTextOnFocus={true}
+          />
+
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
+            onPress={saveWaypointEdit}
+          >
+            <Text style={styles.editWaypointButtonText}>Save</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            onPress={() => {
+              setEditingWaypoint(false);
+              setSelectedWaypoint(null);
+              setEditedWaypointName("");
+            }}
+          >
+            <Text style={styles.editWaypointButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+     
       <Modal
         visible={!!isWaypointDeleteDisplayed}
         transparent={true}
         animationType="fade"
       >
         <View style={styles.userOptionsModal}>
-          <Text>Confirm Delete All Waypoints?</Text>
+          <Text style={styles.deleteAllWaypointsModalTitle}>
+            Confirm Delete All Waypoints?
+          </Text>
+          <Text style={styles.deleteAllWaypointsSubtext}>
+            This will permanently delete all {waypoints.length} waypoints.
+          </Text>
+
           <TouchableOpacity
-            style={[styles.modalButtons, { backgroundColor: "#8a8279" }]}
+            style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
             onPress={async () => {
-              gpsService.deleteAllWaypoints();
+              await gpsService.deleteAllWaypoints();
               setWaypoints([]);
               setWaypointDeleteModal(false);
             }}
           >
-            <Text>Delete</Text>
+            <Text style={styles.deleteAllWaypointsButtonText}>Delete All</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => setWaypointDeleteModal(false)}
           >
-            <Text>CANCEL</Text>
+            <Text style={styles.deleteAllWaypointsButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>
