@@ -2,6 +2,7 @@ import { Modal, Platform, TextInput, Alert } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { styles } from "../../styles";
+import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
 import { MapLongPressEvent } from "../gpsNavigation/types";
 //import { testWeatherApi } from "../weather/WeatherReport";
@@ -14,14 +15,18 @@ const MapScreen = () => {
   );
   const [isLocationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  
+
   // Modal states
-  const [selectedWaypoint, setSelectedWaypoint] = useState<Waypoint | null>(null);
-  const [isWaypointMenuVisible, setWaypointMenuVisible] = useState<boolean>(false);
+  const [selectedWaypoint, setSelectedWaypoint] = useState<Waypoint | null>(
+    null
+  );
+  const [isWaypointMenuVisible, setWaypointMenuVisible] =
+    useState<boolean>(false);
   const [isEditingWaypoint, setEditingWaypoint] = useState<boolean>(false);
   const [editedWaypointName, setEditedWaypointName] = useState<string>("");
-  const [isWaypointDeleteDisplayed, setWaypointDeleteModal] = useState<boolean>(false);
-  
+  const [isWaypointDeleteDisplayed, setWaypointDeleteModal] =
+    useState<boolean>(false);
+
   const [shouldRenderMap, setShouldRenderMap] = useState(false);
 
   const navigation = useNavigation();
@@ -146,7 +151,10 @@ const MapScreen = () => {
 
   const saveWaypointEdit = async () => {
     if (selectedWaypoint && editedWaypointName.trim()) {
-      const success = await gpsService.updateWaypointName(selectedWaypoint.id, editedWaypointName.trim());
+      const success = await gpsService.updateWaypointName(
+        selectedWaypoint.id,
+        editedWaypointName.trim()
+      );
       if (success) {
         setWaypoints(gpsService.getAllWaypoints());
       }
@@ -171,8 +179,8 @@ const MapScreen = () => {
               setWaypoints(gpsService.getAllWaypoints());
               setWaypointMenuVisible(false);
               setSelectedWaypoint(null);
-            }
-          }
+            },
+          },
         ]
       );
     }
@@ -186,21 +194,22 @@ const MapScreen = () => {
 
   return (
     <View style={styles.maps_container}>
-      <View style={styles.maps_header}>
+      <View style={styles.floatingHeader}>
         <TouchableOpacity
-          style={styles.mapsHamburgerMenu}
+          style={styles.floatingHamburgerMenu}
           onPress={() => {
             navigation.dispatch(DrawerActions.openDrawer());
           }}
         >
           <Text style={styles.mapsHamburgerIcon}>☰</Text>
         </TouchableOpacity>
-        <View style={{ flex: 1, paddingLeft: 20, alignItems: "center" }}>
-          <Text style={styles.maps_header_title}>Terra Off-Road</Text>
-        </View>
-        <View style={{ width: 44 }} />
       </View>
-
+      <TouchableOpacity
+        style={styles.locationButton}
+        onPress={handleLocationPress}
+      >
+      <MaterialIcons name="my-location" size={24} color="rgba(60, 58, 58, 0.9)" />
+      </TouchableOpacity>
       {shouldRenderMap && (
         <MapView
           key="main-map"
@@ -219,7 +228,8 @@ const MapScreen = () => {
                 }
           }
           showsUserLocation={true}
-          showsMyLocationButton={Platform.OS === "android"}
+          showsMyLocationButton={false}
+          toolbarEnabled={false} 
           mapType="hybrid"
           onLongPress={createWayPoint}
           ref={mapRef}
@@ -254,7 +264,6 @@ const MapScreen = () => {
         </MapView>
       )}
 
-    
       <Modal
         visible={isWaypointMenuVisible}
         transparent={true}
@@ -264,7 +273,7 @@ const MapScreen = () => {
           <Text style={styles.waypointMenuModalTitle}>
             {selectedWaypoint?.name || "Waypoint"}
           </Text>
-          
+
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
             onPress={handleEditWaypoint}
@@ -276,14 +285,18 @@ const MapScreen = () => {
             style={[styles.modalButtons, { backgroundColor: "#FF9800" }]}
             onPress={handleDeleteWaypoint}
           >
-            <Text style={styles.waypointMenuButtonText}>Delete This Waypoint</Text>
+            <Text style={styles.waypointMenuButtonText}>
+              Delete This Waypoint
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
             onPress={handleDeleteAllWaypoints}
           >
-            <Text style={styles.waypointMenuButtonText}>Delete All Waypoints</Text>
+            <Text style={styles.waypointMenuButtonText}>
+              Delete All Waypoints
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -305,7 +318,7 @@ const MapScreen = () => {
       >
         <View style={styles.userOptionsModal}>
           <Text style={styles.editWaypointModalTitle}>Edit Waypoint Name</Text>
-          
+
           <TextInput
             style={styles.editWaypointTextInput}
             value={editedWaypointName}
@@ -335,7 +348,6 @@ const MapScreen = () => {
         </View>
       </Modal>
 
-     
       <Modal
         visible={!!isWaypointDeleteDisplayed}
         transparent={true}
@@ -368,15 +380,6 @@ const MapScreen = () => {
           </TouchableOpacity>
         </View>
       </Modal>
-
-      {Platform.OS === "ios" && (
-        <TouchableOpacity
-          style={styles.iosLocationButton}
-          onPress={handleLocationPress}
-        >
-          <Text style={styles.iosLocationButtonText}>📍</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
