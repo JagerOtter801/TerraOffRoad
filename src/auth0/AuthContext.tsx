@@ -9,7 +9,6 @@ import * as AuthSession from "expo-auth-session";
 import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from "@env";
 import { User, AuthContextType } from "./types";
 import { gpsService } from "../gpsNavigation";
-import * as Keychain from "react-native-keychain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -85,7 +84,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   function clearAllData() {
     gpsService.deleteAllWaypoints();
-    gpsService.deleteAllRoutes();
     gpsService.stopLocationUpdates();
     AsyncStorage.clear();
   }

@@ -1,13 +1,11 @@
-import React from 'react';
 import { View, Text, StyleSheet , TouchableOpacity} from 'react-native';
-import { styles } from '../../styles';
 import { useAuth } from "../auth0";
 
 
 const SettingsScreen = () => {
       const { user, logout } = useAuth();
     return (
-        <View testID="settings-screen" style={styles.settingsDrawerContent}>
+        <View testID="settings-screen">
             <TouchableOpacity
                     onPress={logout}
                     style={{
