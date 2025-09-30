@@ -6,7 +6,7 @@ A comprehensive off-road trip planning companion app built for the off-roading a
 
 ### 🧭 Navigation & Location
 - **Real-time GPS tracking** - Always know your current location
-- **Save Points of Interest before or during your trip** - Plan your off-road adventures with saved Points of Interest for things such as Gas stations, Hospitals, Grocery Stores, Camp locations and Air up and Down locations. While on the trail you can watch your current location as it gets close to the places you want to be. 
+- **Save Points of Interest before or during your trip** - Plan your off-road adventures with saved Points of Interes. Before your trip you can save locations such as Gas stations, Hospitals, Grocery Stores, Camp locations and Air up and Down locations. Also while on the trail you can save points of interest you want to remember for revisiting , landmarks, special memories, or even geo caching. While on the trail you can watch your current location as it gets close to the places you want to be. 
 - **Gear List** - Save detailed lists of your Gear you need, such as Shelter, Food, Water, Clothing, Vehicle needs, etc...
 
 
