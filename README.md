@@ -1,6 +1,6 @@
 # Terra Off-Road 🏔️
 
-A comprehensive navigation and adventure companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers explore trails safely with advanced route planning, real-time navigation, and essential resource tracking.
+A comprehensive off-road trip planning companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers explore trails safely with advanced route planning, real-time navigation, and essential resource tracking.
 
 ## ✨ Features(Current and Under development)
 
