@@ -1,6 +1,6 @@
 # Terra Off-Road 🏔️
 
-A comprehensive off-road trip planning companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers explore trails safely with advanced route planning, real-time navigation, and essential resource tracking.
+A comprehensive off-road trip planning companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers plan off-roading and overlanding trips using gps tags for food, water , dispersed camping sites, hospitals, air-up/air-down locations, and points of interest, that are collected into saved trips. The application also integrates a gear section where the user can save a list of all needed gear for the vehicle, clothes, food, water, electronics, etc so they will never forget a piece of needed gear while out on the trail.  .
 
 ## ✨ Features(Current and Under development)
 
