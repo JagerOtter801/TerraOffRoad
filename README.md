@@ -50,9 +50,11 @@ cd ios && pod install && cd ..
 ```
 npx expo start
 
-# On the device launch Expo Go and scan the QR code. 
+ 
 
 ```
+# Finally using your mobile phone, launch Expo Go and scan the QR code.
+
 
 ## ⚙️ Configurations
 
