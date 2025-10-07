@@ -42,6 +42,7 @@ const BottomTabNavigator = () => {
         name={t('poi')}
         component={PointsOfInterest}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5  testID="points-of-interest-tab" name="map-marked-alt" size={size} color={color} />
           ),
@@ -51,6 +52,7 @@ const BottomTabNavigator = () => {
         name={t('gear')}
         component={GearScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <AntDesign testID="gear-tab" name="profile" size={size} color={color}/>
           ),
