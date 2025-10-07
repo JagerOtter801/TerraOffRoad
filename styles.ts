@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  // ============================================================================
+  // AUTH & LOGIN SCREENS
+  // ============================================================================
+  
   login_screen_container: {
     flex: 1,
     backgroundColor: "#2c3e50",
@@ -47,29 +51,22 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 2,
   },
-  backButton: {
-    padding: 8,
+
+  // ============================================================================
+  // MAP SCREEN
+  // ============================================================================
+  
+  maps_container: {
+    flex: 1,
+    position: "relative",
   },
-  backButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+  map: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
-  bottomPanel: {
-    position: "absolute",
-    bottom: 50,
-    left: 16,
-    right: 16,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    padding: 16,
-    borderRadius: 12,
-  },
-  welcomeText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
+  
+  // Map Header
   floatingHeader: {
     position: "absolute",
     top: 15,
@@ -95,9 +92,8 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // Android shadow
+    elevation: 5,
   },
-
   floatingTitle: {
     flex: 1,
     textAlign: "center",
@@ -111,32 +107,14 @@ export const styles = StyleSheet.create({
   },
   mapsHamburgerIcon: {
     fontSize: 20,
-    color: "#333", // Dark color since we have white background
+    color: "#333",
     fontWeight: "bold",
   },
-  map: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-
-  maps_container: {
-    flex: 1,
-    position: "relative",
-  },
-  maps_bottom_tab_navigation: {
-    backgroundColor: "rgba(0, 0, 0, 0.82)",
-    borderTopColor: "transparent",
-    borderTopWidth: 0,
-    elevation: 0,
-    shadowOpacity: 0,
-    shadowOffset: { width: 0, height: 0 },
-    shadowRadius: 0,
-    position: "absolute",
-  },
+  
+  // Map Controls
   locationButton: {
     position: "absolute",
-    top : 25,
+    top: 25,
     right: 20,
     backgroundColor: "rgba(233, 227, 227, 0.8)",
     borderRadius: 25,
@@ -179,6 +157,52 @@ export const styles = StyleSheet.create({
   iosLocationButtonText: {
     fontSize: 20,
   },
+  
+  // Bottom Panel
+  bottomPanel: {
+    position: "absolute",
+    bottom: 50,
+    left: 16,
+    right: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    padding: 16,
+    borderRadius: 12,
+  },
+  welcomeText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+
+  // ============================================================================
+  // NAVIGATION
+  // ============================================================================
+  
+  maps_bottom_tab_navigation: {
+    backgroundColor: "rgba(0, 0, 0, 0.82)",
+    borderTopColor: "transparent",
+    borderTopWidth: 0,
+    elevation: 0,
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 0,
+    position: "absolute",
+  },
+  backButton: {
+    padding: 8,
+  },
+  backButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  // ============================================================================
+  // MODALS
+  // ============================================================================
+  
+  // User Options Modal
   userOptionsModal: {
     backgroundColor: "white",
     height: 300,
@@ -200,6 +224,8 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  
+  // Waypoint Menu Modal
   waypointMenuModalTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -211,7 +237,8 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-
+  
+  // Edit Waypoint Modal
   editWaypointModalTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -232,6 +259,8 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  
+  // Delete All Waypoints Modal
   deleteAllWaypointsModalTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -249,233 +278,257 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
- gearScreenContainer: {
-  flex: 1,
-  backgroundColor: "#1a1a1a",
-  paddingTop: 15,
-},
-gearScreenTitle: {
-  fontSize: 24,
-  fontWeight: "bold",
-  marginBottom: 20,
-  textAlign: "center",
-  paddingHorizontal: 15,
-  color: "#e5e5e5",
-},
-packingListWrapper: {
-  flex: 1,
-  paddingHorizontal: 15,
-},
-packingListScrollContent: {
-  paddingBottom: 100,
-},
-sectionContainer: {
-  marginBottom: 25,
-},
-sectionHeader: {
-  backgroundColor: "#2d2d2d",
-  padding: 12,
-  borderRadius: 8,
-  marginBottom: 8,
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  borderWidth: 1,
-  borderColor: "#404040",
-},
-sectionTitle: {
-  fontSize: 18,
-  fontWeight: "bold",
-  color: "#e5e5e5",
-},
-sectionCount: {
-  fontSize: 14,
-  fontWeight: "600",
-  color: "#9ca3af",
-},
-packingItemContainer: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  paddingVertical: 12,
-  paddingHorizontal: 8,
-  borderBottomWidth: 1,
-  borderColor: "#2d2d2d",
-  backgroundColor: "#1a1a1a",
-},
-packingItemCheckboxContainer: {
-  flexDirection: "row",
-  alignItems: "center",
-  flex: 1,
-},
-packingItemCheckboxUnchecked: {
-  fontSize: 18,
-  marginRight: 10,
-  color: "#6b7280",
-},
-packingItemCheckboxChecked: {
-  fontSize: 18,
-  marginRight: 10,
-  color: "#10b981",
-},
-packingItemTextUnchecked: {
-  fontSize: 16,
-  color: "#e5e5e5",
-  flex: 1,
-},
-packingItemTextChecked: {
-  fontSize: 16,
-  textDecorationLine: "line-through",
-  color: "#6b7280",
-  flex: 1,
-},
-deleteItemButton: {
-  padding: 8,
-  marginLeft: 8,
-},
-deleteItemButtonText: {
-  fontSize: 20,
-  color: "#ef4444",
-  fontWeight: "bold",
-},
-addItemFormContainer: {
-  flexDirection: "row",
-  padding: 10,
-  backgroundColor: "#2d2d2d",
-  alignItems: "center",
-  borderRadius: 8,
-  marginTop: 8,
-  marginBottom: 8,
-  borderWidth: 1,
-  borderColor: "#404040",
-},
-addItemInput: {
-  flex: 1,
-  borderWidth: 1,
-  borderColor: "#404040",
-  padding: 8,
-  marginRight: 10,
-  borderRadius: 4,
-  backgroundColor: "#1a1a1a",
-  color: "#e5e5e5",
-},
-addItemButton: {
-  backgroundColor: "#10b981",
-  paddingHorizontal: 15,
-  paddingVertical: 8,
-  borderRadius: 4,
-  marginRight: 5,
-},
-addItemButtonText: {
-  color: "#ffffff",
-  fontWeight: "bold",
-},
-cancelItemButton: {
-  backgroundColor: "#ef4444",
-  paddingHorizontal: 15,
-  paddingVertical: 8,
-  borderRadius: 4,
-},
-cancelItemButtonText: {
-  color: "#ffffff",
-  fontWeight: "bold",
-},
-showAddItemButton: {
-  padding: 10,
-  backgroundColor: "#6b98f7ff",
-  borderRadius: 4,
-  marginTop: 8,
-  alignItems: "center",
-},
-showAddItemButtonText: {
-  color: "#ffffff",
-  fontWeight: "600",
-},
-loadingContainer: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-},
-loadingText: {
-  fontSize: 16,
-  color: "#9ca3af",
-},
-poiScreenContainer: {
-  flex: 1,
-  backgroundColor: "#1a1a1a",
-  paddingTop: 15,
-},
-poiScreenTitle: {
-  fontSize: 24,
-  fontWeight: "bold",
-  marginBottom: 20,
-  textAlign: "center",
-  paddingHorizontal: 15,
-  color: "#e5e5e5",
-},
-poiListContent: {
-  paddingHorizontal: 15,
-  paddingBottom: 100,
-  flexGrow: 1,
-},
-waypointItemContainer: {
-  flexDirection: "row",
-  alignItems: "center",
-  backgroundColor: "#2d2d2d",
-  padding: 12,
-  borderRadius: 8,
-  marginBottom: 12,
-  borderWidth: 1,
-  borderColor: "#404040",
-},
-waypointImageContainer: {
-  marginRight: 12,
-},
-waypointImage: {
-  width: 60,
-  height: 60,
-  borderRadius: 8,
-},
-waypointImagePlaceholder: {
-  width: 60,
-  height: 60,
-  borderRadius: 8,
-  backgroundColor: "#404040",
-  justifyContent: "center",
-  alignItems: "center",
-},
-waypointImagePlaceholderText: {
-  fontSize: 30,
-},
-waypointInfoContainer: {
-  flex: 1,
-  justifyContent: "center",
-},
-waypointName: {
-  fontSize: 18,
-  fontWeight: "600",
-  color: "#e5e5e5",
-  marginBottom: 4,
-},
-waypointDistance: {
-  fontSize: 14,
-  color: "#9ca3af",
-},
-emptyWaypointContainer: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  paddingTop: 50,
-},
-emptyWaypointText: {
-  fontSize: 18,
-  color: "#e5e5e5",
-  textAlign: "center",
-  marginBottom: 8,
-},
-emptyWaypointSubtext: {
-  fontSize: 14,
-  color: "#9ca3af",
-  textAlign: "center",
-},
+
+  // ============================================================================
+  // GEAR SCREEN (PACKING LIST)
+  // ============================================================================
+  
+  gearScreenContainer: {
+    flex: 1,
+    backgroundColor: "#1a1a1a",
+    paddingTop: 15,
+  },
+  gearScreenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    paddingHorizontal: 15,
+    color: "#e5e5e5",
+  },
+  
+  // Packing List
+  packingListWrapper: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  packingListScrollContent: {
+    paddingBottom: 100,
+  },
+  
+  // Section Styles
+  sectionContainer: {
+    marginBottom: 25,
+  },
+  sectionHeader: {
+    backgroundColor: "#2d2d2d",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#404040",
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#e5e5e5",
+  },
+  sectionCount: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#9ca3af",
+  },
+  
+  // Packing Items
+  packingItemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderColor: "#2d2d2d",
+    backgroundColor: "#1a1a1a",
+  },
+  packingItemCheckboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  packingItemCheckboxUnchecked: {
+    fontSize: 18,
+    marginRight: 10,
+    color: "#6b7280",
+  },
+  packingItemCheckboxChecked: {
+    fontSize: 18,
+    marginRight: 10,
+    color: "#10b981",
+  },
+  packingItemTextUnchecked: {
+    fontSize: 16,
+    color: "#e5e5e5",
+    flex: 1,
+  },
+  packingItemTextChecked: {
+    fontSize: 16,
+    textDecorationLine: "line-through",
+    color: "#6b7280",
+    flex: 1,
+  },
+  deleteItemButton: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  deleteItemButtonText: {
+    fontSize: 20,
+    color: "#ef4444",
+    fontWeight: "bold",
+  },
+  
+  // Add Item Form
+  addItemFormContainer: {
+    flexDirection: "row",
+    padding: 10,
+    backgroundColor: "#2d2d2d",
+    alignItems: "center",
+    borderRadius: 8,
+    marginTop: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "#404040",
+  },
+  addItemInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#404040",
+    padding: 8,
+    marginRight: 10,
+    borderRadius: 4,
+    backgroundColor: "#1a1a1a",
+    color: "#e5e5e5",
+  },
+  addItemButton: {
+    backgroundColor: "#10b981",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 4,
+    marginRight: 5,
+  },
+  addItemButtonText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  cancelItemButton: {
+    backgroundColor: "#ef4444",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 4,
+  },
+  cancelItemButtonText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  showAddItemButton: {
+    padding: 10,
+    backgroundColor: "#6b98f7ff",
+    borderRadius: 4,
+    marginTop: 8,
+    alignItems: "center",
+  },
+  showAddItemButtonText: {
+    color: "#ffffff",
+    fontWeight: "600",
+  },
+  
+  // Loading State
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 16,
+    color: "#9ca3af",
+  },
+
+  // ============================================================================
+  // POINTS OF INTEREST SCREEN
+  // ============================================================================
+  
+  poiScreenContainer: {
+    flex: 1,
+    backgroundColor: "#1a1a1a",
+    paddingTop: 15,
+  },
+  poiScreenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    paddingHorizontal: 15,
+    color: "#e5e5e5",
+  },
+  poiListContent: {
+    paddingHorizontal: 15,
+    paddingBottom: 100,
+    flexGrow: 1,
+  },
+  
+  // Waypoint Items
+  waypointItemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2d2d2d",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#404040",
+  },
+  waypointImageContainer: {
+    marginRight: 12,
+  },
+  waypointImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+  },
+  waypointImagePlaceholder: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    backgroundColor: "#404040",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  waypointImagePlaceholderText: {
+    fontSize: 30,
+  },
+  waypointInfoContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  waypointName: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#e5e5e5",
+    marginBottom: 4,
+  },
+  waypointDistance: {
+    fontSize: 14,
+    color: "#9ca3af",
+  },
+  
+  // Empty State
+  emptyWaypointContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+  emptyWaypointText: {
+    fontSize: 18,
+    color: "#e5e5e5",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  emptyWaypointSubtext: {
+    fontSize: 14,
+    color: "#9ca3af",
+    textAlign: "center",
+  },
 });
