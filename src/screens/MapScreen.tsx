@@ -1,8 +1,8 @@
-import { Modal, Platform, TextInput, Alert } from "react-native";
+import { Modal,TextInput, Alert } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { styles } from "../../styles";
-import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
 import { MapLongPressEvent } from "../gpsNavigation/types";
 //import { testWeatherApi } from "../weather/WeatherReport";
