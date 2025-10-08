@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   TextInput,
   Alert,
   ScrollView,
+  Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "../../styles";
 import { SectionName, PackingItem } from "./types";
-
 
 type PackingList = {
   [key in SectionName]: PackingItem[];
@@ -39,6 +38,12 @@ const GearScreen = () => {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{
+    section: SectionName;
+    itemId: string;
+    itemName: string;
+  } | null>(null);
 
   useEffect(() => {
     loadPackingList();
@@ -107,23 +112,30 @@ const GearScreen = () => {
     setSelectedSection(null);
   };
 
-  const deleteItem = (section: SectionName, itemId: string) => {
-    Alert.alert("Delete Item", "Are you sure you want to delete this item?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: () => {
-          setPackingList((prev) => ({
-            ...prev,
-            [section]: prev[section].filter((item) => item.id !== itemId),
-          }));
-        },
-      },
-    ]);
+  const openDeleteModal = (section: SectionName, itemId: string) => {
+    const item = packingList[section].find((i) => i.id === itemId);
+    if (item) {
+      setItemToDelete({ section, itemId, itemName: item.name });
+      setDeleteModalVisible(true);
+    }
+  };
+
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      setPackingList((prev) => ({
+        ...prev,
+        [itemToDelete.section]: prev[itemToDelete.section].filter(
+          (item) => item.id !== itemToDelete.itemId
+        ),
+      }));
+    }
+    setDeleteModalVisible(false);
+    setItemToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setDeleteModalVisible(false);
+    setItemToDelete(null);
   };
 
   const cancelAddItem = () => {
@@ -164,9 +176,11 @@ const GearScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.deleteItemButton}
-        onPress={() => deleteItem(section, item.id)}
+        onPress={() => openDeleteModal(section, item.id)}
       >
-        <Text style={styles.deleteItemButtonText}>✕</Text>
+        <Text style={styles.deleteItemButtonText}>
+          {item.checked ? "✕" : ""}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -176,6 +190,7 @@ const GearScreen = () => {
       <TextInput
         style={styles.addItemInput}
         placeholder="Enter new item..."
+        placeholderTextColor="#6b7280"
         value={newItemText}
         onChangeText={setNewItemText}
         autoFocus
@@ -194,7 +209,6 @@ const GearScreen = () => {
 
   const renderSection = (sectionName: SectionName) => {
     const items = packingList[sectionName];
-    const checkedCount = items.filter((item) => item.checked).length;
     const totalCount = items.length;
 
     return (
@@ -202,9 +216,7 @@ const GearScreen = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>{sectionName}</Text>
           {totalCount > 0 && (
-            <Text style={styles.sectionCount}>
-              {checkedCount}/{totalCount}
-            </Text>
+            <Text style={styles.sectionCount}>{`Items: ${totalCount}`}</Text>
           )}
         </View>
 
@@ -251,6 +263,42 @@ const GearScreen = () => {
           renderSection(sectionName)
         )}
       </ScrollView>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={deleteModalVisible}
+        onRequestClose={cancelDelete}
+      >
+        <View
+          style={{
+            flex: 1,
+            position:"absolute",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.userOptionsModal}>
+            <Text style={styles.deleteAllWaypointsModalTitle}>Delete Item</Text>
+            <Text style={styles.deleteAllWaypointsSubtext}>
+              Are you sure you want to delete "{itemToDelete?.itemName}"?
+            </Text>
+            <TouchableOpacity
+              style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
+              onPress={cancelDelete}
+            >
+              <Text style={styles.waypointMenuButtonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
+              onPress={confirmDelete}
+            >
+              <Text style={styles.deleteAllWaypointsButtonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
