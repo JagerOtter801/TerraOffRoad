@@ -7,8 +7,11 @@ import {
   Alert,
   ScrollView,
   Modal,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from 'react-i18next';
 import { styles } from "../../styles";
 import { SectionName, PackingItem } from "./types";
 
@@ -32,6 +35,7 @@ const initialSections: PackingList = {
 };
 
 const GearScreen = () => {
+  const { t } = useTranslation();
   const [packingList, setPackingList] = useState<PackingList>(initialSections);
   const [newItemText, setNewItemText] = useState("");
   const [selectedSection, setSelectedSection] = useState<SectionName | null>(
@@ -64,7 +68,7 @@ const GearScreen = () => {
       }
     } catch (error) {
       console.error("Error loading packing list:", error);
-      Alert.alert("Error", "Failed to load packing list");
+      Alert.alert(t("error"), t("failed to load packing list"));
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +82,7 @@ const GearScreen = () => {
       );
     } catch (error) {
       console.error("Error saving packing list:", error);
-      Alert.alert("Error", "Failed to save packing list");
+      Alert.alert(t("error"), t("failed to save packing list"));
     }
   };
 
@@ -93,7 +97,7 @@ const GearScreen = () => {
 
   const addNewItem = (section: SectionName) => {
     if (newItemText.trim() === "") {
-      Alert.alert("Error", "Please enter an item name");
+      Alert.alert(t("error"), t("please enter an item name"));
       return;
     }
 
@@ -189,7 +193,7 @@ const GearScreen = () => {
     <View style={styles.addItemFormContainer}>
       <TextInput
         style={styles.addItemInput}
-        placeholder="Enter new item..."
+        placeholder={t("enter new item")}
         placeholderTextColor="#6b7280"
         value={newItemText}
         onChangeText={setNewItemText}
@@ -199,10 +203,10 @@ const GearScreen = () => {
         style={styles.addItemButton}
         onPress={() => addNewItem(section)}
       >
-        <Text style={styles.addItemButtonText}>Add</Text>
+        <Text style={styles.addItemButtonText}>{t("add")}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.cancelItemButton} onPress={cancelAddItem}>
-        <Text style={styles.cancelItemButtonText}>Cancel</Text>
+        <Text style={styles.cancelItemButtonText}>{t("cancel")}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -214,9 +218,9 @@ const GearScreen = () => {
     return (
       <View key={sectionName} style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>{sectionName}</Text>
+          <Text style={styles.sectionTitle}>{t(sectionName.toLowerCase())}</Text>
           {totalCount > 0 && (
-            <Text style={styles.sectionCount}>{`Items: ${totalCount}`}</Text>
+            <Text style={styles.sectionCount}>{t("items")}: {totalCount}</Text>
           )}
         </View>
 
@@ -233,7 +237,7 @@ const GearScreen = () => {
             style={styles.showAddItemButton}
             onPress={() => setSelectedSection(sectionName)}
           >
-            <Text style={styles.showAddItemButtonText}>+ Add Item</Text>
+            <Text style={styles.showAddItemButtonText}>+ {t("add item")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -244,62 +248,67 @@ const GearScreen = () => {
     return (
       <View style={styles.gearScreenContainer}>
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Loading...</Text>
+          <Text style={styles.loadingText}>{t("loading")}...</Text>
         </View>
       </View>
     );
   }
 
   return (
-    <View testID="packing-list-screen" style={styles.gearScreenContainer}>
-      <Text style={styles.gearScreenTitle}>Trip Packing List</Text>
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+    >
+      <View testID="packing-list-screen" style={styles.gearScreenContainer}>
+        <Text style={styles.gearScreenTitle}>{t("trip packing list")}</Text>
 
-      <ScrollView
-        style={styles.packingListWrapper}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.packingListScrollContent}
-      >
-        {(Object.keys(packingList) as SectionName[]).map((sectionName) =>
-          renderSection(sectionName)
-        )}
-      </ScrollView>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={deleteModalVisible}
-        onRequestClose={cancelDelete}
-      >
-        <View
-          style={{
-            flex: 1,
-            position:"absolute",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <ScrollView
+          style={styles.packingListWrapper}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.packingListScrollContent}
         >
-          <View style={styles.userOptionsModal}>
-            <Text style={styles.deleteAllWaypointsModalTitle}>Delete Item</Text>
-            <Text style={styles.deleteAllWaypointsSubtext}>
-              Are you sure you want to delete "{itemToDelete?.itemName}"?
-            </Text>
-            <TouchableOpacity
-              style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
-              onPress={cancelDelete}
-            >
-              <Text style={styles.waypointMenuButtonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
-              onPress={confirmDelete}
-            >
-              <Text style={styles.deleteAllWaypointsButtonText}>Delete</Text>
-            </TouchableOpacity>
+          {(Object.keys(packingList) as SectionName[]).map((sectionName) =>
+            renderSection(sectionName)
+          )}
+        </ScrollView>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={deleteModalVisible}
+          onRequestClose={cancelDelete}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.userOptionsModal}>
+              <Text style={styles.deleteAllWaypointsModalTitle}>{t("delete item")}</Text>
+              <Text style={styles.deleteAllWaypointsSubtext}>
+                {t("are you sure you want to delete")} "{itemToDelete?.itemName}"?
+              </Text>
+              <TouchableOpacity
+                style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
+                onPress={cancelDelete}
+              >
+                <Text style={styles.waypointMenuButtonText}>{t("cancel")}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
+                onPress={confirmDelete}
+              >
+                <Text style={styles.deleteAllWaypointsButtonText}>{t("delete")}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

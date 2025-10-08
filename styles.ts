@@ -212,8 +212,7 @@ export const styles = StyleSheet.create({
     margin: 20,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "center",
-    top: "30%",
+    alignSelf: 'center',
   },
   modalButtons: {
     margin: 5,
