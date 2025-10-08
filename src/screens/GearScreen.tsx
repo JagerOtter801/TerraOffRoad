@@ -10,24 +10,8 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "../../styles";
+import { SectionName, PackingItem } from "./types";
 
-type SectionName =
-  | "Vehicle Items"
-  | "Shelter"
-  | "Sleeping System"
-  | "Emergency/Medical"
-  | "Clothing"
-  | "Cooking"
-  | "Food"
-  | "Lighting/Signaling"
-  | "Electronics"
-  | "Misc";
-
-type PackingItem = {
-  id: string;
-  name: string;
-  checked: boolean;
-};
 
 type PackingList = {
   [key in SectionName]: PackingItem[];
@@ -60,6 +44,7 @@ const GearScreen = () => {
     loadPackingList();
   }, []);
 
+  // Auto Save - Packing list.
   useEffect(() => {
     if (!isLoading) {
       savePackingList();

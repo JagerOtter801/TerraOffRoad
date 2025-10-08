@@ -397,7 +397,7 @@ export const styles = StyleSheet.create({
     borderColor: "#404040",
     padding: 8,
     marginRight: 10,
-    borderRadius: 4,
+    borderRadius: 8,
     backgroundColor: "#1a1a1a",
     color: "#e5e5e5",
   },
@@ -405,7 +405,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#10b981",
     paddingHorizontal: 15,
     paddingVertical: 8,
-    borderRadius: 4,
+    borderRadius: 8,
     marginRight: 5,
   },
   addItemButtonText: {
@@ -416,7 +416,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ef4444",
     paddingHorizontal: 15,
     paddingVertical: 8,
-    borderRadius: 4,
+    borderRadius: 8,
   },
   cancelItemButtonText: {
     color: "#ffffff",
