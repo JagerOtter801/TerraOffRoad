@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { styles } from "../../styles";
 import { SectionName, PackingItem } from "./types";
 
@@ -218,9 +218,13 @@ const GearScreen = () => {
     return (
       <View key={sectionName} style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>{t(sectionName.toLowerCase())}</Text>
+          <Text style={styles.sectionTitle}>
+            {t(sectionName.toLowerCase())}
+          </Text>
           {totalCount > 0 && (
-            <Text style={styles.sectionCount}>{t("items")}: {totalCount}</Text>
+            <Text style={styles.sectionCount}>
+              {t("items")}: {totalCount}
+            </Text>
           )}
         </View>
 
@@ -255,10 +259,10 @@ const GearScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView 
-      style={{ flex: 1 }} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
       <View testID="packing-list-screen" style={styles.gearScreenContainer}>
         <Text style={styles.gearScreenTitle}>{t("trip packing list")}</Text>
@@ -288,9 +292,12 @@ const GearScreen = () => {
             }}
           >
             <View style={styles.userOptionsModal}>
-              <Text style={styles.deleteAllWaypointsModalTitle}>{t("delete item")}</Text>
+              <Text style={styles.deleteAllWaypointsModalTitle}>
+                {t("delete item")}
+              </Text>
               <Text style={styles.deleteAllWaypointsSubtext}>
-                {t("are you sure you want to delete")} "{itemToDelete?.itemName}"?
+                {t("are you sure you want to delete")} "{itemToDelete?.itemName}
+                "?
               </Text>
               <TouchableOpacity
                 style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
@@ -302,7 +309,9 @@ const GearScreen = () => {
                 style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
                 onPress={confirmDelete}
               >
-                <Text style={styles.deleteAllWaypointsButtonText}>{t("delete")}</Text>
+                <Text style={styles.deleteAllWaypointsButtonText}>
+                  {t("delete")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
