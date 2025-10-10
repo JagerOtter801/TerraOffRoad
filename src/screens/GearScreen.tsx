@@ -13,11 +13,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import { styles } from "../../styles";
-import { SectionName, PackingItem } from "./types";
-
-type PackingList = {
-  [key in SectionName]: PackingItem[];
-};
+import { SectionName, PackingItem, PackingList } from "./types";
 
 const PACKING_LIST_STORAGE_KEY = "@packing_list_sections";
 
@@ -147,7 +143,7 @@ const GearScreen = () => {
     setNewItemText("");
   };
 
-  const renderPackingItem = ({
+const renderPackingItem = ({
     item,
     section,
   }: {
@@ -278,7 +274,7 @@ const GearScreen = () => {
         </ScrollView>
 
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={deleteModalVisible}
           onRequestClose={cancelDelete}

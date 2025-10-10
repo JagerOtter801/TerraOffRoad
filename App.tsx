@@ -1,6 +1,5 @@
 import {useEffect} from 'react';
 import { AuthProvider, useAuth } from "./src/auth0";
-import LoginScreen from "./src/screens/LoginScreen";
 import MapTabDrawerScreen from "./src/appNavigation/MapTabDrawerScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,17 +10,12 @@ import { AppState, AppStateStatus } from 'react-native';
 
 
 function AppNavigator() {
-  const { isAuthenticated } = useAuth();
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isAuthenticated ? (
           <Stack.Screen name="MapScreen" component={MapTabDrawerScreen} />
-        ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
-        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
