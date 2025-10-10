@@ -1,4 +1,4 @@
-import { Modal, TextInput, Alert } from "react-native";
+import { Modal, TextInput} from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { UrlTile, Marker } from "react-native-maps";
 import { styles } from "../../styles";
@@ -15,8 +15,6 @@ const MapScreen = () => {
   );
   const [isLocationError, setLocationError] = useState<string | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-
-  // Modal states
   const [selectedWaypoint, setSelectedWaypoint] = useState<Waypoint | null>(
     null
   );

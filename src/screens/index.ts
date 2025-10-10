@@ -1,1 +1,1 @@
-export {SectionName, PackingItem, PackingList} from './types'
+export {SectionName, PackingItem, PackingList, WeatherData} from './types'

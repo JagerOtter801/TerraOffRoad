@@ -9,35 +9,13 @@ import GearScreen from "../screens/GearScreen";
 import OfflineMapsScreen from "../screens/GearScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from 'react-i18next';
-import PointsOfInterest from "../screens/PointsOfInterest";
+import PointsOfInterest from "../screens/PointsOfInterestBottomSheetScreen";
 import React, { useState } from 'react';
-import {getWeatherData} from "../weather/WeatherReport";
-
-type WeatherData = {
-  current: {
-    time: Date;
-    temperature_2m: number;
-    precipitation: number;
-    rain: number;
-    showers: number;
-    snowfall: number;
-    weather_code: number;
-    wind_speed_10m: number;
-    wind_direction_10m: number;
-    wind_gusts_10m: number;
-  };
-  daily: {
-    sunrise: Date[];
-    sunset: Date[];
-    temperature_2m_max: Float32Array | null;
-    temperature_2m_min: Float32Array | null;
-  };
-};
-
+import {getWeatherData} from "../weather/WeatherAPI";
+import { WeatherData } from "../screens/index";
 
 
 const Tab = createBottomTabNavigator();
-
 const BottomTabNavigator = () => {
   const {t} = useTranslation();
    const [showWeatherModal, setShowWeatherModal] = useState(false);
