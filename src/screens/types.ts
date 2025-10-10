@@ -15,3 +15,7 @@ export type PackingItem = {
   name: string;
   checked: boolean;
 };
+
+export type PackingList = {
+  [key in SectionName]: PackingItem[];
+};

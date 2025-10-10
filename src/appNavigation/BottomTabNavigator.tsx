@@ -11,6 +11,29 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from 'react-i18next';
 import PointsOfInterest from "../screens/PointsOfInterest";
 import React, { useState } from 'react';
+import {getWeatherData} from "../weather/WeatherReport";
+
+type WeatherData = {
+  current: {
+    time: Date;
+    temperature_2m: number;
+    precipitation: number;
+    rain: number;
+    showers: number;
+    snowfall: number;
+    weather_code: number;
+    wind_speed_10m: number;
+    wind_direction_10m: number;
+    wind_gusts_10m: number;
+  };
+  daily: {
+    sunrise: Date[];
+    sunset: Date[];
+    temperature_2m_max: Float32Array | null;
+    temperature_2m_min: Float32Array | null;
+  };
+};
+
 
 
 const Tab = createBottomTabNavigator();
@@ -18,6 +41,17 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   const {t} = useTranslation();
    const [showWeatherModal, setShowWeatherModal] = useState(false);
+   const [weather, setWeather] = useState<WeatherData |null>(null)
+
+const getWeather = async () => {
+  try {
+    const data = await getWeatherData();
+    setWeather(data);
+  } catch (error) {
+    console.error("Failed to fetch weather:", error);
+  }
+};
+
   return (
     <>
     <Tab.Navigator
@@ -63,6 +97,7 @@ const BottomTabNavigator = () => {
         component={OfflineMapsScreen}
         listeners={{ tabPress: (e) => {
           e.preventDefault();
+          getWeather();
           setShowWeatherModal(true);
         }}}
         options={{
@@ -73,40 +108,64 @@ const BottomTabNavigator = () => {
       />
     </Tab.Navigator>
 
-    <Modal
-        visible={showWeatherModal}
-        transparent={true}
-        animationType="fade"
+    <Modal visible={showWeatherModal} transparent animationType="fade">
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <View
+      style={{
+        backgroundColor: "white",
+        padding: 30,
+        borderRadius: 10,
+        width: 260,
+      }}
+    >
+      {weather ? (
+  <>
+    <Text style={{ fontSize: 20, fontWeight: "600", textAlign: "center", marginBottom: 10 }}>
+      Weather Report
+    </Text>
+
+    <Text style={{ fontSize: 16, textAlign: "center", marginBottom: 5 }}>
+      🌡️ {weather.current.temperature_2m.toFixed(1)}°F
+    </Text>
+
+    <Text style={{ fontSize: 16, textAlign: "center", marginBottom: 5 }}>
+      🌬️ Wind: {weather.current.wind_speed_10m.toFixed(1)} mph
+    </Text>
+
+    <Text style={{ fontSize: 16, textAlign: "center", marginBottom: 5 }}>
+      🌅 Sunrise: {new Date(weather.daily.sunrise[0]).toLocaleTimeString()}
+    </Text>
+
+    <Text style={{ fontSize: 16, textAlign: "center", marginBottom: 15 }}>
+      🌇 Sunset: {new Date(weather.daily.sunset[0]).toLocaleTimeString()}
+    </Text>
+  </>
+) : (
+  <Text style={{ textAlign: "center" }}>Loading weather...</Text>
+)}
+
+
+      <TouchableOpacity
+        onPress={() => setShowWeatherModal(false)}
+        style={{
+          backgroundColor: "#007AFF",
+          padding: 10,
+          borderRadius: 5,
+          alignItems: "center",
+        }}
       >
-        <View style={{
-          flex: 1,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <View style={{
-            backgroundColor: 'white',
-            padding: 30,
-            borderRadius: 10,
-            width: 250,
-          }}>
-            <Text style={{ fontSize: 18, marginBottom: 20, textAlign: 'center' }}>
-              Weather Modal
-            </Text>
-            <TouchableOpacity
-              onPress={() => setShowWeatherModal(false)}
-              style={{
-                backgroundColor: '#007AFF',
-                padding: 10,
-                borderRadius: 5,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ color: 'white' }}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        <Text style={{ color: "white" }}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
       </>
     
   );

@@ -1,11 +1,11 @@
 import { Modal,TextInput, Alert } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { UrlTile, Marker } from 'react-native-maps';
 import { styles } from "../../styles";
 import { MaterialIcons } from '@expo/vector-icons';
 import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
 import { MapLongPressEvent } from "../gpsNavigation/types";
-//import { testWeatherApi } from "../weather/WeatherReport";
+
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 
@@ -230,10 +230,16 @@ const MapScreen = () => {
           showsUserLocation={true}
           showsMyLocationButton={false}
           toolbarEnabled={false} 
-          mapType="hybrid"
+          mapType="none"
           onLongPress={createWayPoint}
           ref={mapRef}
         >
+          <UrlTile
+            urlTemplate="https://tile.opentopomap.org/{z}/{x}/{y}.png"
+            maximumZ={17}
+            flipY={false}
+          />
+
           {currentLocation && (
             <Marker
               coordinate={{

@@ -26,6 +26,7 @@
     "expo-dev-client": "~5.2.4",
     "expo-location": "~18.1.6",
     "expo-status-bar": "~2.2.3",
+    "expo-web-browser": "~14.2.0",
     "i18next": "^25.5.2",
     "lucide-react-native": "^0.537.0",
     "openmeteo": "^1.2.0",
