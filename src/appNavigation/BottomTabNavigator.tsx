@@ -94,7 +94,7 @@ const BottomTabNavigator = () => {
             tabPress: (e) => {
               e.preventDefault();
               openWeatherSheet();
-              navigation.navigate(t("map")); // Use t("map") to match the Map screen name
+              navigation.navigate(t("map"));
             }
           })}
         />
