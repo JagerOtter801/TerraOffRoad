@@ -55,19 +55,12 @@ logs/
 Thumbs.db
 
 # Android
-android/app/build/
-android/build/
-android/.gradle/
-android/.gradle.properties
-android/local.properties
-android/app/release/
-android/app/debug/
+android/
 *.apk
 *.aab
 
 # iOS
-ios/build/
-ios/DerivedData/
+ios/
 *.ipa
 ios/.xcode.env.local
 
@@ -79,6 +72,5 @@ coverage/
 tmp/
 temp/
 
-# Need for API key Google MAPS
-android/gradle.properties
+
 eas.json

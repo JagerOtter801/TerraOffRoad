@@ -7,7 +7,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import  i18n  from './src/localization/i18n/index';
 import * as RNLocalize from 'react-native-localize';
 import { AppState, AppStateStatus } from 'react-native';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { WeatherBottomSheetProvider } from './src/appNavigation/WeatherBottomSheetContext'
 
 function AppNavigator() {
   const Stack = createNativeStackNavigator();
@@ -46,7 +47,11 @@ export default function App() {
   return (
     <AuthProvider>
       <SafeAreaProvider>
-       <AppNavigator/>      
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <WeatherBottomSheetProvider>
+            <AppNavigator />
+          </WeatherBottomSheetProvider>
+        </GestureHandlerRootView>
       </SafeAreaProvider>
     </AuthProvider>
   );
