@@ -1,13 +1,16 @@
 # Terra Off-Road 🏔️
 
-A comprehensive off-road trip planning companion app built for the off-roading and overlanding community. Terra Off-Road helps adventurers plan off-roading and overlanding trips using gps tags for food, water , dispersed camping sites, hospitals, air-up/air-down locations, and points of interest, that are collected into saved trips. The application also integrates a gear section where the user can save a list of all needed gear for the vehicle, clothes, food, water, electronics, etc so they will never forget a piece of needed gear while out on the trail.  .
+🗺️ ## Plan Smarter, Adventure Better
+Never Miss a Moment on the Trail
+TerraOffRoad helps you plan and navigate your off-road adventures with confidence. Before you hit the trail, mark essential waypoints like gas stations, hospitals, grocery stores, and campsites. Use detailed topographical maps to scout elevation changes at your campsite or trailhead—because knowing the terrain makes all the difference.
+Stay Prepared with Location-Based Weather
+Tap any waypoint to see current conditions and a 3-day forecast for that exact location. Planning a weekend camp? Check the weather ahead of time so you know whether to pack rain gear or sunscreen. No more getting caught off guard by mountain weather.
+Track Your Progress in Real-Time
+Out on the trail, save waypoints for places you want to remember: stunning viewpoints, hidden landmarks, geocaching spots, or that perfect camping spot you stumbled upon. Watch your live location on the map as you get closer to your saved waypoints—you'll always know how far you are from that overlook or trailhead you're searching for.
 
-## ✨ Features(Current and Under development)
-
-### 🧭 Navigation & Location
-- **Real-time GPS tracking** - Always know your current location
-- **Save Points of Interest before or during your trip** - Plan your off-road adventures with saved Points of Interest that you want to have while off-grid. . Before your trip you can save locations such as Gas stations, Hospitals, Grocery Stores, Camp locations and Air up / Air down locations. Also while on the trail you can save points of interest you want to remember for revisiting such as, landmarks, special memories, or even geo caching. While on the trail you can watch your current location as it gets close to the places you want to be so you never miss that spot you're trying to get to. 
-- **Gear List** - Save detailed lists of your Gear you need, such as Shelter, Food, Water, Clothing, Vehicle needs, etc...
+## 🎒Pack Smart with Gear Management
+Stop forgetting critical gear. Use the built-in gear list to track everything you need across organized categories: Vehicle Items, Shelter, Sleeping System, Emergency/Medical, Clothing, Cooking, Food, Lighting/Signaling, Electronics, and Misc. Check off items as you pack, and never wonder if you forgot your first aid kit or camp stove again.
+Whether you're planning your next adventure or creating memories on the go, TerraOffRoad keeps you organized, prepared, and connected to the places that matter most.
 
 
 ## 🚀 Getting Started
