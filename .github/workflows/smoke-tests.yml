@@ -50,9 +50,17 @@ jobs:
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
 
-    - name: Create .env file
-      run: |
-        echo "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" > .env
+    - name: Install Expo CLI
+      run: npm install -g @expo/cli
+      
+    - name: TypeScript check
+      run: npx tsc --noEmit
+
+    - name: Prebuild Android
+      run: npx expo prebuild --platform android --clean
+
+    - name: Expo build check - Android
+      run: npx expo export --platform android --dev
     
     - name: Build APK
       run: |
