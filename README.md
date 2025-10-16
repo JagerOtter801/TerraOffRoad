@@ -1,7 +1,8 @@
 # Terra Off-Road 🏔️
 
-Android: APK
-IOS: TBD 
+## Try it out here on your Android phone: [⬇️ Download latest APK](https://github.com/JagerOtter801/TerraOffRoad/releases/latest/download/app-release.apk)
+
+IOS: FUTURE TBD 
 
 
 
