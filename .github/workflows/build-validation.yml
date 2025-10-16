@@ -58,10 +58,13 @@ jobs:
         cd android
         chmod +x ./gradlew
         ./gradlew assembleRelease
-        
-    - name: Upload APK to GitHub
-      uses: actions/upload-artifact@v4
+         
+    - name: Upload Release APK
+      if: github.ref == 'refs/heads/main'
+      uses: softprops/action-gh-release@v2
       with:
-        name: android-apk-${{ github.run_number }}
-        path: android/app/build/outputs/apk/release/*.apk
-        retention-days: 7
+        name: "TerraOffRoad Build ${{ github.run_number }}"
+        tag_name: "v${{ github.run_number }}"
+        files: android/app/build/outputs/apk/release/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
