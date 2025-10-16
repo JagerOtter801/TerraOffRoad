@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: [ main, develop ]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,6 +18,10 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        
+    - name: Create .env file
+      run: |
+        echo "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" > .env
         
     - name: Setup JDK 17
       uses: actions/setup-java@v4
@@ -40,6 +43,9 @@ jobs:
       
     - name: TypeScript check
       run: npx tsc --noEmit
+      
+    - name: Prebuild Android
+      run: npx expo prebuild --platform android --clean
       
     - name: Expo build check - iOS
       run: npx expo export --platform ios --dev
