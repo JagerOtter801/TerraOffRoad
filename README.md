@@ -1,9 +1,5 @@
 # Terra Off-Road 🏔️
 
-## Try it out here on your Android phone: [⬇️ Download latest APK](https://github.com/JagerOtter801/TerraOffRoad/releases/latest/download/app-release.apk)
-
-IOS: FUTURE TBD 
-
 
 
 🗺️ ## Plan Smarter, Adventure Better
@@ -18,7 +14,11 @@ Out on the trail, save waypoints for places you want to remember: stunning viewp
 Stop forgetting critical gear. Use the built-in gear list to track everything you need across organized categories: Vehicle Items, Shelter, Sleeping System, Emergency/Medical, Clothing, Cooking, Food, Lighting/Signaling, Electronics, and Misc. Check off items as you pack, and never wonder if you forgot your first aid kit or camp stove again.
 Whether you're planning your next adventure or creating memories on the go, TerraOffRoad keeps you organized, prepared, and connected to the places that matter most.
 
+## Try it out here on your Android phone: [⬇️ Download latest APK](https://github.com/JagerOtter801/TerraOffRoad/releases/latest/download/app-release.apk)
 
+IOS: Currently Unavailable. Will implement at future date.
+
+## Rather checkout the code iteself. Follow the "Getting Started" below.
 ## 🚀 Getting Started
 
 ### Prerequisites
