@@ -1,4 +1,4 @@
-import { Modal, TextInput} from "react-native";
+import { Alert, Modal, TextInput } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { UrlTile, Marker } from "react-native-maps";
 import { styles } from "../../styles";
@@ -24,7 +24,7 @@ const MapScreen = () => {
   const [editedWaypointName, setEditedWaypointName] = useState<string>("");
   const [isDeleteAllWaypointsDisplayed, setVisibleDeleteAllWaypointsModal] =
     useState<boolean>(false);
-  const [isDeleteWaypointDisplayed, setVisibleDeleteWaypointModal] =
+  const [isConfirmDeleteWaypointVisible, setConfirmDeleteWaypointVisiblity] =
     useState<boolean>(false);
 
   const [shouldRenderMap, setShouldRenderMap] = useState(false);
@@ -61,9 +61,9 @@ const MapScreen = () => {
         setCurrentLocation(location);
         setLocationError(null);
         setWaypoints(allWaypoints);
-        
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : "Could not get location";
+        const errorMessage =
+          error instanceof Error ? error.message : "Could not get location";
         const allWaypoints = gpsService.getAllWaypoints();
         setLocationError(errorMessage);
         setWaypoints(allWaypoints);
@@ -123,6 +123,16 @@ const MapScreen = () => {
     }
   };
 
+  const handleWaypointMenu = () =>{
+    if(waypoints.length <= 0){
+      Alert.alert("There are no waypoints selected or waypoints created.")
+      return
+    }
+    setSelectedWaypoint(selectedWaypoint);
+    setWaypointMenuVisible(true);
+
+  }
+
   const createWayPoint = async (event: MapLongPressEvent) => {
     try {
       const { latitude, longitude } = event.nativeEvent.coordinate;
@@ -136,11 +146,6 @@ const MapScreen = () => {
     } catch (error) {
       console.error("Error handling long press:", error);
     }
-  };
-
-  const handleMarkerLongPress = (waypoint: Waypoint) => {
-    setSelectedWaypoint(waypoint);
-    setWaypointMenuVisible(true);
   };
 
   const handleEditWaypoint = () => {
@@ -169,7 +174,7 @@ const MapScreen = () => {
   const handleDeleteWaypoint = () => {
     if (selectedWaypoint) {
       setWaypointMenuVisible(false);
-      setVisibleDeleteWaypointModal(true);
+      setConfirmDeleteWaypointVisiblity(true);
     }
   };
 
@@ -178,6 +183,10 @@ const MapScreen = () => {
     setSelectedWaypoint(null);
     setVisibleDeleteAllWaypointsModal(true);
   };
+
+     const handleMarkerShortPress = (waypoint: Waypoint) => {
+    setSelectedWaypoint(waypoint);
+  }
 
   return (
     <View style={styles.maps_container}>
@@ -192,7 +201,7 @@ const MapScreen = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        style={styles.locationButton}
+        style={styles.floatingLocationButton}
         onPress={handleLocationPress}
       >
         <MaterialIcons
@@ -200,6 +209,12 @@ const MapScreen = () => {
           size={24}
           color="rgba(60, 58, 58, 0.9)"
         />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.floatingWaypointButton}
+        onPress={handleWaypointMenu}
+      >
+        <MaterialIcons name="list" size={24} color="rgba(60, 58, 58, 0.9)" />
       </TouchableOpacity>
       {shouldRenderMap && (
         <MapView
@@ -255,7 +270,7 @@ const MapScreen = () => {
                 waypoint.timestamp || Date.now()
               ).toLocaleTimeString()}`}
               pinColor="blue"
-              onPress={() => handleMarkerLongPress(waypoint)}
+              onPress={() => handleMarkerShortPress(waypoint)}
             />
           ))}
         </MapView>
@@ -379,7 +394,7 @@ const MapScreen = () => {
       </Modal>
 
       <Modal
-        visible={!!isDeleteWaypointDisplayed}
+        visible={!!isConfirmDeleteWaypointVisible}
         transparent={true}
         animationType="fade"
       >
@@ -397,7 +412,7 @@ const MapScreen = () => {
               if (selectedWaypoint) {
                 gpsService.deleteWaypoint(selectedWaypoint.id);
                 setWaypoints(gpsService.getAllWaypoints());
-                setVisibleDeleteWaypointModal(false);
+                setConfirmDeleteWaypointVisiblity(false);
                 setSelectedWaypoint(null);
               }
             }}
@@ -410,7 +425,7 @@ const MapScreen = () => {
           <TouchableOpacity
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => {
-              setVisibleDeleteWaypointModal(false);
+              setConfirmDeleteWaypointVisiblity(false);
               setSelectedWaypoint(null);
             }}
           >

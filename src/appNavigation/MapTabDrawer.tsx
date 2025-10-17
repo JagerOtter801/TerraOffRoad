@@ -3,15 +3,22 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import TabsNavigator from "./BottomTabNavigator";
 import HelpScreen from "../screens/HelpScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const Drawer = createDrawerNavigator();
 
 const MapTabDrawer = () => {
-  const {t}= useTranslation();
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-      <Drawer.Navigator>
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: { backgroundColor: "#334155", width: 280},
+          drawerActiveTintColor: "white",
+          drawerInactiveTintColor: "white",
+          drawerLabelStyle: { fontWeight: "600", letterSpacing: 0.3 },
+        }}
+      >
         <Drawer.Screen
           name={t("main menu")}
           component={TabsNavigator}
@@ -23,6 +30,6 @@ const MapTabDrawer = () => {
       </Drawer.Navigator>
     </SafeAreaView>
   );
-}
+};
 
 export default MapTabDrawer;

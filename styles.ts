@@ -156,11 +156,11 @@ export const styles = StyleSheet.create({
   },
 
   // Map Controls
-  locationButton: {
+  floatingLocationButton: {
     position: "absolute",
     top: 25,
     right: 20,
-    backgroundColor: "rgba(233, 227, 227, 0.8)",
+    backgroundColor: "rgba(255, 255, 255, 0.71)",
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -173,8 +173,22 @@ export const styles = StyleSheet.create({
     elevation: 5,
     zIndex: 1000,
   },
-  locationButtonText: {
-    fontSize: 24,
+   floatingWaypointButton: {
+    position: "absolute",
+    top: 80,
+    right: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.71)",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 1000,
   },
   iosLocationButton: {
     position: "absolute",
@@ -255,7 +269,8 @@ export const styles = StyleSheet.create({
   // User Options Modal
   userOptionsModal: {
     backgroundColor: colors.bg.secondary,
-    height: 300,
+    top: '20%',
+    height: '50%',
     width: 300,
     borderRadius: 20,
     padding: 30,
@@ -289,6 +304,7 @@ export const styles = StyleSheet.create({
   // Waypoint Menu Modal
   waypointMenuModalTitle: {
     fontSize: 20,
+    margin: 30,
     fontWeight: "700",
     marginBottom: 15,
     textAlign: "center",
