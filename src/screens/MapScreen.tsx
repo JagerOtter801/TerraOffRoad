@@ -123,15 +123,14 @@ const MapScreen = () => {
     }
   };
 
-  const handleWaypointMenu = () =>{
-    if(waypoints.length <= 0){
-      Alert.alert("There are no waypoints selected or waypoints created.")
-      return
+  const handleWaypointMenu = () => {
+    if (waypoints.length <= 0) {
+      Alert.alert("There are no waypoints selected or waypoints created.");
+      return;
     }
     setSelectedWaypoint(selectedWaypoint);
     setWaypointMenuVisible(true);
-
-  }
+  };
 
   const createWayPoint = async (event: MapLongPressEvent) => {
     try {
@@ -184,14 +183,15 @@ const MapScreen = () => {
     setVisibleDeleteAllWaypointsModal(true);
   };
 
-     const handleMarkerShortPress = (waypoint: Waypoint) => {
+  const handleMarkerShortPress = (waypoint: Waypoint) => {
     setSelectedWaypoint(waypoint);
-  }
+  };
 
   return (
     <View style={styles.maps_container}>
       <View style={styles.floatingHeader}>
         <TouchableOpacity
+          testID="hamburger-menu-button"
           style={styles.floatingHamburgerMenu}
           onPress={() => {
             navigation.dispatch(DrawerActions.openDrawer());
@@ -201,6 +201,7 @@ const MapScreen = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
+        testID="location-button"
         style={styles.floatingLocationButton}
         onPress={handleLocationPress}
       >
@@ -211,6 +212,7 @@ const MapScreen = () => {
         />
       </TouchableOpacity>
       <TouchableOpacity
+        testID="waypoint-list-button"
         style={styles.floatingWaypointButton}
         onPress={handleWaypointMenu}
       >
@@ -219,7 +221,7 @@ const MapScreen = () => {
       {shouldRenderMap && (
         <MapView
           key="main-map"
-          testID="map-tab-screen"
+          testID="map-view"
           style={styles.map}
           region={
             currentLocation
@@ -248,6 +250,7 @@ const MapScreen = () => {
 
           {currentLocation && (
             <Marker
+              testID="current-location-marker"
               coordinate={{
                 latitude: currentLocation.latitude,
                 longitude: currentLocation.longitude,
@@ -261,6 +264,7 @@ const MapScreen = () => {
           {waypoints.map((waypoint) => (
             <Marker
               key={waypoint.id}
+              testID={`waypoint-marker-${waypoint.id}`}
               coordinate={{
                 latitude: waypoint.latitude,
                 longitude: waypoint.longitude,
@@ -276,10 +280,12 @@ const MapScreen = () => {
         </MapView>
       )}
 
+      {/* Waypoint Menu Modal */}
       <Modal
         visible={isWaypointMenuVisible}
         transparent={true}
         animationType="fade"
+        testID="waypoint-menu-modal"
       >
         <View style={styles.userOptionsModal}>
           <Text style={styles.waypointMenuModalTitle}>
@@ -287,6 +293,7 @@ const MapScreen = () => {
           </Text>
 
           <TouchableOpacity
+            testID="edit-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
             onPress={handleEditWaypoint}
           >
@@ -294,6 +301,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="delete-single-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "#FF9800" }]}
             onPress={handleDeleteWaypoint}
           >
@@ -303,6 +311,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="delete-all-waypoints-button"
             style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
             onPress={handleDeleteAllWaypoints}
           >
@@ -312,6 +321,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="waypoint-menu-cancel-button"
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => {
               setWaypointMenuVisible(false);
@@ -323,15 +333,18 @@ const MapScreen = () => {
         </View>
       </Modal>
 
+      {/* Edit Waypoint Modal */}
       <Modal
         visible={isEditingWaypoint}
         transparent={true}
         animationType="fade"
+        testID="edit-waypoint-modal"
       >
         <View style={styles.userOptionsModal}>
           <Text style={styles.editWaypointModalTitle}>Edit Waypoint Name</Text>
 
           <TextInput
+            testID="edit-waypoint-input"
             style={styles.editWaypointTextInput}
             value={editedWaypointName}
             onChangeText={setEditedWaypointName}
@@ -341,6 +354,7 @@ const MapScreen = () => {
           />
 
           <TouchableOpacity
+            testID="save-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
             onPress={saveWaypointEdit}
           >
@@ -348,6 +362,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="cancel-edit-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => {
               setEditingWaypoint(false);
@@ -360,10 +375,12 @@ const MapScreen = () => {
         </View>
       </Modal>
 
+      {/* Delete All Waypoints Confirmation Modal */}
       <Modal
         visible={!!isDeleteAllWaypointsDisplayed}
         transparent={true}
         animationType="fade"
+        testID="delete-all-waypoints-modal"
       >
         <View style={styles.userOptionsModal}>
           <Text style={styles.deleteAllWaypointsModalTitle}>
@@ -374,6 +391,7 @@ const MapScreen = () => {
           </Text>
 
           <TouchableOpacity
+            testID="confirm-delete-all-button"
             style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
             onPress={async () => {
               await gpsService.deleteAllWaypoints();
@@ -385,6 +403,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="cancel-delete-all-button"
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => setVisibleDeleteAllWaypointsModal(false)}
           >
@@ -393,10 +412,12 @@ const MapScreen = () => {
         </View>
       </Modal>
 
+      {/* Delete Single Waypoint Confirmation Modal */}
       <Modal
         visible={!!isConfirmDeleteWaypointVisible}
         transparent={true}
         animationType="fade"
+        testID="confirm-delete-waypoint-modal"
       >
         <View style={styles.userOptionsModal}>
           <Text style={styles.deleteAllWaypointsModalTitle}>
@@ -407,6 +428,7 @@ const MapScreen = () => {
           </Text>
 
           <TouchableOpacity
+            testID="confirm-delete-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
             onPress={async () => {
               if (selectedWaypoint) {
@@ -423,6 +445,7 @@ const MapScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="cancel-delete-waypoint-button"
             style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
             onPress={() => {
               setConfirmDeleteWaypointVisiblity(false);
