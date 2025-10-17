@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import MapView, { UrlTile, Marker } from "react-native-maps";
 import { styles } from "../../styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { gpsService, Waypoint, Route, Coordinate } from "../gpsNavigation";
-import { MapLongPressEvent } from "../gpsNavigation/types";
+import { gpsService, Waypoint, Coordinate } from "../gps";
+import { MapLongPressEvent } from "../gps/types";
 
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
@@ -30,7 +30,7 @@ const MapScreen = () => {
   const [shouldRenderMap, setShouldRenderMap] = useState(false);
 
   const navigation = useNavigation();
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<MapView>(null);
 
   const initialLatitudeDelta = 0.5;
   const initialLongitudeDelta = 0.5;
@@ -44,7 +44,7 @@ const MapScreen = () => {
     longitudeDelta: initialLongitudeDelta,
   };
 
-  // Batched initialization - runs once on mount
+  // Batched initialization
   useEffect(() => {
     const initializeData = async () => {
       try {
@@ -61,9 +61,11 @@ const MapScreen = () => {
         setCurrentLocation(location);
         setLocationError(null);
         setWaypoints(allWaypoints);
-      } catch (error: any) {
+        
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Could not get location";
         const allWaypoints = gpsService.getAllWaypoints();
-        setLocationError(error.message || "Could not get location");
+        setLocationError(errorMessage);
         setWaypoints(allWaypoints);
       }
     };

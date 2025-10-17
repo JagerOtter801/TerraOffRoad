@@ -8,7 +8,7 @@ import React, {
 import * as AuthSession from "expo-auth-session";
 import { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } from "@env";
 import { User, AuthContextType } from "./types";
-import { gpsService } from "../gpsNavigation";
+import { gpsService } from "../gps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

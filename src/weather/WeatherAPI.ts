@@ -1,9 +1,11 @@
 import { fetchWeatherApi } from 'openmeteo';
+import { gpsService } from '../gps';
 
 export const getWeatherData = async () => {
+  const location = await gpsService.getCurrentLocation();
   const params = {
-    latitude: 52.52,
-    longitude: 13.41,
+    latitude: location.latitude,
+    longitude: location.longitude,
     daily: [
       "sunset",
       "sunrise",

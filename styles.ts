@@ -1,71 +1,117 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
+
+// Modern Dark Mode Color Palette
+const colors = {
+  bg: {
+    primary: "#0F172A", 
+    secondary: "#1E293B",
+    tertiary: "#334155", 
+    elevated: "#475569", 
+  },
+  accent: {
+    primary: "#3B82F6", 
+    secondary: "#8B5CF6", 
+    success: "#10B981", 
+    warning: "#F59E0B", 
+    danger: "#EF4444", 
+    info: "#06B6D4", 
+  },
+  text: {
+    primary: "#F1F5F9", 
+    secondary: "#94A3B8", 
+    tertiary: "#64748B", 
+    accent: "#60A5FA", 
+  },
+  border: {
+    subtle: "#334155", 
+    medium: "#475569", 
+    strong: "#64748B", 
+  },
+};
 
 export const styles = StyleSheet.create({
   // ============================================================================
   // AUTH & LOGIN SCREENS
   // ============================================================================
-  
+
   login_screen_container: {
     flex: 1,
-    backgroundColor: "#2c3e50",
+    backgroundColor: colors.bg.primary,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
   },
   auth0_login_background: {
-    backgroundColor: "rgba(255, 255, 255, 0.75)",
-    borderRadius: 15,
+    backgroundColor: colors.bg.secondary,
+    borderRadius: 20,
     padding: 30,
     alignItems: "center",
     width: "100%",
     maxWidth: 300,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
   },
   auth0_login_title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "700",
     marginBottom: 10,
-    color: "#2c3e50",
+    color: colors.text.primary,
+    letterSpacing: -0.5,
   },
   subauth0_login_title: {
-    fontSize: 20,
-    fontFamily: "System",
+    fontSize: 16,
+    fontWeight: "400",
     marginBottom: 30,
-    color: "#414546ff",
+    color: colors.text.secondary,
+    letterSpacing: 0.3,
   },
   authenticated_homescreen_title: {
     fontSize: 2,
-    fontWeight: "bold",
+    fontWeight: "700",
     marginBottom: 10,
-    color: "#27ae60",
+    color: colors.accent.success,
   },
   email: {
     fontSize: 14,
-    color: "#7f8c8d",
+    fontWeight: "400",
+    color: colors.text.tertiary,
     marginBottom: 20,
   },
   auth0_login_button: {
-    fontSize: 20,
-    backgroundColor: "#9fa1a3ff",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    elevation: 2,
+    fontSize: 18,
+    fontWeight: "600",
+    backgroundColor: colors.accent.primary,
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 12,
+    elevation: 4,
+    letterSpacing: 0.5,
+    shadowColor: colors.accent.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
 
   // ============================================================================
   // MAP SCREEN
   // ============================================================================
-  
+
   maps_container: {
     flex: 1,
     position: "relative",
+    backgroundColor: colors.bg.primary,
   },
   map: {
     flex: 1,
     width: "100%",
     height: "100%",
   },
-  
+
   // Map Header
   floatingHeader: {
     position: "absolute",
@@ -86,10 +132,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -97,20 +140,21 @@ export const styles = StyleSheet.create({
   floatingTitle: {
     flex: 1,
     textAlign: "center",
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    textShadowColor: "rgba(0, 0, 0, 0.75)",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+    fontSize: 20,
+    fontWeight: "700",
+    color: colors.text.primary,
+    textShadowColor: "rgba(0, 0, 0, 0.8)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
     marginLeft: 20,
+    letterSpacing: 0.5,
   },
   mapsHamburgerIcon: {
-    fontSize: 20,
+    fontSize: 24,
     color: "#333",
-    fontWeight: "bold",
+    fontWeight: "600",
   },
-  
+
   // Map Controls
   locationButton: {
     position: "absolute",
@@ -123,10 +167,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -146,156 +187,195 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
   },
   iosLocationButtonText: {
     fontSize: 20,
+    color: colors.text.primary,
   },
-  
+
   // Bottom Panel
   bottomPanel: {
     position: "absolute",
     bottom: 50,
     left: 16,
     right: 16,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: colors.bg.secondary,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 8,
   },
   welcomeText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 17,
+    fontWeight: "600",
     marginBottom: 4,
+    letterSpacing: 0.3,
   },
 
   // ============================================================================
   // NAVIGATION
   // ============================================================================
-  
+
   maps_bottom_tab_navigation: {
-    backgroundColor: "rgba(0, 0, 0, 0.82)",
-    borderTopColor: "transparent",
-    borderTopWidth: 0,
+    backgroundColor: colors.bg.secondary,
+    borderTopColor: colors.border.subtle,
+    borderTopWidth: 1,
     elevation: 0,
-    shadowOpacity: 0,
-    shadowOffset: { width: 0, height: 0 },
-    shadowRadius: 0,
+    height: 75,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
     position: "absolute",
   },
   backButton: {
     padding: 8,
   },
   backButtonText: {
-    color: "#fff",
+    color: colors.text.primary,
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "600",
+    letterSpacing: 0.3,
   },
 
   // ============================================================================
   // MODALS
   // ============================================================================
-  
+
   // User Options Modal
   userOptionsModal: {
-    backgroundColor: "white",
+    backgroundColor: colors.bg.secondary,
     height: 300,
     width: 300,
-    borderRadius: 8,
+    borderRadius: 20,
     padding: 30,
     margin: 20,
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 10,
   },
   modalButtons: {
     margin: 5,
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 12,
     minHeight: 50,
     width: "80%",
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  
+
   // Waypoint Menu Modal
   waypointMenuModalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "700",
     marginBottom: 15,
     textAlign: "center",
+    letterSpacing: 0.3,
+    color: colors.text.primary,
   },
   waypointMenuButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 16,
+    fontWeight: "600",
     textAlign: "center",
+    letterSpacing: 0.5,
   },
-  
+
   // Edit Waypoint Modal
   editWaypointModalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "700",
     marginBottom: 15,
     textAlign: "center",
+    letterSpacing: 0.3,
+    color: colors.text.primary,
   },
   editWaypointTextInput: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
+    borderColor: colors.border.medium,
+    borderRadius: 12,
+    padding: 12,
     marginBottom: 15,
     minWidth: 200,
-    backgroundColor: "white",
+    backgroundColor: colors.bg.primary,
+    fontSize: 16,
+    fontWeight: "400",
+    color: colors.text.primary,
   },
   editWaypointButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 16,
+    fontWeight: "600",
     textAlign: "center",
+    letterSpacing: 0.5,
   },
-  
+
   // Delete All Waypoints Modal
   deleteAllWaypointsModalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "700",
     marginBottom: 15,
     textAlign: "center",
+    letterSpacing: 0.3,
+    color: colors.text.primary,
   },
   deleteAllWaypointsSubtext: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: 15,
+    fontWeight: "400",
+    color: colors.text.secondary,
     marginBottom: 15,
     textAlign: "center",
+    lineHeight: 20,
   },
   deleteAllWaypointsButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 16,
+    fontWeight: "600",
     textAlign: "center",
+    letterSpacing: 0.5,
   },
 
   // ============================================================================
   // GEAR SCREEN (PACKING LIST)
   // ============================================================================
-  
+
   gearScreenContainer: {
     flex: 1,
-    backgroundColor: "#1a1a1a",
+    backgroundColor: colors.bg.primary,
     paddingTop: 15,
   },
   gearScreenTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "700",
     marginBottom: 20,
     textAlign: "center",
     paddingHorizontal: 15,
-    color: "#e5e5e5",
+    color: colors.text.primary,
+    letterSpacing: 0.5,
   },
-  
+
   // Packing List
   packingListWrapper: {
     flex: 1,
@@ -304,33 +384,40 @@ export const styles = StyleSheet.create({
   packingListScrollContent: {
     paddingBottom: 100,
   },
-  
+
   // Section Styles
   sectionContainer: {
     marginBottom: 25,
   },
   sectionHeader: {
-    backgroundColor: "#2d2d2d",
+    backgroundColor: colors.bg.secondary,
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#404040",
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#e5e5e5",
+    fontSize: 20,
+    fontWeight: "700",
+    color: colors.text.primary,
+    letterSpacing: 0.3,
   },
   sectionCount: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#9ca3af",
+    color: colors.text.secondary,
+    letterSpacing: 0.5,
   },
-  
+
   // Packing Items
   packingItemContainer: {
     flexDirection: "row",
@@ -339,8 +426,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 8,
     borderBottomWidth: 1,
-    borderColor: "#2d2d2d",
-    backgroundColor: "#1a1a1a",
+    borderColor: colors.border.subtle,
+    backgroundColor: colors.bg.primary,
   },
   packingItemCheckboxContainer: {
     flexDirection: "row",
@@ -348,25 +435,29 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   packingItemCheckboxUnchecked: {
-    fontSize: 18,
+    fontSize: 20,
     marginRight: 10,
-    color: "#6b7280",
+    color: colors.text.tertiary,
   },
   packingItemCheckboxChecked: {
-    fontSize: 18,
+    fontSize: 20,
     marginRight: 10,
-    color: "#10b981",
+    color: colors.accent.success,
   },
   packingItemTextUnchecked: {
     fontSize: 16,
-    color: "#e5e5e5",
+    fontWeight: "400",
+    color: colors.text.primary,
     flex: 1,
+    letterSpacing: 0.2,
   },
   packingItemTextChecked: {
     fontSize: 16,
+    fontWeight: "400",
     textDecorationLine: "line-through",
-    color: "#6b7280",
+    color: colors.text.tertiary,
     flex: 1,
+    letterSpacing: 0.2,
   },
   deleteItemButton: {
     padding: 8,
@@ -374,109 +465,146 @@ export const styles = StyleSheet.create({
   },
   deleteItemButtonText: {
     fontSize: 20,
-    color: "#ef4444",
-    fontWeight: "bold",
+    color: colors.accent.danger,
+    fontWeight: "600",
   },
-  
+
   // Add Item Form
   addItemFormContainer: {
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#2d2d2d",
+    backgroundColor: colors.bg.secondary,
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: 12,
     marginTop: 8,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: "#404040",
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   addItemInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#404040",
-    padding: 8,
+    borderColor: colors.border.medium,
+    padding: 10,
     marginRight: 10,
     borderRadius: 8,
-    backgroundColor: "#1a1a1a",
-    color: "#e5e5e5",
+    backgroundColor: colors.bg.primary,
+    color: colors.text.primary,
+    fontSize: 16,
+    fontWeight: "400",
   },
   addItemButton: {
-    backgroundColor: "#10b981",
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 8,
+    backgroundColor: colors.accent.success,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 10,
     marginRight: 5,
+    shadowColor: colors.accent.success,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   addItemButtonText: {
-    color: "#ffffff",
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 15,
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
   cancelItemButton: {
-    backgroundColor: "#ef4444",
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 8,
+    backgroundColor: colors.accent.danger,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 10,
+    shadowColor: colors.accent.danger,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cancelItemButtonText: {
-    color: "#ffffff",
-    fontWeight: "bold",
+    color: colors.text.primary,
+    fontSize: 15,
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
   showAddItemButton: {
-    padding: 10,
-    backgroundColor: "#6b98f7ff",
-    borderRadius: 4,
+    padding: 12,
+    backgroundColor: colors.accent.primary,
+    borderRadius: 10,
     marginTop: 8,
     alignItems: "center",
+    shadowColor: colors.accent.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   showAddItemButtonText: {
-    color: "#ffffff",
+    color: colors.text.primary,
+    fontSize: 16,
     fontWeight: "600",
+    letterSpacing: 0.5,
   },
-  
+
   // Loading State
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: colors.bg.primary,
   },
   loadingText: {
     fontSize: 16,
-    color: "#9ca3af",
+    fontWeight: "400",
+    color: colors.text.secondary,
+    letterSpacing: 0.3,
   },
 
   // ============================================================================
   // POINTS OF INTEREST SCREEN
   // ============================================================================
-  
+
   poiScreenContainer: {
     flex: 1,
-    backgroundColor: "#1a1a1a",
+    backgroundColor: colors.bg.primary,
     paddingTop: 15,
   },
   poiScreenTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "700",
     marginBottom: 20,
     textAlign: "center",
     paddingHorizontal: 15,
-    color: "#e5e5e5",
+    color: colors.text.primary,
+    letterSpacing: 0.5,
   },
   poiListContent: {
     paddingHorizontal: 15,
     paddingBottom: 100,
     flexGrow: 1,
   },
-  
+
   // Waypoint Items
   waypointItemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#2d2d2d",
+    backgroundColor: colors.bg.secondary,
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: "#404040",
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   waypointImageContainer: {
     marginRight: 12,
@@ -490,7 +618,7 @@ export const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 8,
-    backgroundColor: "#404040",
+    backgroundColor: colors.bg.tertiary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -504,14 +632,17 @@ export const styles = StyleSheet.create({
   waypointName: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#e5e5e5",
+    color: colors.text.primary,
     marginBottom: 4,
+    letterSpacing: 0.3,
   },
   waypointDistance: {
     fontSize: 14,
-    color: "#9ca3af",
+    fontWeight: "400",
+    color: colors.text.secondary,
+    letterSpacing: 0.2,
   },
-  
+
   // Empty State
   emptyWaypointContainer: {
     flex: 1,
@@ -521,13 +652,103 @@ export const styles = StyleSheet.create({
   },
   emptyWaypointText: {
     fontSize: 18,
-    color: "#e5e5e5",
+    fontWeight: "600",
+    color: colors.text.primary,
     textAlign: "center",
     marginBottom: 8,
+    letterSpacing: 0.3,
   },
   emptyWaypointSubtext: {
-    fontSize: 14,
-    color: "#9ca3af",
+    fontSize: 15,
+    fontWeight: "400",
+    color: colors.text.secondary,
     textAlign: "center",
+    letterSpacing: 0.2,
+  },
+
+  // ============================================================================
+  // WEATHER BOTTOM SHEET
+  // ============================================================================
+
+  bottomSheetBackground: {
+    backgroundColor: colors.bg.primary,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  handleIndicator: {
+    backgroundColor: colors.text.tertiary,
+    width: 40,
+    height: 4,
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  weatherCard: {
+    backgroundColor: colors.bg.secondary,
+    padding: 24,
+    borderRadius: 16,
+    width: "100%",
+    maxWidth: 320,
+    borderWidth: 1,
+    borderColor: colors.border.subtle,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 20,
+    color: colors.text.primary,
+    letterSpacing: 0.5,
+  },
+  temperatureContainer: {
+    alignItems: "center",
+    marginBottom: 24,
+    paddingVertical: 12,
+  },
+  temperature: {
+    fontSize: 48,
+    fontWeight: "700",
+    color: colors.accent.info,
+    letterSpacing: -1,
+  },
+  detailsContainer: {
+    backgroundColor: colors.bg.tertiary,
+    borderRadius: 12,
+    padding: 16,
+  },
+  detailRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+  },
+  detailLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.text.secondary,
+    letterSpacing: 0.3,
+  },
+  detailValue: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.text.primary,
+    letterSpacing: 0.3,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.border.subtle,
+    marginVertical: 4,
   },
 });

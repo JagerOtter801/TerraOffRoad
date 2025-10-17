@@ -12,14 +12,6 @@ export interface Waypoint extends Coordinate {
   name?: string;
 }
 
-export interface Route {
-  id: string;
-  name: string;
-  waypoints: Waypoint[];
-  totalDistance: number;
-  createdAt: number;
-}
-
 export interface LocationError {
   code: number;
   message: string;
@@ -32,4 +24,11 @@ export interface MapLongPressEvent {
       longitude: number;
     };
   };
+}
+
+export interface SearchBounds {
+  north: number;
+  south: number;
+  east: number;
+  west: number;
 }
