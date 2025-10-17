@@ -60,16 +60,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     //promptAsync();
 
     //  TODO: Use this as a guide for when I want to store JWT securely aka encrypted
-    //     import * as Keychain from 'react-native-keychain';
+    //   import * as SecureStore from 'expo-secure-store;
+    // After logging into Auth0 with creds, get back the authorization code
+    // then const response = await fetch('https://terraoffroad-domain/oauth,
+    //                        method: 'POST',
+    //                        body: JSON.stringify({auth code exchange}) )
+    // const {access_token, refresh_token} = await respons.Json;
 
-    // // Store token
-    // await Keychain.setInternetCredentials('myapp', 'token', jwtToken);
+    // // Store both tokens
+    // await SecureStore.setItemAsync('access_token', access_token);
+    // await SecureStore.setItemAsync('refresh_token', refresh_token);
 
     // // Retrieve token
-    // const credentials = await Keychain.getInternetCredentials('myapp');
-    // if (credentials) {
-    //   const token = credentials.password;
-    // }
+    // const accessToken = await SecureStore.getItemAsync('access_token'));
+    // const refreshToken = away SecureStore.getItemAsync('refresh_token')
+  
   };
 
   const logout = async () => {

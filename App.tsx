@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import { AuthProvider, useAuth } from "./src/auth0";
-import MapTabDrawerScreen from "./src/appNavigation/MapTabDrawerScreen";
+import MapTabDrawer from "./src/appNavigation/MapTabDrawer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,7 +8,7 @@ import  i18n  from './src/localization/i18n/index';
 import * as RNLocalize from 'react-native-localize';
 import { AppState, AppStateStatus } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { WeatherBottomSheetProvider } from './src/appNavigation/WeatherBottomSheetContext'
+import { WeatherBottomSheetProvider } from './src/weather/WeatherBottomSheetContext'
 
 function AppNavigator() {
   const Stack = createNativeStackNavigator();
@@ -16,7 +16,7 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MapScreen" component={MapTabDrawerScreen} />
+          <Stack.Screen name="MapScreen" component={MapTabDrawer} />
       </Stack.Navigator>
     </NavigationContainer>
   );

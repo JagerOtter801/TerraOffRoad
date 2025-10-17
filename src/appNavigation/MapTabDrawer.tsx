@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
 
-const MapTabDrawerScreen = () => {
+const MapTabDrawer = () => {
   const {t}= useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
@@ -25,4 +25,4 @@ const MapTabDrawerScreen = () => {
   );
 }
 
-export default MapTabDrawerScreen;
+export default MapTabDrawer;

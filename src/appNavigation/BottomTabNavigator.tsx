@@ -8,7 +8,7 @@ import GearScreen from "../screens/GearScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
 import PointsOfInterest from "../screens/PointsOfInterestBottomSheetScreen";
-import { useWeatherBottomSheet } from "./WeatherBottomSheetContext";
+import { useWeatherBottomSheet } from "../weather/WeatherBottomSheetContext";
 
 
 const Tab = createBottomTabNavigator();
