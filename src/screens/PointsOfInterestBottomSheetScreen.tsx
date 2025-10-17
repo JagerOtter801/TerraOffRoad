@@ -46,7 +46,7 @@ const PointsOfInterest = () => {
 
   return (
     <View testID="routes-screen" style={styles.poiScreenContainer}>
-      <Text style={styles.poiScreenTitle}>Saved Waypoints</Text>
+      <Text style={styles.poiScreenTitle}>Saved Waypoints: UNDER DEVELOPMENT</Text>
       <FlatList
         data={waypoints}
         keyExtractor={(item) => item.id}
