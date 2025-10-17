@@ -1,8 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useRef, forwardRef, useState} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import {getWeatherData} from "../weather/WeatherAPI";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  forwardRef,
+} from "react";
+import { View, Text, StyleSheet } from "react-native";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { getWeatherData } from "../weather/WeatherAPI";
 import { WeatherData } from "../screens/index";
+import {styles} from "../../styles"
 
 const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -28,104 +34,66 @@ const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
     <BottomSheet
       ref={ref}
       onChange={handleSheetChanges}
-      index={-1} // Changed to -1 so it starts closed
-      snapPoints={[500]}
-      backgroundStyle={{ backgroundColor: "#b6a398" }}
-      handleIndicatorStyle={{ backgroundColor: "#fff" }}
+      index={0}
+      snapPoints={['70%']}
+      backgroundStyle={styles.bottomSheetBackground}
+      handleIndicatorStyle={styles.handleIndicator}
       enablePanDownToClose={true}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              padding: 30,
-              borderRadius: 10,
-              width: 260,
-            }}
-          >
+        <View style={styles.innerContainer}>
+          <View style={styles.weatherCard}>
             {weather ? (
               <>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "600",
-                    textAlign: "center",
-                    marginBottom: 10,
-                  }}
-                >
-                  Weather Report
-                </Text>
+                <Text style={styles.title}>Weather Report</Text>
 
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                    marginBottom: 5,
-                  }}
-                >
-                  🌡️ {weather.current.temperature_2m.toFixed(1)}°F
-                </Text>
+                <View style={styles.temperatureContainer}>
+                  <Text style={styles.temperature}>
+                    {weather.current.temperature_2m.toFixed(1)}°F
+                  </Text>
+                </View>
 
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                    marginBottom: 5,
-                  }}
-                >
-                  🌬️ Wind: {weather.current.wind_speed_10m.toFixed(1)} mph
-                </Text>
+                <View style={styles.detailsContainer}>
+                  <View style={styles.detailRow}>
+                    <Text style={styles.detailLabel}>Wind</Text>
+                    <Text style={styles.detailValue}>
+                      {weather.current.wind_speed_10m.toFixed(1)} mph
+                    </Text>
+                  </View>
 
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                    marginBottom: 5,
-                  }}
-                >
-                  🌅 Sunrise:{" "}
-                  {new Date(weather.daily.sunrise[0]).toLocaleTimeString()}
-                </Text>
+                  <View style={styles.divider} />
 
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                    marginBottom: 15,
-                  }}
-                >
-                  🌇 Sunset:{" "}
-                  {new Date(weather.daily.sunset[0]).toLocaleTimeString()}
-                </Text>
+                  <View style={styles.detailRow}>
+                    <Text style={styles.detailLabel}>Sunrise</Text>
+                    <Text style={styles.detailValue}>
+                      {new Date(weather.daily.sunrise[0]).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </Text>
+                  </View>
+
+                  <View style={styles.divider} />
+
+                  <View style={styles.detailRow}>
+                    <Text style={styles.detailLabel}>Sunset</Text>
+                    <Text style={styles.detailValue}>
+                      {new Date(weather.daily.sunset[0]).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </Text>
+                  </View>
+                </View>
               </>
             ) : (
-              <Text style={{ textAlign: "center" }}>Loading weather...</Text>
+              <Text style={styles.loadingText}>Loading weather...</Text>
             )}
           </View>
         </View>
       </BottomSheetView>
     </BottomSheet>
   );
-});
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'grey',
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 36,
-    margin: 4,
-    alignItems: 'center',
-  },
 });
 
 export default WeatherBottomSheetScreen;
