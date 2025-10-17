@@ -12,9 +12,14 @@ import {styles} from "../../styles"
 
 const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
+    if( index >=0 && !hasLoaded){
+      getWeather();
+      setHasLoaded(true);
+    }
   }, []);
 
   const getWeather = async () => {
@@ -26,15 +31,11 @@ const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
     }
   };
 
-  useEffect(() => {
-    getWeather();
-  }, []);
-
   return (
     <BottomSheet
       ref={ref}
       onChange={handleSheetChanges}
-      index={0}
+      index={-1}
       snapPoints={['70%']}
       backgroundStyle={styles.bottomSheetBackground}
       handleIndicatorStyle={styles.handleIndicator}
