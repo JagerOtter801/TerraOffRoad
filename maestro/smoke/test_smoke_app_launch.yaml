@@ -1,11 +1,20 @@
 appId: com.anonymous.TerraOffRoad
 ---
-
-# Basic smoke test - just verify app launches without crashing
 - launchApp
 - extendedWaitUntil:
-    visible: ".*" 
+    visible: "hamburger-menu-button"
     timeout: 15000
 
-# Verify the app did not crash on launch by checking for absence of crash dialog
+# Verify Settings Menu is visible    
+- assertVisible: "hamburger-menu-button"
+
+# Verify Location Button is visible
+- assertVisible: "location-button"
+
+# Verify Waypoint Menu is visible
+- assertVisible: "waypoint-menu-button"
+
+# Verify Application did not crash
 - assertNotVisible: "Unfortunately"
+
+
