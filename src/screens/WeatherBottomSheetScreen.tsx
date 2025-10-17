@@ -40,7 +40,7 @@ const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
       handleIndicatorStyle={styles.handleIndicator}
       enablePanDownToClose={true}
     >
-      <BottomSheetView style={styles.contentContainer}>
+      <BottomSheetView style={styles.bottomSheetContentContainer}>
         <View style={styles.innerContainer}>
           <View style={styles.weatherCard}>
             {weather ? (

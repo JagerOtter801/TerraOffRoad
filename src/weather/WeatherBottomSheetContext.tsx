@@ -1,5 +1,4 @@
-// contexts/WeatherBottomSheetContext.tsx
-import React, { createContext, useContext, useRef, ReactNode } from 'react';
+import { createContext, useContext, useRef, ReactNode } from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import WeatherBottomSheetScreen from '../screens/WeatherBottomSheetScreen';
 

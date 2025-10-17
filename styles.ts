@@ -680,7 +680,7 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 4,
   },
-  contentContainer: {
+  bottomSheetContentContainer: {
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 10,
@@ -689,6 +689,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 60,
+    borderRadius: 8,
   },
   weatherCard: {
     backgroundColor: colors.bg.secondary,
@@ -749,6 +751,6 @@ export const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: colors.border.subtle,
-    marginVertical: 4,
+    marginVertical: 1,
   },
 });
