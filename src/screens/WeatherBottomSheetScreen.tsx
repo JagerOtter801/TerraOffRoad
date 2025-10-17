@@ -12,20 +12,25 @@ import {styles} from "../../styles"
 
 const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [hasLoaded, setHasLoaded] = useState(false);
+ const [lastWeatherFetchTime, setLastWeatherFetchTime] = useState<number>(0);
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-    if( index >=0 && !hasLoaded){
+    if( index >=0){
+      const now = Date.now();
+      const fiveMinutes = 300000;
+
+      if(!weather || (now - lastWeatherFetchTime > fiveMinutes)){
       getWeather();
-      setHasLoaded(true);
     }
-  }, []);
+  }
+
+  }, [weather, lastWeatherFetchTime]);
 
   const getWeather = async () => {
     try {
       const data = await getWeatherData();
       setWeather(data);
+      setLastWeatherFetchTime(Date.now());
     } catch (error) {
       console.error("Failed to fetch weather:", error);
     }
