@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
 
-// Modern Dark Mode Color Palette
 const colors = {
   bg: {
     primary: "#0F172A", 
@@ -33,7 +32,6 @@ export const styles = StyleSheet.create({
   // ============================================================================
   // AUTH & LOGIN SCREENS
   // ============================================================================
-
   login_screen_container: {
     flex: 1,
     backgroundColor: colors.bg.primary,
@@ -154,8 +152,6 @@ export const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "600",
   },
-
-  // Map Controls
   floatingLocationButton: {
     position: "absolute",
     top: 25,
@@ -210,8 +206,6 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.text.primary,
   },
-
-  // Bottom Panel
   bottomPanel: {
     position: "absolute",
     bottom: 50,
@@ -265,8 +259,6 @@ export const styles = StyleSheet.create({
   // ============================================================================
   // MODALS
   // ============================================================================
-
-  // User Options Modal
   userOptionsModal: {
     backgroundColor: colors.bg.secondary,
     top: '20%',
@@ -301,7 +293,6 @@ export const styles = StyleSheet.create({
     elevation: 3,
   },
 
-  // Waypoint Menu Modal
   waypointMenuModalTitle: {
     fontSize: 20,
     margin: 30,
@@ -319,7 +310,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Edit Waypoint Modal
   editWaypointModalTitle: {
     fontSize: 20,
     fontWeight: "700",
@@ -348,7 +338,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Delete All Waypoints Modal
   deleteAllWaypointsModalTitle: {
     fontSize: 20,
     fontWeight: "700",
@@ -376,7 +365,6 @@ export const styles = StyleSheet.create({
   // ============================================================================
   // GEAR SCREEN (PACKING LIST)
   // ============================================================================
-
   gearScreenContainer: {
     flex: 1,
     backgroundColor: colors.bg.primary,
@@ -392,7 +380,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Packing List
   packingListWrapper: {
     flex: 1,
     paddingHorizontal: 15,
@@ -400,11 +387,10 @@ export const styles = StyleSheet.create({
   packingListScrollContent: {
     paddingBottom: 100,
   },
-
-  // Section Styles
   sectionContainer: {
     marginBottom: 25,
   },
+
   sectionHeader: {
     backgroundColor: colors.bg.secondary,
     padding: 12,
@@ -434,7 +420,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Packing Items
   packingItemContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -485,7 +470,6 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
-  // Add Item Form
   addItemFormContainer: {
     flexDirection: "row",
     padding: 10,
@@ -568,7 +552,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Loading State
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
@@ -585,7 +568,6 @@ export const styles = StyleSheet.create({
   // ============================================================================
   // POINTS OF INTEREST SCREEN
   // ============================================================================
-
   poiScreenContainer: {
     flex: 1,
     backgroundColor: colors.bg.primary,
@@ -606,7 +588,6 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  // Waypoint Items
   waypointItemContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -659,7 +640,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
 
-  // Empty State
   emptyWaypointContainer: {
     flex: 1,
     justifyContent: "center",
@@ -685,7 +665,6 @@ export const styles = StyleSheet.create({
   // ============================================================================
   // WEATHER BOTTOM SHEET
   // ============================================================================
-
   bottomSheetBackground: {
     backgroundColor: colors.bg.primary,
     borderTopLeftRadius: 20,
