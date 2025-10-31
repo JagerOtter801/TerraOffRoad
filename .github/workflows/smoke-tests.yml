@@ -45,7 +45,6 @@ jobs:
         echo "After cleanup:"
         df -h
 
-    # MOVED: Cache before builds
     - name: Cache Gradle dependencies
       uses: actions/cache@v3
       with:
@@ -61,22 +60,20 @@ jobs:
 
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
-
-    # REMOVED: Duplicate Expo CLI install
+      
     - name: Install Expo CLI
       run: npm install -g @expo/cli
       
     - name: TypeScript check
       run: npx tsc --noEmit
 
-    # SINGLE prebuild
+    # Prebuild to generate Native Android project files(build.gradle(s), etc)
     - name: Prebuild Android
       run: npx expo prebuild --platform android --clean
 
     - name: Expo build check - Android
       run: npx expo export --platform android --dev
 
-    # SINGLE build - DEBUG for testing
     - name: Build Android Debug APK
       run: |
         cd android
@@ -84,7 +81,7 @@ jobs:
         ./gradlew assembleDebug
         cd ..
 
-    # Upload the DEBUG APK we're actually testing
+    # Upload the DEBUG APK to Test with
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       if: always()
