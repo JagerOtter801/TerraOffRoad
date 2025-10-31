@@ -1,6 +1,7 @@
 appId: com.anonymous.TerraOffRoad
 ---
 - launchApp
+- waitforAnimationToEnd
 - extendedWaitUntil:
     visible: "hamburger-menu-button"
     timeout: 15000

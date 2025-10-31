@@ -6,6 +6,7 @@ export type SectionName =
   | "Clothing"
   | "Cooking"
   | "Food"
+  | "Hygiene"
   | "Lighting/Signaling"
   | "Electronics"
   | "Misc";

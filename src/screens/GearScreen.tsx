@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ const initialSections: PackingList = {
   Clothing: [],
   Cooking: [],
   Food: [],
+  Hygiene: [],
   "Lighting/Signaling": [],
   Electronics: [],
   Misc: [],
@@ -49,12 +50,6 @@ const GearScreen = () => {
     loadPackingList();
   }, []);
 
-  // Auto Save - Packing list.
-  useEffect(() => {
-    if (!isLoading) {
-      savePackingList();
-    }
-  }, [packingList]);
 
   const loadPackingList = async () => {
     try {
@@ -70,7 +65,7 @@ const GearScreen = () => {
     }
   };
 
-  const savePackingList = async () => {
+  const savePackingList = useCallback(async () => {
     try {
       await AsyncStorage.setItem(
         PACKING_LIST_STORAGE_KEY,
@@ -80,7 +75,7 @@ const GearScreen = () => {
       console.error("Error saving packing list:", error);
       Alert.alert(t("error"), t("failed to save packing list"));
     }
-  };
+  }, [packingList]);
 
   const toggleItemCheck = (section: SectionName, itemId: string) => {
     setPackingList((prev) => ({
@@ -142,6 +137,13 @@ const GearScreen = () => {
     setSelectedSection(null);
     setNewItemText("");
   };
+
+    // Auto Save - Packing list.
+  useEffect(() => {
+    if (!isLoading) {
+      savePackingList();
+    }
+  }, [packingList, savePackingList]);
 
 const renderPackingItem = ({
     item,

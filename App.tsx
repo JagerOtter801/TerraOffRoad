@@ -24,7 +24,7 @@ function AppNavigator() {
 
 export default function App() {
 
-  // Localization automatic handle language changes
+  //Automatically handle language change/update when application state changes
   useEffect (()=>{
     const handleLanguageChangeListener = (appStatus : AppStateStatus) => {
       if(appStatus === 'active'){
@@ -36,10 +36,9 @@ export default function App() {
       }
     };
 
-    // Call function when app state changes and passes app state arguments to handleLanguageChangeListener
-    const subscription = AppState.addEventListener('change', handleLanguageChangeListener);
+    const appStateSubscription = AppState.addEventListener('change', handleLanguageChangeListener);
     return ()=>{
-      subscription?.remove();
+      appStateSubscription?.remove();
     }
   },[]);
 

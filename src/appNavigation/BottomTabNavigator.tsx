@@ -7,21 +7,20 @@ import MapScreen from "../screens/MapScreen";
 import GearScreen from "../screens/GearScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
-import PointsOfInterest from "../screens/PointsOfInterestBottomSheetScreen";
+import PointsOfInterest from "../screens/PointsOfInterestScreen";
 import { useWeatherBottomSheet } from "../weather/WeatherBottomSheetContext";
 
-
 const Tab = createBottomTabNavigator();
+
 const BottomTabNavigator = () => {
   const { t } = useTranslation();
   const { openWeatherSheet, closeWeatherSheet } = useWeatherBottomSheet();
- 
 
-   return (
+  return (
     <>
       <Tab.Navigator
         screenOptions={{
-          tabBarStyle: styles.maps_bottom_tab_navigation ,
+          tabBarStyle: styles.maps_bottom_tab_navigation,
           tabBarActiveTintColor: "#E5E2E1",
           tabBarInactiveTintColor: "#9E9998",
           tabBarBackground: () => null,
@@ -43,7 +42,7 @@ const BottomTabNavigator = () => {
           }}
           listeners={() => ({
             tabPress: () => {
-              closeWeatherSheet(); 
+              closeWeatherSheet();
             },
           })}
         />
@@ -95,7 +94,7 @@ const BottomTabNavigator = () => {
               e.preventDefault();
               openWeatherSheet();
               navigation.navigate(t("map"));
-            }
+            },
           })}
         />
       </Tab.Navigator>
