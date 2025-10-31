@@ -44,38 +44,8 @@ jobs:
         sudo apt-get clean
         echo "After cleanup:"
         df -h
-    - name: Configure npm for legacy peer deps
-      run: npm config set legacy-peer-deps true
 
-    - name: Install dependencies
-      run: npm ci --legacy-peer-deps
-
-    - name: Install Expo CLI
-      run: npm install -g @expo/cli
-      
-    - name: TypeScript check
-      run: npx tsc --noEmit
-
-    - name: Prebuild Android
-      run: npx expo prebuild --platform android --clean
-
-    - name: Expo build check - Android
-      run: npx expo export --platform android --dev
-    
-    - name: Build APK
-      run: |
-        npx expo prebuild --platform android
-        cd android
-        ./gradlew assembleRelease
-
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: app-release
-        path: android/app/build/outputs/apk/release/app-release.apk 
-        retention-days: 7
-
+    # MOVED: Cache before builds
     - name: Cache Gradle dependencies
       uses: actions/cache@v3
       with:
@@ -83,6 +53,45 @@ jobs:
           ~/.gradle/caches
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Configure npm for legacy peer deps
+      run: npm config set legacy-peer-deps true
+
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
+
+    # REMOVED: Duplicate Expo CLI install
+    - name: Install Expo CLI
+      run: npm install -g @expo/cli
+      
+    - name: TypeScript check
+      run: npx tsc --noEmit
+
+    # SINGLE prebuild
+    - name: Prebuild Android
+      run: npx expo prebuild --platform android --clean
+
+    - name: Expo build check - Android
+      run: npx expo export --platform android --dev
+
+    # SINGLE build - DEBUG for testing
+    - name: Build Android Debug APK
+      run: |
+        cd android
+        chmod +x ./gradlew
+        ./gradlew assembleDebug
+        cd ..
+
+    # Upload the DEBUG APK we're actually testing
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: app-debug-${{ github.run_number }}
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 7
 
     - name: AVD cache
       uses: actions/cache@v3
@@ -111,15 +120,7 @@ jobs:
       run: |
         curl -Ls "https://get.maestro.mobile.dev" | bash
         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-    - name: Install Expo CLI
-      run: npm install -g @expo/cli
 
-    - name: Build Android Debug APK
-      run: |
-        cd android
-        chmod +x ./gradlew
-        ./gradlew assembleDebug
-        cd ..
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
@@ -136,29 +137,41 @@ jobs:
         disable-animations: true
         script: |
           export PATH="$HOME/.maestro/bin:$PATH"
-          echo "Emulator should be ready, waiting for input service..."
+          PACKAGE_NAME="com.anonymous.TerraOffRoad"
           
+          echo "Emulator should be ready, waiting for input service..."
           timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
           
           sleep 10
           
           echo "Attempting to unlock screen..."
           adb shell input keyevent 82 2>/dev/null || echo "Screen unlock failed, but continuing..."
-          
           adb shell input keyevent 4
           sleep 5
           
-          echo "Checking build outputs..."
-          ls -la android/app/build/outputs/apk/
-          find android/app/build/outputs/apk/ -name "*.apk" -type f
-          PACKAGE_NAME=$(grep applicationId android/app/build.gradle | cut -d'"' -f2)
-          echo "Looking for package: $PACKAGE_NAME"
-          echo "Installing APK: android/app/build/outputs/apk/debug/app-debug.apk"
+          echo "Installing APK..."
           adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+          
+          echo "Waiting for installation to fully complete..."
+          sleep 20
+          
+          echo "Verifying app is installed..."
+          adb shell pm list packages | grep TerraOffRoad || echo "WARNING: App not found in package list"
+          
+          echo "Manually launching app to warm it up..."
+          adb shell am start -n $PACKAGE_NAME/.MainActivity
           sleep 15
-          adb shell pm list packages | grep "$PACKAGE_NAME" || echo "App not found in package list"
+          
+          echo "Checking if app launched..."
+          adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp"
+          
+          echo "Stopping app so Maestro can launch it fresh..."
+          adb shell am force-stop $PACKAGE_NAME
+          sleep 5
+          
           echo "Running smoke tests..."
-          maestro test maestro/smoke/
+          maestro test maestro/smoke/ --debug-output ./maestro-debug
+
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
       if: always()
@@ -167,4 +180,15 @@ jobs:
         path: |
           maestro/smoke/
           ~/.maestro/tests/
+          maestro-debug/
         retention-days: 7
+
+    - name: Upload failure diagnostics
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: failure-diagnostics-${{ github.run_number }}
+        path: |
+          android/app/build/outputs/apk/debug/app-debug.apk
+          maestro-debug/
+        retention-days: 3
