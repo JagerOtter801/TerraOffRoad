@@ -67,7 +67,7 @@ jobs:
     - name: TypeScript check
       run: npx tsc --noEmit
 
-    # Prebuild to generate Native Android project files(build.gradle(s), etc)
+    # Prebuild to generate Native Android project files(build.gradle(s)AndroidManifest.xml, MainActivity, etc)
     - name: Prebuild Android
       run: npx expo prebuild --platform android --clean
 
