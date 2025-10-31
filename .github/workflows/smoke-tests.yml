@@ -156,7 +156,7 @@ jobs:
           adb shell pm list packages | grep TerraOffRoad || echo "WARNING: App not found in package list"
           
           echo "Manually launching app to warm it up..."
-          adb shell am start -n $PACKAGE_NAME/.MainActivity
+          adb shell monkey -p ${PACKAGE_NAME} -c android.intent.category.LAUNCHER 1
           sleep 15
           
           echo "Checking if app launched..."
