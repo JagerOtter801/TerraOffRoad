@@ -1,16 +1,19 @@
 import { StyleSheet, Platform } from "react-native";
 
+// Modern Dark Mode Colors
 const colors = {
   bg: {
     primary: "#0F172A", 
     secondary: "#1E293B",
     tertiary: "#334155", 
-    elevated: "#475569", 
+    elevated: "#475569",
+    white: "#FFFFFF",
+    whiteTranslucent: "rgba(255, 255, 255, 0.71)",
   },
   accent: {
     primary: "#3B82F6", 
     secondary: "#8B5CF6", 
-    success: "#10B981", 
+    success: "#10B981",
     warning: "#F59E0B", 
     danger: "#EF4444", 
     info: "#06B6D4", 
@@ -19,12 +22,22 @@ const colors = {
     primary: "#F1F5F9", 
     secondary: "#94A3B8", 
     tertiary: "#64748B", 
-    accent: "#60A5FA", 
+    accent: "#60A5FA",
+    dark: "#333333",
+    darkMedium: "#555555",
+    darkLight: "#222222",
+    link: "#0077b5",
   },
   border: {
     subtle: "#334155", 
     medium: "#475569", 
     strong: "#64748B", 
+  },
+  modal: {
+    success: "#4CAF50",
+    warning: "#FF9800",
+    danger: "#F44336",
+    cancel: "#D3D3D3", 
   },
 };
 
@@ -123,7 +136,7 @@ export const styles = StyleSheet.create({
     zIndex: 1000,
   },
   floatingHamburgerMenu: {
-    backgroundColor: "rgba(255, 255, 255, 0.71)",
+    backgroundColor: colors.bg.whiteTranslucent,
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -149,14 +162,14 @@ export const styles = StyleSheet.create({
   },
   mapsHamburgerIcon: {
     fontSize: 24,
-    color: "#333",
+    color: colors.text.dark,
     fontWeight: "600",
   },
   floatingLocationButton: {
     position: "absolute",
     top: 25,
     right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.71)",
+    backgroundColor: colors.bg.whiteTranslucent,
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -169,11 +182,11 @@ export const styles = StyleSheet.create({
     elevation: 5,
     zIndex: 1000,
   },
-   floatingWaypointButton: {
+  floatingWaypointButton: {
     position: "absolute",
     top: 80,
     right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.71)",
+    backgroundColor: colors.bg.whiteTranslucent,
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -190,7 +203,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     top: 85,
     right: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.bg.white,
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -228,6 +241,36 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     marginBottom: 4,
     letterSpacing: 0.3,
+  },
+
+  // ============================================================================
+  // CONTACT US SCREEN
+  // ============================================================================
+  contactUsScreenContainer: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: colors.bg.white,
+  },
+  contactUsHeader: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    color: colors.text.dark,
+  },
+  contactUsLabels: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 16,
+    color: colors.text.darkMedium,
+  },
+  contactUsTextValue: {
+    fontSize: 16,
+    marginTop: 4,
+    color: colors.text.darkLight,
+  },
+  contactUsHyperlink: {
+    color: colors.text.link,
+    textDecorationLine: 'underline',
   },
 
   // ============================================================================
@@ -291,6 +334,20 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+  },
+
+  // Modal Button Color Variants
+  modalButtonGreen: {
+    backgroundColor: colors.modal.success,
+  },
+  modalButtonOrange: {
+    backgroundColor: colors.modal.warning,
+  },
+  modalButtonRed: {
+    backgroundColor: colors.modal.danger,
+  },
+  modalButtonGray: {
+    backgroundColor: colors.modal.cancel,
   },
 
   waypointMenuModalTitle: {

@@ -13,7 +13,7 @@ const MapTabDrawer = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <Drawer.Navigator
         screenOptions={{
-          drawerStyle: { backgroundColor: "#334155", width: 280},
+          drawerStyle: { backgroundColor: "#334155", width: 280 },
           drawerActiveTintColor: "white",
           drawerInactiveTintColor: "white",
           drawerLabelStyle: { fontWeight: "600", letterSpacing: 0.3 },

@@ -1,4 +1,4 @@
-export type RootStackParamList = {
+export type RouteParamList = {
   MapScreen : undefined,
   PointsOfInterest : undefined,
   SettingsScreen: undefined,
