@@ -1,7 +1,7 @@
 name: Nightly Run
 on:
-  schedule:
-    - cron: '0 23 * * *' 
+ # schedule:
+   # - cron: '0 23 * * *' 
   workflow_dispatch: # Allow for manual triggering for testing
 
 jobs:
