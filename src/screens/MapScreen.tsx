@@ -298,7 +298,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="edit-waypoint-button"
             accessibilityLabel="edit-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
+            style={[styles.modalButtons, styles.modalButtonGreen]}
             onPress={handleEditWaypoint}
           >
             <Text style={styles.waypointMenuButtonText}>Edit Name</Text>
@@ -307,7 +307,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="delete-single-waypoint-button"
             accessibilityLabel="delete-single-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "#FF9800" }]}
+            style={[styles.modalButtons, styles.modalButtonOrange]}
             onPress={handleDeleteWaypoint}
           >
             <Text style={styles.waypointMenuButtonText}>
@@ -318,7 +318,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="delete-all-waypoints-button"
             accessibilityLabel="delete-all-waypoints-button"
-            style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
+            style={[styles.modalButtons, styles.modalButtonRed]}
             onPress={handleDeleteAllWaypoints}
           >
             <Text style={styles.waypointMenuButtonText}>
@@ -329,7 +329,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="waypoint-menu-cancel-button"
             accessibilityLabel="waypoint-menu-cancel-button"
-            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            style={[styles.modalButtons, styles.modalButtonGray]}
             onPress={() => {
               setWaypointMenuVisible(false);
               setSelectedWaypoint(null);
@@ -365,7 +365,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="save-waypoint-button"
             accessibilityLabel="save-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "#4CAF50" }]}
+            style={[styles.modalButtons, styles.modalButtonGreen]}
             onPress={saveWaypointEdit}
           >
             <Text style={styles.editWaypointButtonText}>Save</Text>
@@ -374,7 +374,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="cancel-edit-waypoint-button"
             accessibilityLabel="cancel-edit-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            style={[styles.modalButtons, styles.modalButtonGray]}
             onPress={() => {
               setEditingWaypoint(false);
               setSelectedWaypoint(null);
@@ -405,7 +405,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="confirm-delete-all-button"
             accessibilityLabel="confirm-delete-all-button"
-            style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
+            style={[styles.modalButtons, styles.modalButtonRed]}
             onPress={async () => {
               await gpsService.deleteAllWaypoints();
               setWaypoints([]);
@@ -418,7 +418,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="cancel-delete-all-button"
             accessibilityLabel="cancel-delete-all-button"
-            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            style={[styles.modalButtons, styles.modalButtonGray]}
             onPress={() => setVisibleDeleteAllWaypointsModal(false)}
           >
             <Text style={styles.deleteAllWaypointsButtonText}>Cancel</Text>
@@ -445,7 +445,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="confirm-delete-waypoint-button"
             accessibilityLabel="confirm-delete-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "#F44336" }]}
+            style={[styles.modalButtons, styles.modalButtonRed]}
             onPress={async () => {
               if (selectedWaypoint) {
                 gpsService.deleteWaypoint(selectedWaypoint.id);
@@ -463,7 +463,7 @@ const MapScreen = () => {
           <TouchableOpacity
             testID="cancel-delete-waypoint-button"
             accessibilityLabel="cancel-delete-waypoint-button"
-            style={[styles.modalButtons, { backgroundColor: "lightgray" }]}
+            style={[styles.modalButtons, styles.modalButtonGray]}
             onPress={() => {
               setConfirmDeleteWaypointVisiblity(false);
               setSelectedWaypoint(null);

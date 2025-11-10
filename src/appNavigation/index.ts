@@ -1,1 +1,1 @@
-export {RootStackParamList} from "./types";
+export {RouteParamList as RootStackParamList} from "./types";
