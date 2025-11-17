@@ -71,11 +71,15 @@ const MapScreen = () => {
     initializeData();
   }, []);
 
+  // Avoid showing a blank or laggy map immediately
+  // while Async location retreival runs
   useEffect(() => {
     const timer = setTimeout(() => {
       setShouldRenderMap(true);
     }, 800);
-    return () => clearTimeout(timer);
+    return () =>
+      // Prevent memory leak/unwanted state updates
+      clearTimeout(timer);
   }, []);
 
   const handleLocationPress = async () => {
