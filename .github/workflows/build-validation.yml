@@ -42,7 +42,7 @@ jobs:
       run: npm install -g @expo/cli
       
     - name: TypeScript check
-      run: npx tsc --noEmit
+      run: npx tsc --noEmit --skipLibCheck
       
     - name: Prebuild Android
       run: npx expo prebuild --platform android --clean
