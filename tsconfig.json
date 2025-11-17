@@ -3,5 +3,6 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-jsx",
+    "types": ["node","@wdio/globals/types", "@wdio/mocha-framework"]
   }
 }
