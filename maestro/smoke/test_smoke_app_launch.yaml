@@ -1,15 +1,14 @@
 appId: com.anonymous.TerraOffRoad
 ---
-<<<<<<< Updated upstream
 - launchApp
 - waitforAnimationToEnd
 - extendedWaitUntil:
     visible: "hamburger-menu-button"
     timeout: 15000
-=======
+
 # SMOKE TEST: Bottom Navigation Tabs
 # Verify all tabs are visible and navigable
->>>>>>> Stashed changes
+
 
 # === VERIFY ALL TABS VISIBLE ON LAUNCH ===
 - assertVisible:
