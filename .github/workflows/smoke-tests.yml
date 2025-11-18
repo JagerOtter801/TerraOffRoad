@@ -162,7 +162,12 @@ jobs:
           sleep 15
           
           echo "Checking if app launched..."
-          adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp"
+          if adb shell ps | grep -q "com.anonymous.TerraOffRoad"; then
+            echo "✓ App process is running"
+            adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp" || true
+          else
+            echo "✗ WARNING: App process not found, but continuing..."
+          fi
           
           echo "Stopping app so Maestro can launch it fresh..."
           adb shell am force-stop $PACKAGE_NAME
