@@ -67,7 +67,7 @@ jobs:
     - name: TypeScript check
       run: npx tsc --noEmit
 
-    # Prebuild to generate Native Android project files(build.gradle(s)AndroidManifest.xml, MainActivity, etc)
+    # Prebuild to generate Native Android project files
     - name: Prebuild Android
       run: npx expo prebuild --platform android --clean
 
@@ -81,7 +81,6 @@ jobs:
         ./gradlew assembleDebug
         cd ..
 
-    # Upload the DEBUG APK to Test with
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       if: always()
@@ -90,12 +89,21 @@ jobs:
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 7
 
+    - name: Install Maestro
+      run: |
+        curl -Ls "https://get.maestro.mobile.dev" | bash
+        echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
     - name: AVD cache
       uses: actions/cache@v3
       id: avd-cache
       with:
-        path: ~/.android/avd/*
-        key: avd-api-29-google-apis-smoke-tests
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
+        restore-keys: |
+          avd-api-29-google-apis-
 
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
@@ -112,11 +120,6 @@ jobs:
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
         script: echo "Generated AVD snapshot for caching."
-
-    - name: Install Maestro
-      run: |
-        curl -Ls "https://get.maestro.mobile.dev" | bash
-        echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
@@ -136,15 +139,9 @@ jobs:
           export PATH="$HOME/.maestro/bin:$PATH"
           PACKAGE_NAME="com.anonymous.TerraOffRoad"
           
-          echo "Emulator should be ready, waiting for input service..."
+          echo "Waiting for emulator to be fully ready..."
           timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
-          
           sleep 10
-          
-          echo "Attempting to unlock screen..."
-          adb shell input keyevent 82 2>/dev/null || echo "Screen unlock failed, but continuing..."
-          adb shell input keyevent 4
-          sleep 5
           
           echo "Installing APK..."
           adb install -r android/app/build/outputs/apk/debug/app-debug.apk
@@ -155,8 +152,13 @@ jobs:
           echo "Verifying app is installed..."
           adb shell pm list packages | grep TerraOffRoad || echo "WARNING: App not found in package list"
           
+          echo "Unlocking screen..."
+          adb shell input keyevent 82 2>/dev/null || echo "Screen unlock failed, but continuing..."
+          adb shell input keyevent 4
+          sleep 5
+          
           echo "Manually launching app to warm it up..."
-          adb shell monkey -p ${PACKAGE_NAME} -c android.intent.category.LAUNCHER 1
+          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
           sleep 15
           
           echo "Checking if app launched..."
