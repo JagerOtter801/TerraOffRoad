@@ -1,0 +1,36 @@
+appId: com.anonymous.TerraOffRoad
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "hamburger-menu-button"
+    timeout: 15000
+
+- assertVisible:
+    id: gear-tab
+- tapOn:
+    id: gear-tab
+
+# Test inital elements are displayed
+- assertVisible: section-title-vehicle-items
+- assertVisible: section-title-shelter
+- assertVisible: section-title-sleeping-system
+- assertVisible: section-title-emergency/medical
+- assertVisible: section-title-clothing
+
+# Test each section button is individually visible
+- assertVisible: add-item-button-Vehicle Items
+- assertVisible: add-item-button-Shelter
+- assertVisible: add-item-button-Sleeping System
+- assertVisible: add-item-button-Emergency/Medical
+- assertVisible: add-item-button-Clothing
+- swipe:
+    direction: UP
+- assertVisible: add-item-button-Cooking
+- assertVisible: add-item-button-Food
+- assertVisible: add-item-button-Hygiene
+- swipe:
+    direction: UP
+- assertVisible: add-item-button-Lighting/Signaling
+- assertVisible: add-item-button-Electronics
+- assertVisible: add-item-button-Misc
+
