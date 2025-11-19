@@ -136,6 +136,7 @@ jobs:
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
         script: |
+          set -e
           export PATH="$HOME/.maestro/bin:$PATH"
           PACKAGE_NAME="com.anonymous.TerraOffRoad"
           
