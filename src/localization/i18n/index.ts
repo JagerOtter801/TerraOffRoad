@@ -10,8 +10,15 @@ const resources = {
     es: {translation:es }
 };
 
+// Check the user's device language settings and find the best match
 const deviceLanguage = RNLocalize.findBestLanguageTag(['en','es']);
 
+
+// Initialize i18next with React Native support
+// - resources: provides all translation files
+// - lng: sets the initial language to device language, defaults to English if no match
+// - fallbackLng: uses English if a translation is missing in the selected language
+// - interpolation.escapeValue: set to false because React already escapes values to prevent XSS attacks
 i18n.use(initReactI18next).init({resources, lng: deviceLanguage?.languageTag || 'en',
     fallbackLng : 'en',
     interpolation: {
