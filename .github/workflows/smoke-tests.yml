@@ -125,54 +125,41 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: google_apis
+        target: default
         arch: x86_64
-        profile: Nexus 6
+        profile: pixel_2
         cores: 2
-        ram-size: 2048M
-        heap-size: 1024M
-        emulator-boot-timeout: 600
+        ram-size: 4096M
+        heap-size: 512M
+        disk-size: 6000M
+        emulator-boot-timeout: 900
         force-avd-creation: false
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -qemu -m 4096
         disable-animations: true
         script: |
-          set -e
           export PATH="$HOME/.maestro/bin:$PATH"
           PACKAGE_NAME="com.anonymous.TerraOffRoad"
           
-          echo "Waiting for emulator to be fully ready..."
-          timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
-          sleep 10
+          echo "Waiting for device to be ready..."
+          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
           
-          echo "Installing APK..."
+          echo "Device is ready. Installing APK..."
           adb install -r android/app/build/outputs/apk/debug/app-debug.apk
           
-          echo "Waiting for installation to fully complete..."
-          sleep 20
-          
-          echo "Verifying app is installed..."
-          adb shell pm list packages | grep TerraOffRoad || echo "WARNING: App not found in package list"
-          
           echo "Unlocking screen..."
-          adb shell input keyevent 82 2>/dev/null || echo "Screen unlock failed, but continuing..."
-          adb shell input keyevent 4
-          sleep 5
+          adb shell input keyevent 82
+          sleep 3
           
-          echo "Manually launching app to warm it up..."
+          echo "Launching app..."
           adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-          sleep 15
+          sleep 10
           
           echo "Checking if app launched..."
-          if adb shell ps | grep -q "com.anonymous.TerraOffRoad"; then
-            echo "✓ App process is running"
-            adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp" || true
-          else
-            echo "✗ WARNING: App process not found, but continuing..."
-          fi
+          adb shell ps | grep "com.anonymous.TerraOffRoad" && echo "✓ App is running" || echo "✗ App not found, continuing anyway"
           
-          echo "Stopping app so Maestro can launch it fresh..."
+          echo "Stopping app for clean Maestro launch..."
           adb shell am force-stop $PACKAGE_NAME
-          sleep 5
+          sleep 3
           
           echo "Running smoke tests..."
           maestro test maestro/smoke/ --debug-output ./maestro-debug
