@@ -24,7 +24,6 @@ jobs:
     - name: Create .env file
       run: |
         echo "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" > .env
-
     - name: Setup JDK 17
       uses: actions/setup-java@v4
       with:
@@ -44,7 +43,6 @@ jobs:
         sudo apt-get clean
         echo "After cleanup:"
         df -h
-
     - name: Cache Gradle dependencies
       uses: actions/cache@v3
       with:
@@ -54,7 +52,6 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
-
     - name: Configure npm for legacy peer deps
       run: npm config set legacy-peer-deps true
 
@@ -80,7 +77,6 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleDebug
         cd ..
-
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       if: always()
@@ -93,7 +89,6 @@ jobs:
       run: |
         curl -Ls "https://get.maestro.mobile.dev" | bash
         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-
     - name: AVD cache
       uses: actions/cache@v3
       id: avd-cache
@@ -104,7 +99,6 @@ jobs:
         key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
         restore-keys: |
           avd-api-29-google-apis-
-
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
@@ -170,7 +164,6 @@ jobs:
           
           echo "Running smoke tests..."
           maestro test maestro/smoke/ --debug-output ./maestro-debug
-
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
       if: always()
