@@ -128,7 +128,6 @@ jobs:
         emulator-boot-timeout: 900
         script: |
           export PATH="$HOME/.maestro/bin:$PATH"
-          PACKAGE_NAME="com.anonymous.TerraOffRoad"
 
           adb wait-for-device
           adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
@@ -140,7 +139,7 @@ jobs:
           adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
           sleep 10
           
-          adb shell am force-stop $PACKAGE_NAME
+          adb shell am force-stop com.anonymous.TerraOffRoad
           sleep 2
           
           maestro test maestro/smoke/ --debug-output ./maestro-debug
