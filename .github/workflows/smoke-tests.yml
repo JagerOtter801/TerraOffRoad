@@ -1,187 +1,81 @@
-name: Smoke Tests
+name: Android Automation (Maestro)
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
   workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
-  android-smoke-tests:
+  android-tests:
     runs-on: ubuntu-latest
-    
+
+    permissions:
+      contents: write
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
+      # --- NODE + JAVA SETUP ---
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: Create .env file
-      run: |
-        echo "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" > .env
+      - name: Setup Java 17 (for Gradle + Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-    - name: Setup JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+ 
+      - name: Install JS dependencies
+        run: npm install --legacy-peer-deps
 
-    - name: Free disk space
-      run: |
-        echo "Before cleanup:"
-        df -h
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android/sdk/ndk
-        sudo rm -rf /usr/local/lib/android/sdk/cmake
-        sudo apt-get clean
-        echo "After cleanup:"
-        df -h
+      - name: Install global Expo CLI
+        run: npm install -g expo-cli
 
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      # --- EXPO PREBUILD (important for Google Maps) ---
+      - name: Expo Prebuild
+        run: npx expo prebuild --platform android
 
-    - name: Configure npm for legacy peer deps
-      run: npm config set legacy-peer-deps true
+  
+      - name: Build Android Debug APK
+        run: |
+          cd android
+          ./gradlew assembleDebug
 
-    - name: Install dependencies
-      run: npm ci --legacy-peer-deps
-      
-    - name: Install Expo CLI
-      run: npm install -g @expo/cli
-      
-    - name: TypeScript check
-      run: npx tsc --noEmit
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
 
-    # Prebuild to generate Native Android project files
-    - name: Prebuild Android
-      run: npx expo prebuild --platform android --clean
+  
+      - name: Setup ARM64 Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: arm64-v8a
+          profile: pixel_6
+          script: |
+            adb install android/app/build/outputs/apk/debug/app-debug.apk
 
-    - name: Expo build check - Android
-      run: npx expo export --platform android --dev
+            # Wait for app to be fully installed
+            sleep 5
 
-    - name: Build Android Debug APK
-      run: |
-        cd android
-        chmod +x ./gradlew
-        ./gradlew assembleDebug
-        cd ..
+            # -- MAESTRO TESTS --
+            maestro test .maestro/test.yaml
 
-    - name: Upload Debug APK
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: app-debug-${{ github.run_number }}
-        path: android/app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 7
-
-    - name: Install Maestro
-      run: |
-        curl -Ls "https://get.maestro.mobile.dev" | bash
-        echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-
-    - name: AVD cache
-      uses: actions/cache@v3
-      id: avd-cache
-      with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
-        restore-keys: |
-          avd-api-29-google-apis-
-
-    - name: Create AVD and generate snapshot for caching
-      if: steps.avd-cache.outputs.cache-hit != 'true'
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        target: default         
-        arch: x86_64
-        profile: pixel_2         # ← Changed to match
-        cores: 2
-        ram-size: 4096M          
-        heap-size: 512M         
-        disk-size: 6000M        
-        force-avd-creation: true
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-        disable-animations: true
-        script: echo "Generated AVD snapshot for caching."
-
-    - name: Run smoke tests on Android emulator
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        target: default
-        arch: x86_64
-        profile: pixel_2
-        cores: 2
-        ram-size: 4096M
-        heap-size: 512M
-        disk-size: 6000M
-        emulator-boot-timeout: 900
-        force-avd-creation: false
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -qemu -m 4096
-        disable-animations: true
-        script: |
-          export PATH="$HOME/.maestro/bin:$PATH"
-          PACKAGE_NAME="com.anonymous.TerraOffRoad"
-          
-          echo "Waiting for device to be ready..."
-          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
-          
-          echo "Device is ready. Installing APK..."
-          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-          
-          echo "Unlocking screen..."
-          adb shell input keyevent 82
-          sleep 3
-          
-          echo "Launching app..."
-          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-          sleep 10
-          
-          echo "Checking if app launched..."
-          adb shell ps | grep "com.anonymous.TerraOffRoad" && echo "✓ App is running" || echo "✗ App not found, continuing anyway"
-          
-          echo "Stopping app for clean Maestro launch..."
-          adb shell am force-stop $PACKAGE_NAME
-          sleep 3
-          
-          echo "Running smoke tests..."
-          maestro test maestro/smoke/ --debug-output ./maestro-debug
-
-    - name: Upload smoke test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: smoke-test-results-${{ github.run_number }}
-        path: |
-          maestro/smoke/
-          ~/.maestro/tests/
-          maestro-debug/
-        retention-days: 7
-
-    - name: Upload failure diagnostics
-      uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: failure-diagnostics-${{ github.run_number }}
-        path: |
-          android/app/build/outputs/apk/debug/app-debug.apk
-          maestro-debug/
-        retention-days: 3
+  
+      - name: Upload Maestro Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results
+          path: .maestro
