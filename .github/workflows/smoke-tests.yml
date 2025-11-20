@@ -1,4 +1,4 @@
-name: Android Automation (Maestro)
+name: Smoke Tests
 
 on:
   workflow_dispatch:
@@ -17,13 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --- NODE + JAVA SETUP ---
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup Java 17 (for Gradle + Android)
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -32,50 +31,50 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
- 
       - name: Install JS dependencies
         run: npm install --legacy-peer-deps
 
       - name: Install global Expo CLI
-        run: npm install -g expo-cli
+        run: npm install -g @expo/cli
 
-      # --- EXPO PREBUILD (important for Google Maps) ---
-      - name: Expo Prebuild
-        run: npx expo prebuild --platform android
+      # --- EXPO PREBUILD to Generate build.gradle etc...
+      - name: Expo Prebuild (Android)
+        run: npx expo prebuild --platform android --clean
 
-  
       - name: Build Android Debug APK
         run: |
           cd android
+          chmod +x ./gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
+          name: app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-  
-      - name: Setup ARM64 Android Emulator
+
+      - name: Run Android emulator + Maestro tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 30
           target: google_apis
-          arch: arm64-v8a
-          profile: pixel_6
+          arch: x86_64
+          profile: pixel
+          emulator-options: -no-window -no-audio -no-boot-anim
+          disable-animations: true
           script: |
-            adb install android/app/build/outputs/apk/debug/app-debug.apk
-
-            # Wait for app to be fully installed
+            echo "Installing APK..."
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 5
 
-            # -- MAESTRO TESTS --
-            maestro test .maestro/test.yaml
+            echo "Running Maestro tests..."
+            maestro test .maestro/test.yaml --debug-output maestro-debug
 
-  
-      - name: Upload Maestro Test Results
+    
+      - name: Upload Maestro Debug Output
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: maestro-results
-          path: .maestro
+          name: maestro-debug
+          path: maestro-debug
