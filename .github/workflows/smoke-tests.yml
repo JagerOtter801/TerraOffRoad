@@ -1,4 +1,4 @@
-name: Smoke Tests
+name: Android Automation (Maestro)
 
 on:
   workflow_dispatch:
@@ -14,15 +14,17 @@ jobs:
       contents: write
 
     steps:
+      # --- CHECKOUT ---
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- NODE + JAVA SETUP ---
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup Java 17
+      - name: Setup Java 17 (for Gradle + Android)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -31,50 +33,54 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      # --- INSTALL DEPENDENCIES ---
       - name: Install JS dependencies
         run: npm install --legacy-peer-deps
 
       - name: Install global Expo CLI
-        run: npm install -g @expo/cli
+        run: npm install -g expo-cli
 
-      # --- EXPO PREBUILD to Generate build.gradle etc...
-      - name: Expo Prebuild (Android)
-        run: npx expo prebuild --platform android --clean
+      # --- EXPO PREBUILD ---
+      - name: Expo Prebuild
+        run: npx expo prebuild --platform android
 
+      # --- BUILD APK ---
       - name: Build Android Debug APK
         run: |
           cd android
           chmod +x ./gradlew
           ./gradlew assembleDebug
+          cd ..
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: app-debug.apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-
-      - name: Run Android emulator + Maestro tests
+      # --- RUN EMULATOR + MAESTRO TESTS ---
+      - name: Run Android emulator + Maestro smoke tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           target: google_apis
-          arch: x86_64
+          arch: x86
           profile: pixel
-          emulator-options: -no-window -no-audio -no-boot-anim
+          emulator-options: -no-window -no-audio -no-boot-anim -memory 1024 -partition-size 512
           disable-animations: true
+          emulator-boot-timeout: 600
           script: |
-            echo "Installing APK..."
+            adb wait-for-device
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 5
-
-            echo "Running Maestro tests..."
             maestro test .maestro/test.yaml --debug-output maestro-debug
 
-    
-      - name: Upload Maestro Debug Output
+      # --- UPLOAD MAESTRO RESULTS ---
+      - name: Upload Maestro Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: maestro-debug
-          path: maestro-debug
+          name: maestro-results
+          path: |
+            .maestro
+            maestro-debug
