@@ -93,40 +93,35 @@ jobs:
         curl -Ls "https://get.maestro.mobile.dev" | bash
         echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
-
-    # -------------------------------------------------------
-    # NEW: ARM AVD (stable on GitHub runners)
-    # -------------------------------------------------------
-
-    - name: AVD cache (ARM)
+    - name: AVD cache
       uses: actions/cache@v3
       id: avd-cache
       with:
         path: |
           ~/.android/avd/*
           ~/.android/adb*
-        key: avd-api-29-google-apis-arm64
+        key: avd-api-29-x86_64
 
-    - name: Create AVD (ARM) if not cached
+    - name: Create AVD if not cached
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: google_apis
-        arch: arm64-v8a
-        profile: Nexus 6
+        target: default
+        arch: x86_64
+        profile: pixel_2
         force-avd-creation: true
         emulator-options: -no-window -noaudio -no-boot-anim -gpu swiftshader_indirect
         disable-animations: true
-        script: echo "Created ARM AVD."
+        script: echo "Created AVD."
 
-    - name: Run smoke tests on Android emulator (ARM)
+    - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: google_apis
-        arch: arm64-v8a
-        profile: Nexus 6
+        target: default
+        arch: x86_64
+        profile: pixel_2
         force-avd-creation: false
         emulator-options: -no-window -noaudio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
         disable-animations: true
@@ -135,35 +130,20 @@ jobs:
           export PATH="$HOME/.maestro/bin:$PATH"
           PACKAGE_NAME="com.anonymous.TerraOffRoad"
 
-          echo "Reset ADB"
-          adb kill-server || true
-          adb start-server || true
+          adb wait-for-device
+          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
+          
+          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+          adb shell input keyevent 82
+          sleep 3
+          
+          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+          sleep 10
+          
+          adb shell am force-stop $PACKAGE_NAME
           sleep 2
-
-          echo "Waiting for emulator to appear..."
-          timeout 600 bash -c 'until adb devices | grep -q emulator-; do echo "Waiting for emulator..."; sleep 5; done'
-
-          echo "Waiting for full boot..."
-          timeout 600 bash -c 'until adb -s emulator-5554 shell getprop sys.boot_completed | grep -m 1 "1"; do echo "Booting..."; sleep 5; done'
-          sleep 8
-
-          echo "Install APK..."
-          adb -s emulator-5554 install -r android/app/build/outputs/apk/debug/app-debug.apk
-
-          echo "Unlocking device..."
-          adb -s emulator-5554 shell input keyevent 82 || true
-          sleep 4
-
-          echo "Warm-launch app..."
-          adb -s emulator-5554 shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-          sleep 12
-
-          echo "Force-stop app before tests..."
-          adb -s emulator-5554 shell am force-stop $PACKAGE_NAME || true
-
-          echo "Running Maestro tests..."
-          maestro test maestro/smoke/ --debug-output ./maestro-debug || true
-
+          
+          maestro test maestro/smoke/ --debug-output ./maestro-debug
 
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
