@@ -4,10 +4,31 @@ appId: com.anonymous.TerraOffRoad
 # Launch the app
 - launchApp
 
+- extendedWaitUntil:
+    visible:
+      id: ".*"  # Wait for any element
+    timeout: 10000
+
+# Take screenshot for visual confirmation
+- takeScreenshot: emulator-screenshot.png
+
+# This will fail but show you what Maestro sees
+- runScript: |
+    const allElements = maestro.findAll({id: ".*"});
+    console.log("=== ALL VISIBLE ELEMENTS ===");
+    allElements.forEach(el => {
+      console.log(JSON.stringify({
+        id: el.id,
+        text: el.text,
+        contentDescription: el.contentDescription,
+        bounds: el.bounds
+      }));
+    });
+
 # Wait until the hamburger menu button is visible
 - extendedWaitUntil:
     visible: "hamburger-menu-button"
-    timeout: 15000
+    timeout: 20000
 
 # SMOKE TEST: Verify top buttons
 - assertVisible:
