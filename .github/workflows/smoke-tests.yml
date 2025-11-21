@@ -170,7 +170,7 @@ jobs:
           adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp" || true
           
           echo "Stopping app so Maestro can launch it fresh..."
-          adb shell am force-stop $PACKAGE_NAME
+          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
           sleep 5
           
           echo "Running smoke tests..."
