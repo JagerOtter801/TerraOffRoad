@@ -171,7 +171,7 @@ jobs:
           sleep 5
           
           echo "Running smoke tests..."
-          maestro test maestro/smoke/ --debug-output ./maestro-debug
+          maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
 
     - name: Upload smoke test results
       uses: actions/upload-artifact@v4
