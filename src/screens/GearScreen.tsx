@@ -152,8 +152,15 @@ const renderPackingItem = ({
     item: PackingItem;
     section: SectionName;
   }) => (
-    <View style={styles.packingItemContainer}>
+    <View 
+      testID={`packing-item-${item.id}`}
+      style={styles.packingItemContainer}
+    >
       <TouchableOpacity
+        testID={`packing-item-checkbox-${item.id}`}
+        accessibilityLabel={`${item.checked ? 'Checked' : 'Unchecked'} ${item.name}`}
+        accessibilityRole="checkbox"
+        accessibilityState={{ checked: item.checked }}
         style={styles.packingItemCheckboxContainer}
         onPress={() => toggleItemCheck(section, item.id)}
       >
@@ -167,6 +174,7 @@ const renderPackingItem = ({
           {item.checked ? "☑️" : "☐"}
         </Text>
         <Text
+          testID={`packing-item-name-${item.id}`}
           style={
             item.checked
               ? styles.packingItemTextChecked
@@ -177,6 +185,9 @@ const renderPackingItem = ({
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        testID={`packing-item-delete-${item.id}`}
+        accessibilityLabel={`Delete ${item.name}`}
+        accessibilityRole="button"
         style={styles.deleteItemButton}
         onPress={() => openDeleteModal(section, item.id)}
       >
@@ -187,9 +198,17 @@ const renderPackingItem = ({
     </View>
   );
 
-  const renderAddItemForm = (section: SectionName) => (
-    <View style={styles.addItemFormContainer}>
+const renderAddItemForm = (section: SectionName) => {
+  const sectionKey = section.toLowerCase().replace(/\s+/g, "_");
+  
+  return (
+    <View 
+      testID={`add-item-form-${sectionKey}`}
+      style={styles.addItemFormContainer}
+    >
       <TextInput
+        testID={`add-item-input-${sectionKey}`}
+        accessibilityLabel={`Enter new item for ${section}`}
         style={styles.addItemInput}
         placeholder={t("enter new item")}
         placeholderTextColor="#6b7280"
@@ -198,29 +217,52 @@ const renderPackingItem = ({
         autoFocus
       />
       <TouchableOpacity
+        testID={`add-item-confirm-${sectionKey}`}
+        accessibilityLabel="Add item"
+        accessibilityRole="button"
         style={styles.addItemButton}
         onPress={() => addNewItem(section)}
       >
         <Text style={styles.addItemButtonText}>{t("add")}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cancelItemButton} onPress={cancelAddItem}>
+      <TouchableOpacity 
+        testID={`add-item-cancel-${sectionKey}`}
+        accessibilityLabel="Cancel adding item"
+        accessibilityRole="button"
+        style={styles.cancelItemButton} 
+        onPress={cancelAddItem}
+      >
         <Text style={styles.cancelItemButtonText}>{t("cancel")}</Text>
       </TouchableOpacity>
     </View>
   );
+};
 
-  const renderSection = (sectionName: SectionName) => {
+const renderSection = (sectionName: SectionName) => {
     const items = packingList[sectionName];
     const totalCount = items.length;
+    const sectionKey = sectionName.toLowerCase().replace(/\s+/g, "-");
 
     return (
-      <View key={sectionName} style={styles.sectionContainer}>
+      <View 
+        key={sectionName} 
+        testID={`section-${sectionKey}`}
+        style={styles.sectionContainer}
+      >
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
+          <Text 
+            testID={`section-title-${sectionKey}`}
+            accessibilityLabel={`section-title-${sectionKey}`}
+            style={styles.sectionTitle}
+          >
             {t(sectionName.toLowerCase())}
           </Text>
           {totalCount > 0 && (
-            <Text style={styles.sectionCount}>
+            <Text 
+              testID={`section-count-${sectionKey}`}
+              accessibilityLabel={`section-title-${sectionKey}`}
+              style={styles.sectionCount}
+            >
               {t("items")}: {totalCount}
             </Text>
           )}
@@ -236,6 +278,9 @@ const renderPackingItem = ({
           renderAddItemForm(sectionName)
         ) : (
           <TouchableOpacity
+            testID={`add-item-button-${sectionKey}`}
+            accessibilityRole="button"
+            accessibilityLabel={`add-item-button-${sectionName}`} 
             style={styles.showAddItemButton}
             onPress={() => setSelectedSection(sectionName)}
           >
@@ -276,6 +321,7 @@ const renderPackingItem = ({
         </ScrollView>
 
         <Modal
+        testID="delete-item-modal"
           animationType="slide"
           transparent={true}
           visible={deleteModalVisible}
@@ -290,10 +336,10 @@ const renderPackingItem = ({
             }}
           >
             <View style={styles.userOptionsModal}>
-              <Text style={styles.deleteAllWaypointsModalTitle}>
+              <Text testID="delete-waypoint-modal-title" style={styles.deleteAllWaypointsModalTitle}>
                 {t("delete item")}
               </Text>
-              <Text style={styles.deleteAllWaypointsSubtext}>
+              <Text testID="delete-all-waypoints" style={styles.deleteAllWaypointsSubtext}>
                 {t("are you sure you want to delete")} "{itemToDelete?.itemName}
                 "?
               </Text>
@@ -307,7 +353,7 @@ const renderPackingItem = ({
                 style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
                 onPress={confirmDelete}
               >
-                <Text style={styles.deleteAllWaypointsButtonText}>
+                <Text testID="delete-waypoint-button" style={styles.deleteAllWaypointsButtonText}>
                   {t("delete")}
                 </Text>
               </TouchableOpacity>

@@ -10,7 +10,7 @@ on:
 jobs:
   android-smoke-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -66,10 +66,10 @@ jobs:
 
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
-      
+
     - name: Install Expo CLI
       run: npm install -g @expo/cli
-      
+
     - name: TypeScript check
       run: npx tsc --noEmit
 
@@ -106,11 +106,9 @@ jobs:
         path: |
           ~/.android/avd/*
           ~/.android/adb*
-        key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
-        restore-keys: |
-          avd-api-29-google-apis-
+        key: avd-api-29-x86_64
 
-    - name: Create AVD and generate snapshot for caching
+    - name: Create AVD if not cached
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
@@ -122,9 +120,9 @@ jobs:
         ram-size: 2048M
         heap-size: 1024M
         force-avd-creation: true
-        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        emulator-options: -no-window -noaudio -no-boot-anim -gpu swiftshader_indirect
         disable-animations: true
-        script: echo "Generated AVD snapshot for caching."
+        script: echo "Created AVD."
 
     - name: Run smoke tests on Android emulator
       uses: reactivecircus/android-emulator-runner@v2
@@ -140,6 +138,7 @@ jobs:
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
+        emulator-boot-timeout: 900
         script: |
           export PATH="$HOME/.maestro/bin:$PATH"
           PACKAGE_NAME="com.anonymous.TerraOffRoad"
@@ -173,7 +172,6 @@ jobs:
           adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
           sleep 5
           
-          echo "Running smoke tests..."
           maestro test maestro/smoke/ --debug-output ./maestro-debug
 
     - name: Upload smoke test results
