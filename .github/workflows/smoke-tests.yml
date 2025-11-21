@@ -124,7 +124,7 @@ jobs:
           emulator-boot-timeout: 600
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
+          disable-animations: false
           script: |
             echo "Waiting for emulator to be fully ready..."
             timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
