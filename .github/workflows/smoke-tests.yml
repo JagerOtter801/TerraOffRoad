@@ -70,18 +70,23 @@ jobs:
       - name: Run Android emulator + Maestro smoke tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 30
           target: google_apis
-          arch: x86
-          profile: pixel
+          arch: x86_64
+          profile: pixel_2
           disk-size: 2048M
-          emulator-options: -no-window -no-audio -no-boot-anim -memory 1024
+          ram-size: 2048M
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
-          emulator-boot-timeout: 600
+          emulator-boot-timeout: 900
           script: |
-            adb wait-for-device
+            echo "Waiting for device to be ready..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
+            echo "Device ready, installing APK..."
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-            sleep 5
+            echo "APK installed, waiting 10 seconds for app to settle..."
+            sleep 10
+            echo "Running Maestro tests..."
             maestro test .maestro/test.yaml --debug-output maestro-debug
       
       # --- UPLOAD MAESTRO RESULTS ---
