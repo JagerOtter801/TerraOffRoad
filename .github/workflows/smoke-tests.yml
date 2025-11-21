@@ -1,49 +1,57 @@
-name: Android Automation (Maestro)
-
+name: Smoke Tests
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
-
 jobs:
   android-tests:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
-
     steps:
       # --- CHECKOUT ---
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      
+      # --- FREE UP DISK SPACE ---
+      - name: Free Disk Space
+        run: |
+          echo "=== Disk space before cleanup ==="
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          echo "=== Disk space after cleanup ==="
+          df -h
+      
       # --- NODE + JAVA SETUP ---
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+      
       - name: Setup Java 17 (for Gradle + Android)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
+      
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-
+      
       # --- INSTALL DEPENDENCIES ---
       - name: Install JS dependencies
         run: npm install --legacy-peer-deps
-
+      
       - name: Install global Expo CLI
         run: npm install -g expo-cli
-
+      
       # --- EXPO PREBUILD ---
       - name: Expo Prebuild
         run: npx expo prebuild --platform android
-
+      
       # --- BUILD APK ---
       - name: Build Android Debug APK
         run: |
@@ -51,13 +59,13 @@ jobs:
           chmod +x ./gradlew
           ./gradlew assembleDebug
           cd ..
-
+      
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-
+      
       # --- RUN EMULATOR + MAESTRO TESTS ---
       - name: Run Android emulator + Maestro smoke tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -66,7 +74,8 @@ jobs:
           target: google_apis
           arch: x86
           profile: pixel
-          emulator-options: -no-window -no-audio -no-boot-anim -memory 1024 -partition-size 512
+          disk-size: 2048M
+          emulator-options: -no-window -no-audio -no-boot-anim -memory 1024
           disable-animations: true
           emulator-boot-timeout: 600
           script: |
@@ -74,7 +83,7 @@ jobs:
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 5
             maestro test .maestro/test.yaml --debug-output maestro-debug
-
+      
       # --- UPLOAD MAESTRO RESULTS ---
       - name: Upload Maestro Test Results
         if: always()
