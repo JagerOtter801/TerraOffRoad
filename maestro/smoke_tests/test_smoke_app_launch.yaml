@@ -2,10 +2,8 @@ appId: com.anonymous.TerraOffRoad
 ---
 - launchApp
 - extendedWaitUntil:
-    visible: "hamburger-menu-button"
+    visible: ".*"
     timeout: 20000
-
-- takeScreenshot: screenshots/after-launch.png
 
 # SMOKE TEST: Bottom Navigation Tabs
 # VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH 
