@@ -127,20 +127,25 @@ jobs:
           disable-animations: false
           script: |
             echo "Waiting for emulator to be fully ready..."
-            timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
-            sleep 10
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
+            sleep 15
+  
             echo "Enabling accessibility services..."
             adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService
             adb shell settings put secure accessibility_enabled 1
-            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-            sleep 20
-            adb shell input keyevent 82 || true
-            adb shell input keyevent 4
             sleep 5
+      
+            echo "Installing APK..."
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            sleep 10
+            
+            echo "Launching app..."
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-            sleep 25
+            sleep 40
+            
+            echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
-
+            
       - name: Upload smoke test results
         uses: actions/upload-artifact@v4
         if: always()
