@@ -5,10 +5,9 @@ appId: com.anonymous.TerraOffRoad
     visible: "hamburger-menu-button"
     timeout: 20000
 
+- takeScreenshot: screenshots/after-launch.png
+
 # SMOKE TEST: Bottom Navigation Tabs
-# Verify all tabs are visible and navigable
-
-
 # VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH 
 - assertVisible:
     id: map-screen-tab
