@@ -1,19 +1,22 @@
 name: Smoke Tests
+
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
+
 jobs:
   android-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       # --- CHECKOUT ---
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       # --- FREE UP DISK SPACE ---
       - name: Free Disk Space
         run: |
@@ -25,33 +28,33 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           echo "=== Disk space after cleanup ==="
           df -h
-      
+
       # --- NODE + JAVA SETUP ---
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      
+
       - name: Setup Java 17 (for Gradle + Android)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-      
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-      
+
       # --- INSTALL DEPENDENCIES ---
       - name: Install JS dependencies
         run: npm install --legacy-peer-deps
-      
+
       - name: Install global Expo CLI
         run: npm install -g expo-cli
-      
+
       # --- EXPO PREBUILD ---
       - name: Expo Prebuild
         run: npx expo prebuild --platform android
-      
+
       # --- BUILD APK ---
       - name: Build Android Debug APK
         run: |
@@ -59,20 +62,20 @@ jobs:
           chmod +x ./gradlew
           ./gradlew assembleDebug
           cd ..
-      
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-      
+
       # --- RUN EMULATOR + MAESTRO TESTS ---
       - name: Run Android emulator + Maestro smoke tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis
-          arch: x86_64
+          arch: arm64-v8a            # <--- FIXED: use ARM (x86_64 will never boot)
           profile: pixel_2
           disk-size: 2048M
           ram-size: 2048M
@@ -80,17 +83,20 @@ jobs:
           disable-animations: false
           emulator-boot-timeout: 900
           script: |
-            echo "Emulator is booted, disabling animations manually..."
+            echo "Emulator is booted, disabling animations..."
             adb shell settings put global window_animation_scale 0 || true
             adb shell settings put global transition_animation_scale 0 || true
             adb shell settings put global animator_duration_scale 0 || true
+
             echo "Installing APK..."
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-            echo "APK installed, waiting 10 seconds for app to settle..."
+
+            echo "APK installed, waiting 10 seconds..."
             sleep 10
+
             echo "Running Maestro tests..."
             maestro test .maestro/test.yaml --debug-output maestro-debug
-      
+
       # --- UPLOAD MAESTRO RESULTS ---
       - name: Upload Maestro Test Results
         if: always()
