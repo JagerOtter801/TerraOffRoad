@@ -73,9 +73,9 @@ jobs:
       - name: Run Android emulator + Maestro smoke tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           target: google_apis
-          arch: arm64-v8a            # <--- FIXED: use ARM (x86_64 will never boot)
+          arch: x86_64           # <--- FIXED: use ARM (x86_64 will never boot)
           profile: pixel_2
           disk-size: 2048M
           ram-size: 2048M
