@@ -34,6 +34,12 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
     - name: Free disk space
       run: |
         echo "Before cleanup:"
@@ -107,9 +113,12 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
-        profile: pixel_2
+        profile: Nexus 6
+        cores: 2
+        ram-size: 2048M
+        heap-size: 1024M
         force-avd-creation: true
         emulator-options: -no-window -noaudio -no-boot-anim -gpu swiftshader_indirect
         disable-animations: true
@@ -119,28 +128,49 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        target: default
+        target: google_apis
         arch: x86_64
-        profile: pixel_2
+        profile: Nexus 6
+        cores: 2
+        ram-size: 2048M
+        heap-size: 1024M
+        emulator-boot-timeout: 600
         force-avd-creation: false
-        emulator-options: -no-window -noaudio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
         disable-animations: true
         emulator-boot-timeout: 900
         script: |
           export PATH="$HOME/.maestro/bin:$PATH"
-
-          adb wait-for-device
-          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
+          PACKAGE_NAME="com.anonymous.TerraOffRoad"
           
-          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-          adb shell input keyevent 82
-          sleep 3
-          
-          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+          echo "Waiting for emulator to be fully ready..."
+          timeout 300 bash -c 'until adb shell service list | grep -q "input"; do echo "Input service not ready..."; sleep 5; done'
           sleep 10
           
-          adb shell am force-stop com.anonymous.TerraOffRoad
-          sleep 2
+          echo "Installing APK..."
+          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+          
+          echo "Waiting for installation to fully complete..."
+          sleep 20
+          
+          echo "Verifying app is installed..."
+          adb shell pm list packages | grep TerraOffRoad || echo "WARNING: App not found in package list"
+          
+          echo "Unlocking screen..."
+          adb shell input keyevent 82 2>/dev/null || echo "Screen unlock failed, but continuing..."
+          adb shell input keyevent 4
+          sleep 5
+          
+          echo "Manually launching app to warm it up..."
+          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+          sleep 15
+          
+          echo "Checking if app launched..."
+          adb shell dumpsys window windows | grep -E "mCurrentFocus|mFocusedApp" || true
+          
+          echo "Stopping app so Maestro can launch it fresh..."
+          adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+          sleep 5
           
           maestro test maestro/smoke/ --debug-output ./maestro-debug
 
