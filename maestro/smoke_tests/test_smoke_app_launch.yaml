@@ -1,27 +1,15 @@
 appId: com.anonymous.TerraOffRoad
 ---
+
+# Launch the app
 - launchApp
+
+# Wait until the hamburger menu button is visible
 - extendedWaitUntil:
     visible: "hamburger-menu-button"
     timeout: 15000
 
-# SMOKE TEST: Bottom Navigation Tabs
-# Verify all tabs are visible and navigable
-
-
-# VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH 
-- assertVisible:
-    id: map-screen-tab
-
-- assertVisible:
-    id: points-of-interest-tab
-
-- assertVisible:
-    id: gear-tab
-
-- assertVisible:
-    id: weather-tab
-
+# SMOKE TEST: Verify top buttons
 - assertVisible:
     id: hamburger-menu-button    
 
@@ -31,23 +19,30 @@ appId: com.anonymous.TerraOffRoad
 - assertVisible:
     id: waypoint-menu-button    
 
+# SMOKE TEST: Bottom Navigation Tabs
+# Verify all tabs are visible and navigable
+- assertVisible:
+    id: map-screen-tab
+
+- assertVisible:
+    id: points-of-interest-tab
+
+- assertVisible:
+    id: gear-tab
+
+- assertVisible:
+    id: weather-tab
 
 # === TEST NAVIGATION TO EACH TAB ===
 # Navigate to POI tab
-- assertVisible:
-    id: points-of-interest-tab
 - tapOn:
     id: points-of-interest-tab
 
 # Navigate to Gear tab
-- assertVisible:
-    id: gear-tab
 - tapOn:
     id: gear-tab
 
 # Navigate to Weather tab
-- assertVisible:
-    id: weather-tab
 - tapOn:
     id: weather-tab
 - swipe:
@@ -55,8 +50,3 @@ appId: com.anonymous.TerraOffRoad
       text: Weather Report
     direction: DOWN
 
-# Navigate back to Map tab
-- assertVisible:
-    id: map-screen-tab
-- tapOn:
-    id: map-screen-tab
