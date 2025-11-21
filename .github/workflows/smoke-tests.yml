@@ -77,12 +77,14 @@ jobs:
           disk-size: 2048M
           ram-size: 2048M
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-          disable-animations: true
+          disable-animations: false
           emulator-boot-timeout: 900
           script: |
-            echo "Waiting for device to be ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
-            echo "Device ready, installing APK..."
+            echo "Emulator is booted, disabling animations manually..."
+            adb shell settings put global window_animation_scale 0 || true
+            adb shell settings put global transition_animation_scale 0 || true
+            adb shell settings put global animator_duration_scale 0 || true
+            echo "Installing APK..."
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             echo "APK installed, waiting 10 seconds for app to settle..."
             sleep 10
