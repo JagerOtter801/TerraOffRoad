@@ -98,7 +98,7 @@ jobs:
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-    
+
       - name: AVD cache
         uses: actions/cache@v3
         id: avd-cache
@@ -109,7 +109,6 @@ jobs:
           key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
           restore-keys: |
             avd-api-29-google-apis-
-
 
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -146,18 +145,15 @@ jobs:
             echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
 
-#REMOVE after debugging
+      # REMOVE AFTER DEBUGGING IF YOU WANT
       - name: Upload maestro screen shot
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: maestro-report
-          path: |
-            maestro-report
-            maestro-debug
-            ~/.maestro/tests
-      
-            
+          name: maestro-screenshot
+          path: maestro-debug/.maestro/tests/
+          retention-days: 7
+
       - name: Upload smoke test results
         uses: actions/upload-artifact@v4
         if: always()
@@ -165,7 +161,7 @@ jobs:
           name: smoke-test-results-${{ github.run_number }}
           path: |
             maestro/smoke_tests/
-            ~/.maestro/tests/
+            maestro-debug/.maestro/tests/
             maestro-debug/
           retention-days: 7
 
