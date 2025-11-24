@@ -79,19 +79,19 @@ jobs:
       - name: Expo build check - Android
         run: npx expo export --platform android --dev
 
-      - name: Build Android Debug APK
+      - name: Build Android Release APK
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
           cd ..
 
-      - name: Upload Debug APK
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: app-debug-${{ github.run_number }}
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-${{ github.run_number }}
+          path: android/app/build/outputs/apk/release/app-release.apk
           retention-days: 7
 
       - name: Install Maestro
@@ -135,7 +135,7 @@ jobs:
             sleep 5
       
             echo "Installing APK..."
-            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            adb install -r android/app/build/outputs/apk/release/app-release.apk
             sleep 10
             
             echo "Launching app..."
@@ -171,6 +171,6 @@ jobs:
         with:
           name: failure-diagnostics-${{ github.run_number }}
           path: |
-            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/release/app-release.apk
             maestro-debug/
           retention-days: 3
