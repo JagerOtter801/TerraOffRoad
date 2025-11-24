@@ -76,9 +76,7 @@ jobs:
       - name: Prebuild Android
         run: npx expo prebuild --platform android --clean
 
-      - name: Expo build check - Android
-        run: npx expo export --platform android --dev
-
+      # REMOVED: expo export --dev (this was causing Dev Launcher to appear)
 
       - name: Build Android Debug APK (for emulator tests)
         run: |
@@ -87,10 +85,9 @@ jobs:
           ./gradlew assembleDebug
           cd ..
 
-      - name: Build Android Release APK
+      - name: Build Android Release APK (for distribution)
         run: |
           cd android
-          chmod +x ./gradlew
           ./gradlew assembleRelease
           cd ..
 
@@ -114,9 +111,9 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
+          key: avd-api-29-google-apis-playstore-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
           restore-keys: |
-            avd-api-29-google-apis-
+            avd-api-29-google-apis-playstore-
 
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -142,39 +139,38 @@ jobs:
             adb shell settings put secure accessibility_enabled 1
             sleep 5
 
-            echo "Installing DEBUG APK..."
+            echo "Installing Debug APK..."
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 10
 
-            echo "Launching app..."
+            echo "Launching app via deep link..."
             adb shell am start -W -a android.intent.action.VIEW -d "terraoffroad://"
-            sleep 20
+            sleep 30
 
             echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
 
-      # - name: Capture logcat on failure
-      #   if: failure()
-      #   run: |
-      #     echo "Clearing previous logcat..."
-      #     adb logcat -c
-      #     echo "Capturing last 200 lines of logcat..."
-      #     adb logcat -d -t 200 > logcat.txt
-      #     tail -n 200 logcat.txt
+      - name: Capture logcat on failure
+        if: failure()
+        run: |
+          echo "Capturing last 300 lines of logcat..."
+          adb logcat -d -t 300 > logcat.txt || echo "Failed to capture logcat"
+          echo "Last 100 lines:"
+          tail -n 100 logcat.txt || echo "No logcat available"
 
-      # - name: Upload logcat
-      #   uses: actions/upload-artifact@v4
-      #   if: failure()
-      #   with:
-      #     name: logcat-${{ github.run_number }}
-      #     path: logcat.txt
-      #     retention-days: 7
+      - name: Upload logcat
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: logcat-${{ github.run_number }}
+          path: logcat.txt
+          retention-days: 7
 
-      - name: Upload maestro screen shot
+      - name: Upload Maestro screenshots
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: maestro-screenshot
+          name: maestro-screenshots-${{ github.run_number }}
           path: maestro-debug/.maestro/tests/
           retention-days: 7
 
@@ -185,7 +181,6 @@ jobs:
           name: smoke-test-results-${{ github.run_number }}
           path: |
             maestro/smoke_tests/
-            maestro-debug/.maestro/tests/
             maestro-debug/
           retention-days: 7
 
@@ -195,6 +190,6 @@ jobs:
         with:
           name: failure-diagnostics-${{ github.run_number }}
           path: |
-            android/app/build/outputs/apk/release/app-release.apk
+            android/app/build/outputs/apk/debug/app-debug.apk
             maestro-debug/
           retention-days: 3
