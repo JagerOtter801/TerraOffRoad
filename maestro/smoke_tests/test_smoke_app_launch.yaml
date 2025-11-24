@@ -1,6 +1,7 @@
 appId: com.anonymous.TerraOffRoad
 ---
 - launchApp
+- takeScreenshot: after-launch
 - extendedWaitUntil:
     visible: ".*"
     timeout: 20000
