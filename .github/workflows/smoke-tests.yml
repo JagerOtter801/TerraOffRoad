@@ -147,8 +147,8 @@ jobs:
             sleep 10
 
             echo "Launching app..."
-            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-            sleep 60
+            adb shell am start -W -a android.intent.action.VIEW -d "terraoffroad://"
+            sleep 20
 
             echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
