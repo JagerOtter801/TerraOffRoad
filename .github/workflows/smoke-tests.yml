@@ -79,6 +79,14 @@ jobs:
       - name: Expo build check - Android
         run: npx expo export --platform android --dev
 
+
+      - name: Build Android Debug APK (for emulator tests)
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+          cd ..
+
       - name: Build Android Release APK
         run: |
           cd android
@@ -134,36 +142,33 @@ jobs:
             adb shell settings put secure accessibility_enabled 1
             sleep 5
 
-            echo "Installing APK..."
-            adb install -r android/app/build/outputs/apk/release/app-release.apk
+            echo "Installing DEBUG APK..."
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 10
 
             echo "Launching app..."
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-            sleep 60  # increased wait for Expo initialization
+            sleep 60
 
             echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
 
-      - name: Capture logcat on failure
-        if: failure()
-        run: |
-          echo "Clearing previous logcat..."
-          adb logcat -c
-          echo "Running app..."
-          # run your test here
-          echo "Capturing last 200 lines of logcat..."
-          adb logcat -d -t 200 > logcat.txt
-          tail -n 200 logcat.txt
+      # - name: Capture logcat on failure
+      #   if: failure()
+      #   run: |
+      #     echo "Clearing previous logcat..."
+      #     adb logcat -c
+      #     echo "Capturing last 200 lines of logcat..."
+      #     adb logcat -d -t 200 > logcat.txt
+      #     tail -n 200 logcat.txt
 
-
-      - name: Upload logcat
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: logcat-${{ github.run_number }}
-          path: logcat.txt
-          retention-days: 7
+      # - name: Upload logcat
+      #   uses: actions/upload-artifact@v4
+      #   if: failure()
+      #   with:
+      #     name: logcat-${{ github.run_number }}
+      #     path: logcat.txt
+      #     retention-days: 7
 
       - name: Upload maestro screen shot
         uses: actions/upload-artifact@v4
