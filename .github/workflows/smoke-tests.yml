@@ -88,18 +88,6 @@ jobs:
       - name: Prebuild Android (Generate build.gradles)
         run: npx expo prebuild --platform android
 
-      - name: Create assets directory
-        run: mkdir -p android/app/src/main/assets
-      
-      - name: Bundle JavaScript
-        run: |
-          npx react-native bundle \
-            --platform android \
-            --dev false \
-            --entry-file index.js \
-            --bundle-output android/app/src/main/assets/index.android.bundle \
-            --assets-dest android/app/src/main/res/
-
       - name: Build Android Debug APK (for emulator tests)
         run: |
           cd android
@@ -161,8 +149,8 @@ jobs:
             adb shell settings put secure accessibility_enabled 1
             sleep 5
             
-            echo "=== Installing Debug APK ==="
-            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            echo "=== Installing Release APK ==="
+            adb install -r android/app/build/outputs/apk/release/app-release.apk
             
             echo "=== Launching app ==="
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
