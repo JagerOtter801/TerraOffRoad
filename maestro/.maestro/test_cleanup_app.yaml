@@ -1,0 +1,4 @@
+appId: com.anonymous.TerraOffRoad
+---
+- tapOn:
+    id: map-screen-tab

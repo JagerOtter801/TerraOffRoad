@@ -12,10 +12,10 @@ appId: com.anonymous.TerraOffRoad
 - tapOn:
     id: add-item-button-vehicle-items
 - tapOn:
-    id: add-item-input-vehicle_items   
+    id: add-item-input-vehicle_items
 - inputText: "spare tire"
 - tapOn:
     id: add-item-confirm-vehicle_items
 
-
-    
+# Cleanup
+- runFlow: ../.maestro/test_cleanup_app.yaml

@@ -38,8 +38,7 @@ appId: com.anonymous.TerraOffRoad
       - swipe:
           direction: DOWN
 
-- tapOn:
-   id: map-screen-tab
+- runFlow: ../.maestro/test_cleanup_app.yaml 
 
 
 

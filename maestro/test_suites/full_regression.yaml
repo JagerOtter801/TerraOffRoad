@@ -3,7 +3,7 @@ appId: com.anonymous.TerraOffRoad
 
 - runFlow: ../smoke_tests/test_smoke_app_launch.yaml
 - runFlow: ../gear_tests/test_gear_inital_elements_displayed.yaml
+- runFlow: ../gear_tests/test_add_gear_items.yaml
 
 # Cleanup
-- tapOn:
-    id: map-screen-tab
+- runFlow: ../.maestro/test_cleanup_app.yaml 

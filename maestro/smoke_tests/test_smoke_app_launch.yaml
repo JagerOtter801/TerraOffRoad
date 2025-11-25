@@ -2,8 +2,8 @@ appId: com.anonymous.TerraOffRoad
 ---
 - runFlow: ../.maestro/test_setup_app.yaml
 
-# SMOKE TEST: Bottom Navigation Tabs
-# VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH
+
+#=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
 - assertVisible:
     id: map-screen-tab
 
@@ -53,3 +53,7 @@ appId: com.anonymous.TerraOffRoad
     id: map-screen-tab
 - tapOn:
     id: map-screen-tab
+
+
+# Cleanup
+- runFlow: ../.maestro/test_cleanup_app.yaml 

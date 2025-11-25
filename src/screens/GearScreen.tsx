@@ -348,20 +348,20 @@ const renderSection = (sectionName: SectionName) => {
                 {t("are you sure you want to delete")} "{itemToDelete?.itemName}
                 "?
               </Text>
-              <TouchableOpacity
+              <Pressable
                 style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
                 onPress={cancelDelete}
               >
                 <Text style={styles.waypointMenuButtonText}>{t("cancel")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
                 onPress={confirmDelete}
               >
                 <Text testID="delete-waypoint-button" style={styles.deleteAllWaypointsButtonText}>
                   {t("delete")}
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </Modal>
