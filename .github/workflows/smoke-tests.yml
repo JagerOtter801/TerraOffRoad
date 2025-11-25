@@ -114,43 +114,40 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-api-29-google-apis-playstore-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
+          key: avd-api-28-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
           restore-keys: |
-            avd-api-29-google-apis-playstore-
+            avd-api-28-google-apis-
 
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          target: google_apis_playstore
+          api-level: 28
+          target: google_apis
           arch: x86_64
-          profile: Nexus 6
+          profile: pixel_2
           cores: 2
           ram-size: 2048M
-          heap-size: 1024M
+          heap-size: 512M
           emulator-boot-timeout: 600
           force-avd-creation: false
-          emulator-options: -no-window -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
+          emulator-options: -no-window -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+          disable-animations: true
           script: |
-            echo "Waiting for emulator to be fully ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
-            sleep 15
-
-            echo "Enabling accessibility services..."
-            adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService
-            adb shell settings put secure accessibility_enabled 1
-            sleep 5
-
-            echo "Installing Debug APK..."
+            echo "=== Waiting for device to be ready ==="
+            adb wait-for-device
+            sleep 20
+            
+            echo "=== Verifying device is responsive ==="
+            adb shell getprop sys.boot_completed || exit 1
+            
+            echo "=== Installing Debug APK ==="
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-            sleep 10
-
-            echo "Launching app..."
+            
+            echo "=== Launching app ==="
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
             sleep 30
-
-            echo "Running Maestro tests..."
+            
+            echo "=== Running Maestro smoke tests ==="
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
 
       - name: Upload Maestro screenshots
