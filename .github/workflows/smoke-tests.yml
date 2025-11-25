@@ -73,10 +73,13 @@ jobs:
       - name: TypeScript check
         run: npx tsc --noEmit
 
+      - name: Remove expo-dev-client for CI build
+        run: |
+          echo "Removing expo-dev-client to avoid Dev Launcher..."
+          npm uninstall expo-dev-client || echo "expo-dev-client not found, continuing..."
+
       - name: Prebuild Android
         run: npx expo prebuild --platform android --clean
-
-      # REMOVED: expo export --dev (this was causing Dev Launcher to appear)
 
       - name: Build Android Debug APK (for emulator tests)
         run: |
@@ -143,28 +146,12 @@ jobs:
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             sleep 10
 
-            echo "Launching app via deep link..."
-            adb shell am start -W -a android.intent.action.VIEW -d "terraoffroad://"
+            echo "Launching app..."
+            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
             sleep 30
 
             echo "Running Maestro tests..."
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
-
-      - name: Capture logcat on failure
-        if: failure()
-        run: |
-          echo "Capturing last 300 lines of logcat..."
-          adb logcat -d -t 300 > logcat.txt || echo "Failed to capture logcat"
-          echo "Last 100 lines:"
-          tail -n 100 logcat.txt || echo "No logcat available"
-
-      - name: Upload logcat
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: logcat-${{ github.run_number }}
-          path: logcat.txt
-          retention-days: 7
 
       - name: Upload Maestro screenshots
         uses: actions/upload-artifact@v4
