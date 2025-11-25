@@ -141,25 +141,20 @@ jobs:
           disable-animations: true
           script: |
             echo "=== Waiting for device to be ready ==="
-            adb wait-for-device
-            sleep 20
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
+            sleep 15
             
-            echo "=== Verifying device is responsive ==="
-            adb shell getprop sys.boot_completed || exit 1
+            echo "=== Enabling accessibility services ==="
+            adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService
+            adb shell settings put secure accessibility_enabled 1
+            sleep 5
             
             echo "=== Installing Debug APK ==="
-            adb install -r android/app/build/outputs/apk/debug/app-debug.apk || {
-              echo "ERROR: APK installation failed"
-              adb logcat -d | tail -100
-              exit 1
-            }
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             
             echo "=== Launching app ==="
-            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity || {
-              echo "ERROR: App launch failed"
-              exit 1
-            }
-            sleep 30
+            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+            sleep 40
             
             echo "=== Verifying app is running ==="
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || echo "Warning: Could not verify app focus"
