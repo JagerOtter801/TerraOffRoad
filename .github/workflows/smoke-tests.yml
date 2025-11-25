@@ -73,13 +73,20 @@ jobs:
       - name: TypeScript check
         run: npx tsc --noEmit
 
-      - name: Remove expo-dev-client for CI build
+      - name: Remove Android native folder completely
         run: |
-          echo "Removing expo-dev-client to avoid Dev Launcher..."
-          npm uninstall expo-dev-client || echo "expo-dev-client not found, continuing..."
+          echo "Deleting android/ folder to force fresh prebuild..."
+          rm -rf android
 
-      - name: Prebuild Android
-        run: npx expo prebuild --platform android --clean
+      - name: Remove expo-dev-client completely
+        run: |
+          echo "Uninstalling expo-dev-client..."
+          npm uninstall expo-dev-client || true
+          echo "Verifying removal..."
+          npm list expo-dev-client || echo "✓ expo-dev-client successfully removed"
+
+      - name: Prebuild Android (fresh generation)
+        run: npx expo prebuild --platform android
 
       - name: Build Android Debug APK (for emulator tests)
         run: |
@@ -141,11 +148,21 @@ jobs:
             adb shell getprop sys.boot_completed || exit 1
             
             echo "=== Installing Debug APK ==="
-            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk || {
+              echo "ERROR: APK installation failed"
+              adb logcat -d | tail -100
+              exit 1
+            }
             
             echo "=== Launching app ==="
-            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
+            adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity || {
+              echo "ERROR: App launch failed"
+              exit 1
+            }
             sleep 30
+            
+            echo "=== Verifying app is running ==="
+            adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || echo "Warning: Could not verify app focus"
             
             echo "=== Running Maestro smoke tests ==="
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
