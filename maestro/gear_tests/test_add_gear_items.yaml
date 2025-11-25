@@ -8,10 +8,17 @@ appId: com.anonymous.TerraOffRoad
 # Navigate to Gear tab
 - assertVisible:
     id: gear-tab
-    tapOn:
+- tapOn:
     id: gear-tab
 
 # Add Gear Item to Vehicle Items section
 - tapOn:
-    id: add-item-button-Vehicle Items
-            
+    id: add-item-button-vehicle-items
+- tapOn:
+    id: add-item-input-vehicle_items   
+- inputText: "spare tire"
+- tapOn:
+    id: add-item-confirm-vehicle_items
+
+
+    

@@ -34,3 +34,18 @@ appId: com.anonymous.TerraOffRoad
 - assertVisible: add-item-button-Electronics
 - assertVisible: add-item-button-Misc
 
+#Cleanup
+- repeat: 
+    times: 2
+    commands:
+      - swipe:
+          direction: DOWN
+
+- tapOn:
+   id: map-screen-tab
+
+
+
+
+
+
