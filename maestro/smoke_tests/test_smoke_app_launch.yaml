@@ -1,13 +1,9 @@
 appId: com.anonymous.TerraOffRoad
 ---
-- launchApp
-- takeScreenshot: after-launch
-- extendedWaitUntil:
-    visible: ".*"
-    timeout: 20000
+- runFlow: ../.maestro/test_setup_app.yaml
 
 # SMOKE TEST: Bottom Navigation Tabs
-# VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH 
+# VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH
 - assertVisible:
     id: map-screen-tab
 
@@ -21,14 +17,13 @@ appId: com.anonymous.TerraOffRoad
     id: weather-tab
 
 - assertVisible:
-    id: hamburger-menu-button    
+    id: hamburger-menu-button
 
 - assertVisible:
     id: location-button
 
 - assertVisible:
-    id: waypoint-menu-button    
-
+    id: waypoint-menu-button
 
 # === TEST NAVIGATION TO EACH TAB ===
 # Navigate to POI tab
