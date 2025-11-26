@@ -1,0 +1,24 @@
+appId: com.anonymous.TerraOffRoad
+---
+- launchApp
+
+# Wait for app to load
+- extendedWaitUntil:
+    visible:
+      text: ".*"
+    timeout: 15000
+
+# Handle location dialog if it appears (works for both "No thanks" and "NO THANKS")
+- runFlow:
+    when:
+      visible:
+        text: "location"
+    commands:
+      - tapOn:
+          id: "android:id/button2"
+
+# Wait for main screen to be ready
+- extendedWaitUntil:
+    visible:
+      text: "Map"
+    timeout: 10000
