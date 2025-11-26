@@ -94,21 +94,12 @@ jobs:
       - name: Copy bundle to assets directory
         run: |
           mkdir -p android/app/src/main/assets
-          echo "Checking dist structure:"
-          ls -R dist/ || echo "No dist folder"
-          # Try different possible bundle locations
-          if [ -f "dist/bundles/android-*.js" ]; then
-            cp dist/bundles/android-*.js android/app/src/main/assets/index.android.bundle
-          elif [ -f "dist/_expo/static/js/android/entry-*.js" ]; then
-            cat dist/_expo/static/js/android/entry-*.js > android/app/src/main/assets/index.android.bundle
-          elif [ -f "dist/_expo/static/js/android/index-*.js" ]; then
-            cat dist/_expo/static/js/android/index-*.js > android/app/src/main/assets/index.android.bundle
-          else
-            echo "ERROR: Could not find bundle in expected locations"
-            find dist -name "*.js" -type f | head -10
-          fi
-          echo "Assets directory contents:"
-          ls -lh android/app/src/main/assets/ || echo "Assets directory empty"
+          echo "Looking for Hermes bytecode bundle..."
+          ls -lh dist/_expo/static/js/android/
+          # Copy the .hbc file (Hermes bytecode) to where the APK expects it
+          cp dist/_expo/static/js/android/*.hbc android/app/src/main/assets/index.android.bundle
+          echo "Bundle copied successfully:"
+          ls -lh android/app/src/main/assets/
 
       - name: Build Android Debug APK
         run: |
