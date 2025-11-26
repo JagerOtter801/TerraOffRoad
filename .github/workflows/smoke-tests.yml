@@ -88,11 +88,8 @@ jobs:
       - name: Prebuild Android
         run: npx expo prebuild --platform android
 
-      - name: Create assets directory
-        run: mkdir -p android/app/src/main/assets
-
-      - name: Bundle JavaScript into debug APK
-        run: npx expo export:embed --platform android --entry-file index.js
+      - name: Export JavaScript bundle
+        run: npx expo export --platform android
 
       - name: Build Android Debug APK
         run: |
