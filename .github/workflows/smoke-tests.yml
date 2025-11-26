@@ -148,6 +148,14 @@ jobs:
             adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService
             adb shell settings put secure accessibility_enabled 1
             sleep 5
+
+            echo "=== Enabling location services on device ==="
+            adb shell settings put secure location_providers_allowed +gps
+            adb shell settings put secure location_providers_allowed +network
+            adb shell settings put secure location_mode 3
+  
+            echo "=== Verifying location is enabled ==="
+            adb shell settings get secure location_mode
             
             echo "=== Installing Release APK ==="
             adb install -r android/app/build/outputs/apk/release/app-release.apk
