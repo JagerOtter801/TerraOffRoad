@@ -1,9 +1,6 @@
 appId: com.anonymous.TerraOffRoad
 ---
-- launchApp
-- extendedWaitUntil:
-    visible: "hamburger-menu-button"
-    timeout: 15000
+- runFlow: ../.maestro/test_setup_app.yaml
 
 - assertVisible:
     id: gear-tab
@@ -33,4 +30,18 @@ appId: com.anonymous.TerraOffRoad
 - assertVisible: add-item-button-Lighting/Signaling
 - assertVisible: add-item-button-Electronics
 - assertVisible: add-item-button-Misc
+
+#Cleanup
+- repeat: 
+    times: 2
+    commands:
+      - swipe:
+          direction: DOWN
+
+- runFlow: ../.maestro/test_cleanup_app.yaml 
+
+
+
+
+
 

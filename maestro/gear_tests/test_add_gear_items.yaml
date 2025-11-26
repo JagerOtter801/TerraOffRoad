@@ -1,17 +1,21 @@
 appId: com.anonymous.TerraOffRoad
 ---
-- launchApp
-- extendedWaitUntil:
-    visible: "hamburger-menu-button"
-    timeout: 15000
+- runFlow: ../.maestro/test_setup_app.yaml
 
 # Navigate to Gear tab
 - assertVisible:
     id: gear-tab
-    tapOn:
+- tapOn:
     id: gear-tab
 
 # Add Gear Item to Vehicle Items section
 - tapOn:
-    id: add-item-button-Vehicle Items
-            
+    id: add-item-button-vehicle-items
+- tapOn:
+    id: add-item-input-vehicle_items
+- inputText: "spare tire"
+- tapOn:
+    id: add-item-confirm-vehicle_items
+
+# Cleanup
+- runFlow: ../.maestro/test_cleanup_app.yaml

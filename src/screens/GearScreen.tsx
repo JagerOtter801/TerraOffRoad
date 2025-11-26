@@ -9,6 +9,8 @@ import {
   Modal,
   Platform,
   KeyboardAvoidingView,
+  Pressable,
+  Keyboard,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
@@ -45,7 +47,7 @@ const GearScreen = () => {
     itemId: string;
     itemName: string;
   } | null>(null);
-
+  
   useEffect(() => {
     loadPackingList();
   }, []);
@@ -87,6 +89,7 @@ const GearScreen = () => {
   };
 
   const addNewItem = (section: SectionName) => {
+     Keyboard.dismiss();
     if (newItemText.trim() === "") {
       Alert.alert(t("error"), t("please enter an item name"));
       return;
@@ -134,6 +137,7 @@ const GearScreen = () => {
   };
 
   const cancelAddItem = () => {
+     Keyboard.dismiss();
     setSelectedSection(null);
     setNewItemText("");
   };
@@ -216,7 +220,7 @@ const renderAddItemForm = (section: SectionName) => {
         onChangeText={setNewItemText}
         autoFocus
       />
-      <TouchableOpacity
+      <Pressable
         testID={`add-item-confirm-${sectionKey}`}
         accessibilityLabel="Add item"
         accessibilityRole="button"
@@ -224,8 +228,8 @@ const renderAddItemForm = (section: SectionName) => {
         onPress={() => addNewItem(section)}
       >
         <Text style={styles.addItemButtonText}>{t("add")}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
+      </Pressable>
+      <Pressable
         testID={`add-item-cancel-${sectionKey}`}
         accessibilityLabel="Cancel adding item"
         accessibilityRole="button"
@@ -233,7 +237,7 @@ const renderAddItemForm = (section: SectionName) => {
         onPress={cancelAddItem}
       >
         <Text style={styles.cancelItemButtonText}>{t("cancel")}</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -277,7 +281,7 @@ const renderSection = (sectionName: SectionName) => {
         {selectedSection === sectionName ? (
           renderAddItemForm(sectionName)
         ) : (
-          <TouchableOpacity
+          <Pressable
             testID={`add-item-button-${sectionKey}`}
             accessibilityRole="button"
             accessibilityLabel={`add-item-button-${sectionName}`} 
@@ -285,7 +289,7 @@ const renderSection = (sectionName: SectionName) => {
             onPress={() => setSelectedSection(sectionName)}
           >
             <Text style={styles.showAddItemButtonText}>+ {t("add item")}</Text>
-          </TouchableOpacity>
+          </Pressable>
         )}
       </View>
     );
@@ -314,6 +318,7 @@ const renderSection = (sectionName: SectionName) => {
           style={styles.packingListWrapper}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.packingListScrollContent}
+          keyboardShouldPersistTaps="always"
         >
           {(Object.keys(packingList) as SectionName[]).map((sectionName) =>
             renderSection(sectionName)
@@ -343,20 +348,20 @@ const renderSection = (sectionName: SectionName) => {
                 {t("are you sure you want to delete")} "{itemToDelete?.itemName}
                 "?
               </Text>
-              <TouchableOpacity
+              <Pressable
                 style={[styles.modalButtons, { backgroundColor: "#6b7280" }]}
                 onPress={cancelDelete}
               >
                 <Text style={styles.waypointMenuButtonText}>{t("cancel")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 style={[styles.modalButtons, { backgroundColor: "#ef4444" }]}
                 onPress={confirmDelete}
               >
                 <Text testID="delete-waypoint-button" style={styles.deleteAllWaypointsButtonText}>
                   {t("delete")}
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </Modal>
