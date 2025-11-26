@@ -91,6 +91,12 @@ jobs:
       - name: Export JavaScript bundle
         run: npx expo export --platform android
 
+      - name: Copy bundle to assets directory
+        run: |
+          mkdir -p android/app/src/main/assets
+          find dist -name "*.js" -type f -exec cp {} android/app/src/main/assets/index.android.bundle \; || echo "Bundle not found in expected location"
+          ls -la android/app/src/main/assets/
+
       - name: Build Android Debug APK
         run: |
           cd android
