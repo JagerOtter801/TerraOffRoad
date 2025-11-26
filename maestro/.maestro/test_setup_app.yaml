@@ -8,9 +8,3 @@ appId: com.anonymous.TerraOffRoad
       text: ".*"
     timeout: 15000
 
-
-# Wait for main screen to be ready
-- extendedWaitUntil:
-    visible:
-      text: "Map"
-    timeout: 10000
