@@ -3,94 +3,93 @@ appId: com.anonymous.TerraOffRoad
 - runFlow: ../.maestro/test_setup_app.yaml
 
 
-# #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
-# - assertVisible:
-#     id: map-screen-tab
-
-# - assertVisible:
-#     id: points-of-interest-tab
-
-# - assertVisible:
-#     id: gear-tab
-
-# - assertVisible:
-#     id: weather-tab
-
-# - assertVisible:
-#     id: hamburger-menu-button
-
-# - assertVisible:
-#     id: location-button
-
-# - assertVisible:
-#     id: waypoint-menu-button
-
-# # === TEST NAVIGATION TO EACH TAB ===
-# # Navigate to POI tab
-# - assertVisible:
-#     id: points-of-interest-tab
-# - tapOn:
-#     id: points-of-interest-tab
-
-# # Navigate to Gear tab
-# - assertVisible:
-#     id: gear-tab
-# - tapOn:
-#     id: gear-tab
-
-# # Navigate to Weather tab
-# - assertVisible:
-#     id: weather-tab
-# - tapOn:
-#     id: weather-tab
-# - swipe:
-#     from:
-#       text: Weather Report
-#     direction: DOWN
-
-# # Navigate back to Map tab
-# - assertVisible:
-#     id: map-screen-tab
-# - tapOn:
-#     id: map-screen-tab
-
-
-# # Cleanup
-# - runFlow: ../.maestro/test_cleanup_app.yaml 
-
-
-# Below Worked without upgrading api 29 to > api 29 on emulator. Right now I am 
-# trying different api level and emulator setup. IF it works remove below. Else can revert api level back to 29 and use below code.
-# and use below code to look for text instead of id.
-
 #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
 - assertVisible:
-    text: "Map"
+    id: map-screen-tab
 
 - assertVisible:
-    text: "POI"
+    id: points-of-interest-tab
 
 - assertVisible:
-    text: "Gear"
+    id: gear-tab
 
 - assertVisible:
-    text: "Weather"
+    id: weather-tab
 
+- assertVisible:
+    id: hamburger-menu-button
+
+- assertVisible:
+    id: location-button
+
+- assertVisible:
+    id: waypoint-menu-button
 
 # === TEST NAVIGATION TO EACH TAB ===
 # Navigate to POI tab
+- assertVisible:
+    id: points-of-interest-tab
 - tapOn:
-    text: "POI"
-
+    id: points-of-interest-tab
 
 # Navigate to Gear tab
+- assertVisible:
+    id: gear-tab
 - tapOn:
-    text: "Gear"
-
+    id: gear-tab
 
 # Navigate to Weather tab
+- assertVisible:
+    id: weather-tab
 - tapOn:
-    text: "Weather"
+    id: weather-tab
+- swipe:
+    from:
+      text: Weather Report
+    direction: DOWN
+
+# Navigate back to Map tab
+- assertVisible:
+    id: map-screen-tab
+- tapOn:
+    id: map-screen-tab
+
+
+# Cleanup
+- runFlow: ../.maestro/test_cleanup_app.yaml 
+
+# Above did not work on api 29 nor on api 30 emulator
+# Below Worked on api level 29 emulator. I upgraded to api level 30 and am testing if below still works
+# Downgraded api to 29 and checking
+
+# #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
+# - assertVisible:
+#     text: "Map"
+
+# - assertVisible:
+#     text: "POI"
+
+# - assertVisible:
+#     text: "Gear"
+
+# - assertVisible:
+#     text: "Weather"
+
+
+# # === TEST NAVIGATION TO EACH TAB ===
+# # Navigate to POI tab
+# - tapOn:
+#     text: "POI"
+
+
+# # Navigate to Gear tab
+# - tapOn:
+#     text: "Gear"
+
+
+# # Navigate to Weather tab
+# - tapOn:
+#     text: "Weather"
 
 
 
