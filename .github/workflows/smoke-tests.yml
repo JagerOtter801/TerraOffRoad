@@ -135,7 +135,7 @@ jobs:
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 28
+          api-level: 29
           target: google_apis
           arch: x86_64
           profile: pixel_2
@@ -145,7 +145,7 @@ jobs:
           emulator-boot-timeout: 600
           force-avd-creation: false
           emulator-options: -no-window -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          disable-animations: true
+          disable-animations: false
           script: |
             echo "=== Waiting for device to be ready ==="
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
