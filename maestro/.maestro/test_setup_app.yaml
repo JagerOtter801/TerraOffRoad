@@ -8,3 +8,18 @@ appId: com.anonymous.TerraOffRoad
       text: ".*"
     timeout: 15000
 
+# Dismiss Google location dialog if it appears
+- tapOn:
+    text: "NO THANKS"
+    optional: true
+
+# Or if you want to accept location:
+# - tapOn:
+#     text: "OK"
+#   optional: true
+
+# Wait for the main screen with tabs to appear
+- extendedWaitUntil:
+    visible:
+      id: map-screen-tab
+    timeout: 10000
