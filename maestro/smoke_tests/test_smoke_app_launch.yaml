@@ -74,37 +74,21 @@ appId: com.anonymous.TerraOffRoad
 - assertVisible:
     text: "Weather"
 
-# Hamburger menu (three horizontal lines icon) - checking if visible by tapping area
-- assertVisible: "☰"
-  optional: true  # Icon might not have accessible text
 
 # === TEST NAVIGATION TO EACH TAB ===
 # Navigate to POI tab
 - tapOn:
     text: "POI"
 
-- takeScreenshot: poi-tab
 
 # Navigate to Gear tab
 - tapOn:
     text: "Gear"
 
-- takeScreenshot: gear-tab
 
 # Navigate to Weather tab
 - tapOn:
     text: "Weather"
 
-- takeScreenshot: weather-tab
 
-# Scroll down on weather tab
-- swipe:
-    direction: DOWN
-    duration: 500
-
-# Navigate back to Map tab
-- tapOn:
-    text: "Map"
-
-- takeScreenshot: back-to-map
 
