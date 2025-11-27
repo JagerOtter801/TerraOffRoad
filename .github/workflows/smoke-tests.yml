@@ -128,9 +128,9 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-api-28-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
+          key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
           restore-keys: |
-            avd-api-28-google-apis-
+            avd-api-29-google-apis-
 
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
