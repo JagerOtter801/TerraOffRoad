@@ -128,17 +128,17 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-api-29-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
+          key: avd-api-36-google-apis-${{ hashFiles('~/.android/avd/*/snapshots/default_boot/snapshot.pb') }}
           restore-keys: |
-            avd-api-29-google-apis-
+            avd-api-36-google-apis-
 
       - name: Run smoke tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 36
           target: google_apis
           arch: x86_64
-          profile: pixel_2
+          profile: pixel_3
           cores: 2
           ram-size: 2048M
           heap-size: 512M
