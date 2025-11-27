@@ -12,3 +12,7 @@ appId: com.anonymous.TerraOffRoad
 - tapOn:
     text: "NO THANKS"
     optional: true
+
+- tapOn:
+    text: "No thanks"
+    optional: true
