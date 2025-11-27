@@ -57,11 +57,9 @@ appId: com.anonymous.TerraOffRoad
 
 # # Cleanup
 # - runFlow: ../.maestro/test_cleanup_app.yaml 
-appId: com.anonymous.TerraOffRoad
----
-- runFlow: ../.maestro/test_setup_app.yaml
 
-- takeScreenshot: app-launched
+
+
 
 #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
 - assertVisible:
