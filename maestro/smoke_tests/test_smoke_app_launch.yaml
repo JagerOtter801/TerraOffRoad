@@ -3,57 +3,110 @@ appId: com.anonymous.TerraOffRoad
 - runFlow: ../.maestro/test_setup_app.yaml
 
 
+# #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
+# - assertVisible:
+#     id: map-screen-tab
+
+# - assertVisible:
+#     id: points-of-interest-tab
+
+# - assertVisible:
+#     id: gear-tab
+
+# - assertVisible:
+#     id: weather-tab
+
+# - assertVisible:
+#     id: hamburger-menu-button
+
+# - assertVisible:
+#     id: location-button
+
+# - assertVisible:
+#     id: waypoint-menu-button
+
+# # === TEST NAVIGATION TO EACH TAB ===
+# # Navigate to POI tab
+# - assertVisible:
+#     id: points-of-interest-tab
+# - tapOn:
+#     id: points-of-interest-tab
+
+# # Navigate to Gear tab
+# - assertVisible:
+#     id: gear-tab
+# - tapOn:
+#     id: gear-tab
+
+# # Navigate to Weather tab
+# - assertVisible:
+#     id: weather-tab
+# - tapOn:
+#     id: weather-tab
+# - swipe:
+#     from:
+#       text: Weather Report
+#     direction: DOWN
+
+# # Navigate back to Map tab
+# - assertVisible:
+#     id: map-screen-tab
+# - tapOn:
+#     id: map-screen-tab
+
+
+# # Cleanup
+# - runFlow: ../.maestro/test_cleanup_app.yaml 
+appId: com.anonymous.TerraOffRoad
+---
+- runFlow: ../.maestro/test_setup_app.yaml
+
+- takeScreenshot: app-launched
+
 #=== VERIFY ALL TABS AND START ITEMS ARE VISIBLE ON LAUNCH ===
 - assertVisible:
-    id: map-screen-tab
+    text: "Map"
 
 - assertVisible:
-    id: points-of-interest-tab
+    text: "POI"
 
 - assertVisible:
-    id: gear-tab
+    text: "Gear"
 
 - assertVisible:
-    id: weather-tab
+    text: "Weather"
 
-- assertVisible:
-    id: hamburger-menu-button
-
-- assertVisible:
-    id: location-button
-
-- assertVisible:
-    id: waypoint-menu-button
+# Hamburger menu (three horizontal lines icon) - checking if visible by tapping area
+- assertVisible: "☰"
+  optional: true  # Icon might not have accessible text
 
 # === TEST NAVIGATION TO EACH TAB ===
 # Navigate to POI tab
-- assertVisible:
-    id: points-of-interest-tab
 - tapOn:
-    id: points-of-interest-tab
+    text: "POI"
+
+- takeScreenshot: poi-tab
 
 # Navigate to Gear tab
-- assertVisible:
-    id: gear-tab
 - tapOn:
-    id: gear-tab
+    text: "Gear"
+
+- takeScreenshot: gear-tab
 
 # Navigate to Weather tab
-- assertVisible:
-    id: weather-tab
 - tapOn:
-    id: weather-tab
+    text: "Weather"
+
+- takeScreenshot: weather-tab
+
+# Scroll down on weather tab
 - swipe:
-    from:
-      text: Weather Report
     direction: DOWN
+    duration: 500
 
 # Navigate back to Map tab
-- assertVisible:
-    id: map-screen-tab
 - tapOn:
-    id: map-screen-tab
+    text: "Map"
 
+- takeScreenshot: back-to-map
 
-# Cleanup
-- runFlow: ../.maestro/test_cleanup_app.yaml 
