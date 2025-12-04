@@ -1,0 +1,1 @@
+import '../ui_displayed_tests/test_home_screen_ui_elements_displayed.spec.ts';
