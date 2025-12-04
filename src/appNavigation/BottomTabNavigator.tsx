@@ -34,6 +34,7 @@ const BottomTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome
                 testID="map-screen-tab"
+                accessibilityLabel="map-screen-tab"
                 name="map-o"
                 size={size}
                 color={color}
