@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@wdio/appium-service": "^9.21.0",
+    "@wdio/cli": "^9.21.1",
+    "@wdio/mocha-framework": "^9.21.0",
+    "@wdio/spec-reporter": "^9.20.0",
+    "chai": "^6.2.1",
+    "ts-node": "^10.9.2",
+    "webdriverio": "^9.21.0"
+  },
+  "name": "appium",
+  "version": "1.0.0",
+  "scripts": {
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "expo": "~53.0.24",
+    "react": "19.0.0",
+    "react-native": "0.79.6"
+  }
+}
