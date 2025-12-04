@@ -311,7 +311,7 @@ const renderSection = (sectionName: SectionName) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
-      <View testID="packing-list-screen" style={styles.gearScreenContainer}>
+      <View testID="gear-screen" accessibilityLabel="gear-screen" style={styles.gearScreenContainer}>
         <Text style={styles.gearScreenTitle}>{t("trip packing list")}</Text>
 
         <ScrollView
