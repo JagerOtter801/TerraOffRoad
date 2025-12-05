@@ -55,6 +55,7 @@ const BottomTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5
                 testID="points-of-interest-tab"
+                accessibilityLabel="points-of-interest-tab"
                 name="map-marked-alt"
                 size={size}
                 color={color}
@@ -70,6 +71,7 @@ const BottomTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <AntDesign
                 testID="gear-tab"
+                accessibilityLabel="gear-tab"
                 name="profile"
                 size={size}
                 color={color}
@@ -84,6 +86,7 @@ const BottomTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <Ionicons
                 testID="weather-tab"
+                accessibilityLabel="weather-tab"
                 name="partly-sunny-outline"
                 size={size}
                 color={color}

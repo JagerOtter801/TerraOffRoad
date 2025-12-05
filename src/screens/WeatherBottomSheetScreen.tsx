@@ -51,7 +51,7 @@ const WeatherBottomSheetScreen = forwardRef<BottomSheet>((props, ref) => {
           <View style={styles.weatherCard}>
             {weather ? (
               <>
-                <Text style={styles.title}>Weather Report</Text>
+                <Text style={styles.title} accessibilityLabel={"weather-screen"}>Weather Report</Text>
 
                 <View style={styles.temperatureContainer}>
                   <Text style={styles.temperature}>

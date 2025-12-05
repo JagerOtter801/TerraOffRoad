@@ -1,7 +1,9 @@
 {
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@wdio/appium-service": "^9.21.0",
     "@wdio/cli": "^9.21.1",
+    "@wdio/globals": "^9.17.0",
     "@wdio/mocha-framework": "^9.21.0",
     "@wdio/spec-reporter": "^9.20.0",
     "chai": "^6.2.1",
