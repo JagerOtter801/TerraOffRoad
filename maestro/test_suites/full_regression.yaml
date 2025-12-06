@@ -1,4 +1,5 @@
 appId: com.anonymous.TerraOffRoad
+
 ---
 
 - runFlow: ../smoke_tests/test_smoke_app_launch.yaml

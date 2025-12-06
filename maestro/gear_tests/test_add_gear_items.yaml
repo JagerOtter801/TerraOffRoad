@@ -1,4 +1,5 @@
 appId: com.anonymous.TerraOffRoad
+continueOnFailure: true
 ---
 - runFlow: ../.maestro/test_setup_app.yaml
 
