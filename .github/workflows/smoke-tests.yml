@@ -116,6 +116,12 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 7
 
+      - name: Grant app permissions
+        run: |
+          adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
+          adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
+          # Add any other permissions your app needs at launch    
+
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
