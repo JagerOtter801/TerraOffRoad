@@ -116,12 +116,6 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 7
 
-      - name: Grant app permissions
-        run: |
-          adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
-          adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
-          # Add any other permissions your app needs at launch    
-
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
@@ -179,6 +173,9 @@ jobs:
             
             echo "=== Verifying app is running ==="
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || echo "Warning: Could not verify app focus"
+
+            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
+            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
             
             echo "=== Running Maestro smoke tests ==="
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
