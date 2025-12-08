@@ -167,13 +167,17 @@ jobs:
             echo "=== Installing Debug APK ==="
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             
-            echo "=== Granting permissions ==="
+            echo "=== Granting permissions BEFORE app launch ==="
             adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
             adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
             
             echo "=== Launching app ==="
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
-            sleep 40
+            sleep 5
+            
+            echo "=== Dismissing location settings dialog ==="
+            adb shell input keyevent 66
+            sleep 3
             
             echo "=== Verifying app is running ==="
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || echo "Warning: Could not verify app focus"
