@@ -147,7 +147,6 @@ jobs:
           emulator-options: -no-window -noaudio -no-boot-anim -camera-back none -no-snapshot-save
           disable-animations: false
           script: |
-           script: |
             echo "=== Waiting for device to be ready ==="
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             sleep 15
