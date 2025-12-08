@@ -147,6 +147,7 @@ jobs:
           emulator-options: -no-window -noaudio -no-boot-anim -camera-back none -no-snapshot-save
           disable-animations: false
           script: |
+           script: |
             echo "=== Waiting for device to be ready ==="
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             sleep 15
@@ -167,15 +168,16 @@ jobs:
             echo "=== Installing Debug APK ==="
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             
+            echo "=== Granting permissions ==="
+            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
+            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
+            
             echo "=== Launching app ==="
             adb shell am start -n com.anonymous.TerraOffRoad/.MainActivity
             sleep 40
             
             echo "=== Verifying app is running ==="
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || echo "Warning: Could not verify app focus"
-
-            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_FINE_LOCATION
-            adb shell pm grant com.anonymous.TerraOffRoad android.permission.ACCESS_COARSE_LOCATION
             
             echo "=== Running Maestro smoke tests ==="
             maestro test maestro/smoke_tests/test_smoke_app_launch.yaml --debug-output ./maestro-debug
