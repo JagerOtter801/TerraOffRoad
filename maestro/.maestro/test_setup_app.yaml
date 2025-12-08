@@ -1,18 +1,24 @@
 appId: com.anonymous.TerraOffRoad
 ---
 - launchApp
+- assertVisible: ".*"
 
-# Wait for app to load
-- extendedWaitUntil:
-    visible:
-      text: ".*"
-    timeout: 15000
-
-# Dismiss Google location dialog if it appears
+# Handle dialogs
+- tapOn:
+    text: "OK"
+    optional: true
 - tapOn:
     text: "NO THANKS"
     optional: true
-
 - tapOn:
     text: "No thanks"
     optional: true
+
+# Wait for map to render (your code has 800ms delay + animation time)
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# Now check for the hamburger menu which proves map loaded
+- assertVisible:
+    id: "hamburger-menu-button"
+    timeout: 5000
