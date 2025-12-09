@@ -3,7 +3,6 @@ appId: com.anonymous.TerraOffRoad
 - launchApp
 - assertVisible: ".*"
 
-# Handle dialogs
 - tapOn:
     text: "OK"
     optional: true
@@ -14,11 +13,8 @@ appId: com.anonymous.TerraOffRoad
     text: "No thanks"
     optional: true
 
-# Wait for map to render (your code has 800ms delay + animation time)
-- waitForAnimationToEnd:
-    timeout: 2000
+- waitForAnimationToEnd
 
-# Now check for the hamburger menu which proves map loaded
-- assertVisible:
+
+- assertVisible: 
     id: "hamburger-menu-button"
-    timeout: 5000
