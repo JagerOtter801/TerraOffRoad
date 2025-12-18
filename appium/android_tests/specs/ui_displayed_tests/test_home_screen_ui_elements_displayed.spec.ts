@@ -1,23 +1,26 @@
-import BasePage from "../../pages/BasePage";
 import HomeScreenPage from "../../pages/HomeScreenPage";
 
-describe("HomeScreen UI Tests:", () => {
-  const homePage = new HomeScreenPage();
+describe("HomeScreen UI Tests", () => {
+  let homePage: HomeScreenPage;
 
-  it("Testing Map Screen Tab Presence", async () => {
-    await browser.pause(BasePage.TIMEOUT);
+  beforeEach(async () => {
+    homePage = new HomeScreenPage();
+    await homePage.waitForHomeScreenToLoad();
+  });
+
+  it("should display Map Screen tab", async () => {
     await homePage.verifyMapTabExists();
   });
 
-  it("Testing Points of Interest Tab Presence", async () => {
+  it("should display Points of Interest tab", async () => {
     await homePage.verifyPoiTabExists();
   });
 
-  it("Testing Gear Tab Presence", async () => {
+  it("should display Gear tab", async () => {
     await homePage.verifyGearTabExists();
   });
 
-  it("Testing Weather Tab Presence", async () => {
+  it("should display Weather tab", async () => {
     await homePage.verifyWeatherTabExists();
   });
 });

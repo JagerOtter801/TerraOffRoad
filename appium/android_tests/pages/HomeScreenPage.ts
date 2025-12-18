@@ -1,25 +1,29 @@
 import BasePage from "./BasePage";
-class HomeScreenPage extends BasePage {
-  private mapTab = "~map-screen-tab";
-  private poiTab = "~points-of-interest-tab";
-  private gearTab = "~gear-tab";
-  private weatherTab = "~weather-tab";
+
+export default class HomeScreenPage extends BasePage {
+  private readonly MAP_TAB = "~map-screen-tab";
+  private readonly POI_TAB = "~poi-tab";
+  private readonly GEAR_TAB = "~gear-tab";
+  private readonly WEATHER_TAB = "~weather-tab";
+  private readonly HOME_SCREEN = "~home-screen"; 
+
+  async waitForHomeScreenToLoad() {
+    await this.waitForElementToBeDisplayed(this.HOME_SCREEN); 
+  }
 
   async verifyMapTabExists() {
-    return await this.waitForElementToBeDisplayed(this.mapTab);
+    await this.waitForElementToBeDisplayed(this.MAP_TAB);
   }
 
   async verifyPoiTabExists() {
-    return await this.waitForElementToBeDisplayed(this.poiTab);
+    await this.waitForElementToBeDisplayed(this.POI_TAB);
   }
 
   async verifyGearTabExists() {
-    return await this.waitForElementToBeDisplayed(this.gearTab);
+    await this.waitForElementToBeDisplayed(this.GEAR_TAB);
   }
 
   async verifyWeatherTabExists() {
-    return await this.waitForElementToBeDisplayed(this.weatherTab);
+    await this.waitForElementToBeDisplayed(this.WEATHER_TAB);
   }
 }
-
-export default HomeScreenPage;

@@ -1,46 +1,33 @@
-import BasePage from "../../pages/BasePage";
 import NavigationPage from "../../pages/NavigationPage";
 
 describe("Navigation Tests", () => {
-  const navPage = new NavigationPage();
+  let navPage: NavigationPage;
 
-  it("Testing Map Screen Tab Selection", async () => {
-    await browser.pause(BasePage.TIMEOUT);
-
-    const mapTab = await $("~map-screen-tab");
-    await expect(mapTab).toBeExisting({
-      message: "map-screen-tab not found — is the app really launched?",
-    });
-
-    await navPage.clickMapTab();
-
-    await expect(mapTab).toBeExisting({
-      message: "map-screen-tab not found after click",
-    });
+  beforeEach(async () => {
+    navPage = new NavigationPage();
+    await navPage.verifyMapScreenDisplayed(); 
   });
 
-  it("Testing Gear Tab Selection", async () => {
-    const gearTab = await $(`~gear-tab`);
-    await expect(gearTab).toBeExisting({
-      message: "gear-tab not found",
-    });
+  it("should navigate to Map Screen tab", async () => {
+    await navPage.clickMapTab();
+    await navPage.verifyMapScreenDisplayed();
+  });
 
+  it("should navigate to Gear tab", async () => {
     await navPage.clickGearTab();
     await navPage.verifyGearScreenDisplayed();
   });
 
-  it("Testing Weather Tab Selection", async () => {
-    const weatherTab = await $(`~weather-tab`);
-    await expect(weatherTab).toBeExisting({
-      message: "weather-tab not found",
-    });
-
+  it("should navigate to Weather tab and scroll", async () => {
     await navPage.clickWeatherTab();
     await navPage.verifyWeatherScreenDisplayed();
-    await navPage.swipeDownUntilElementIsVisible("~weather-screen");
+    
+    const found = await navPage.swipeDownUntilElementIsVisible("~weather-screen");
+    expect(found).toBe(true);
   });
 
-  it("Cleanup - Return to Map Screen", async () => {
-    await navPage.clickMapTab();
+  // Navigate back to Map tab after Navigation tests run
+  afterEach(async () => {
+    await navPage.clickMapTab(); 
   });
 });
