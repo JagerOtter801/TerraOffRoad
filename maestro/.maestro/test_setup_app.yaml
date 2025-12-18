@@ -1,18 +1,20 @@
 appId: com.anonymous.TerraOffRoad
 ---
 - launchApp
+- assertVisible: ".*"
 
-# Wait for app to load
-- extendedWaitUntil:
-    visible:
-      text: ".*"
-    timeout: 15000
-
-# Dismiss Google location dialog if it appears
+- tapOn:
+    text: "OK"
+    optional: true
 - tapOn:
     text: "NO THANKS"
     optional: true
-
 - tapOn:
     text: "No thanks"
     optional: true
+
+- waitForAnimationToEnd
+
+
+- assertVisible: 
+    id: "hamburger-menu-button"
