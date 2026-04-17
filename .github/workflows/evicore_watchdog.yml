@@ -2,11 +2,11 @@ name: EviCore Guideline Watchdog
 
 on:
   schedule:
-    - cron: '0 9 * * *'
-  workflow_dispatch:
+    - cron: '0 9 * * *' # Runs every day at 09:00 AM
+  workflow_dispatch: # Allows you to trigger it manually for testing
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Opt-in to the 2026 standard
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
 
 jobs:
   check-guidelines:
@@ -17,35 +17,40 @@ jobs:
       
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # v4 is fine with the ENV variable above
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # Updated to v5
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12' # Move to a newer Python for 2026
+          python-version: '3.12'
 
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
       - name: Run Scraper
         id: scraper
+        # We run the script; the outputs are handled by the script writing to $GITHUB_OUTPUT
         run: python .github/check_guidelines.py
 
       - name: Notify Jay Green
         uses: imjohnbo/issue-bot@v3
         with:
-          title: "Watchdog Report: [New Changes = ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}]"
+          title: "Watchdog: [Changes=${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}] [Status=${{ steps.scraper.outputs.SCRAPER_STATUS }}]"
           body: |
             Hi @${{ github.actor }}, 
 
-            **Daily Status Update:**
+            **Daily Watchdog Status:**
             - **Updates Found:** ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}
-            - **Current Link:** ${{ steps.scraper.outputs.URL }}
+            - **Scraper Health:** ${{ steps.scraper.outputs.SCRAPER_STATUS }}
+            - **Guideline URL:** ${{ steps.scraper.outputs.URL }}
+            
+            Action: If 'Updates Found' is true, please review the automation suite logic for the February 2026 EviCore updates.
           assignees: "${{ github.actor }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Updated URL
+        # Only saves back to the repo if a real change was detected
         if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
         run: |
           git config user.name "GitHub Action"
