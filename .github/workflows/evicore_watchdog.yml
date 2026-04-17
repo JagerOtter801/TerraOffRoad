@@ -2,8 +2,11 @@ name: EviCore Guideline Watchdog
 
 on:
   schedule:
-    - cron: '0 9 * * *' # Runs EVERY DAY at 09:00 AM
-  workflow_dispatch: # Allows you to trigger it manually for testing
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Opt-in to the 2026 standard
 
 jobs:
   check-guidelines:
@@ -14,42 +17,35 @@ jobs:
       
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # v4 is fine with the ENV variable above
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # Updated to v5
         with:
-          python-version: '3.10'
+          python-version: '3.12' # Move to a newer Python for 2026
 
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
       - name: Run Scraper
         id: scraper
-        run: |
-          python .github/check_guidelines.py >> $GITHUB_OUTPUT
+        run: python .github/check_guidelines.py
 
       - name: Notify Jay Green
-        # Logic: No 'if' condition here means it ALWAYS sends the email
         uses: imjohnbo/issue-bot@v3
         with:
           title: "Watchdog Report: [New Changes = ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}]"
           body: |
             Hi @${{ github.actor }}, 
 
-            The Daily EviCore Guideline check has completed. 
-            
-            **Daily Status:**
+            **Daily Status Update:**
             - **Updates Found:** ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}
             - **Current Link:** ${{ steps.scraper.outputs.URL }}
-            
-            If 'Updates Found' is true, the automation suite mock data should be reviewed for potential logic drift.
           assignees: "${{ github.actor }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Updated URL
-       
         if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
         run: |
           git config user.name "GitHub Action"
