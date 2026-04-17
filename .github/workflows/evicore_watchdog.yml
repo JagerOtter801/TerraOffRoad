@@ -28,7 +28,7 @@ jobs:
         id: scraper
         # Using the path where you placed the script
         run: |
-          python .github/workflows/check_guidelines.py >> $GITHUB_OUTPUT
+          python .github/check_guidelines.py >> $GITHUB_OUTPUT
 
       - name: Notify via GitHub Issue
         if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
