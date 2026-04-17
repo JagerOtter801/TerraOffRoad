@@ -2,8 +2,8 @@ name: EviCore Guideline Watchdog
 
 on:
   schedule:
-    - cron: '0 9 * * 1' # Runs at 09:00 every Monday
-  workflow_dispatch: # Allows you to trigger it manually for testing
+    - cron: '0 9 * * 1' # Every Monday at 9:00 AM
+  workflow_dispatch: # Allows you to run it manually to test the email right now
 
 jobs:
   check-guidelines:
@@ -26,22 +26,25 @@ jobs:
 
       - name: Run Scraper
         id: scraper
-        # Using the path where you placed the script
         run: |
           python .github/check_guidelines.py >> $GITHUB_OUTPUT
 
-      - name: Notify via GitHub Issue
-        if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
+      - name: Notify Jay Green
+        # Removed the 'if' condition so this always runs
         uses: imjohnbo/issue-bot@v3
         with:
-          title: "🚨NOTICE OF UPDATE TO RULES: New EviCore Guideline Detected"
+          # Subject line will now show 'true' or 'false' for new changes
+          title: "Watchdog Report: Changes Found = ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}"
           body: |
-            A new Oncology Imaging Guideline has been detected on the EviCore site.
+            Hi @${{ github.actor }}, 
+
+            The EviCore Watchdog job has completed. 
             
-            **New URL:** ${{ steps.scraper.outputs.URL }}
-            **Detected on:** ${{ github.event.repository.updated_at }}
+            **Status Update:**
+            - **New Changes Found:** ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}
+            - **Current Guideline URL:** ${{ steps.scraper.outputs.URL }}
             
-            Action required: Update the automation suite mock data and validation logic for the February 2026 guidelines (V1.0.2026).
+            This is a temporary notification to confirm the GitHub Action is firing correctly to jay.green@waystar.com.
           assignees: "${{ github.actor }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +54,6 @@ jobs:
         run: |
           git config user.name "GitHub Action"
           git config user.email "actions@github.com"
-          # This ensures the script doesn't notify you twice for the same link
           git add last_known_guideline.txt
           git commit -m "Update last known EviCore guideline URL [skip ci]"
           git push
