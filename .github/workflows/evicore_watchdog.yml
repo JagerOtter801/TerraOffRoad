@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Scraper
         id: scraper
-        run: python .github/workflows/check_guidelines.py >> $GITHUB_OUTPUT
+        run: python .github/check_guidelines.py >> $GITHUB_OUTPUT
 
       - name: Notify Slack if Updated
         if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
