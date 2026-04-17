@@ -2,8 +2,8 @@ name: EviCore Guideline Watchdog
 
 on:
   schedule:
-    - cron: '0 9 * * 1' # Every Monday at 9:00 AM
-  workflow_dispatch: # Allows you to run it manually to test the email right now
+    - cron: '0 9 * * *' # Runs EVERY DAY at 09:00 AM
+  workflow_dispatch: # Allows you to trigger it manually for testing
 
 jobs:
   check-guidelines:
@@ -30,26 +30,26 @@ jobs:
           python .github/check_guidelines.py >> $GITHUB_OUTPUT
 
       - name: Notify Jay Green
-        # Removed the 'if' condition so this always runs
+        # Logic: No 'if' condition here means it ALWAYS sends the email
         uses: imjohnbo/issue-bot@v3
         with:
-          # Subject line will now show 'true' or 'false' for new changes
-          title: "Watchdog Report: Changes Found = ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}"
+          title: "Watchdog Report: [New Changes = ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}]"
           body: |
             Hi @${{ github.actor }}, 
 
-            The EviCore Watchdog job has completed. 
+            The Daily EviCore Guideline check has completed. 
             
-            **Status Update:**
-            - **New Changes Found:** ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}
-            - **Current Guideline URL:** ${{ steps.scraper.outputs.URL }}
+            **Daily Status:**
+            - **Updates Found:** ${{ steps.scraper.outputs.NEW_GUIDELINE_FOUND }}
+            - **Current Link:** ${{ steps.scraper.outputs.URL }}
             
-            This is a temporary notification to confirm the GitHub Action is firing correctly to jay.green@waystar.com.
+            If 'Updates Found' is true, the automation suite mock data should be reviewed for potential logic drift.
           assignees: "${{ github.actor }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Updated URL
+       
         if: steps.scraper.outputs.NEW_GUIDELINE_FOUND == 'true'
         run: |
           git config user.name "GitHub Action"
